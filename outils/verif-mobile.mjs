@@ -135,6 +135,46 @@ for (const theme of ['light', 'dark']) {
     await page.goto(`${base}/clients/import`);
     await capture('clients-import');
 
+    // Devis : liste, éditeur (ajout de ligne, totaux en direct, catalogue, toiture), devis express.
+    await page.click('.barre-bas a[href$="/devis"]');
+    await page.waitForURL('**/devis');
+    await capture('devis');
+    await page.goto(`${base}/devis?statut=brouillon`);
+    await page.click('ul.liste.carte a >> nth=0');
+    await page.waitForURL(/\/devis\/\d+$/);
+    await capture('devis-fiche');
+    await page.click('.actions-devis a[href$="/modifier"]');
+    await page.waitForURL('**/modifier');
+    const avant = await page.textContent('[data-total-ttc]');
+    await page.click('button[data-ajouter="ligne"]');
+    const nouvelle = page.locator('#lignes > li').last();
+    await nouvelle.locator('[data-champ="designation"]').fill('Ligne de test');
+    await nouvelle.locator('[data-champ="quantite"]').fill('2');
+    await nouvelle.locator('[data-champ="prix"]').fill('100');
+    verifier(await page.textContent('[data-total-ttc]') !== avant, `[${theme}] totaux non recalculés`);
+    await page.click('button[data-ouvrir="dialogue-catalogue"]');
+    await page.fill('#recherche-catalogue', 'faitiere');
+    await page.waitForSelector('#resultats-catalogue button');
+    await capture('devis-catalogue');
+    await page.click('#resultats-catalogue button >> nth=0');
+    verifier((await page.locator('#lignes > li').last().locator('[data-champ="designation"]').inputValue()).startsWith('Faîti'), `[${theme}] ajout depuis le catalogue`);
+    await page.click('button[data-ouvrir="dialogue-toiture"]');
+    await page.fill('#toiture-sol', '100');
+    await page.fill('#toiture-pente', '45');
+    verifier((await page.textContent('#toiture-resultat')).includes('141,42'), `[${theme}] calcul de toiture`);
+    await capture('devis-toiture');
+    await page.click('#toiture-utiliser');
+    await capture('devis-editeur');
+    await page.click('.barre-actions button[type=submit]');
+    await page.waitForLoadState();
+    verifier(page.url().match(/\/devis\/\d+$/), `[${theme}] enregistrement du devis`);
+    await page.goto(`${base}/devis/express`);
+    await page.fill('#phrase', 'Mme Martin, démoussage 120 m² à 12 €, 3 faîtières à 150 €, évacuation forfait 150 €');
+    await page.click('button:has-text("Voir l\'aperçu")');
+    await page.waitForLoadState();
+    verifier(await page.locator('button:has-text("Créer le brouillon")').count() === 1, `[${theme}] aperçu du devis express`);
+    await capture('devis-express');
+
     await page.goto(`${base}/catalogue`);
     await capture('catalogue');
 

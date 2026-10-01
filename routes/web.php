@@ -8,6 +8,8 @@ use App\Http\Controllers\ChantierController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ConfigurationController;
 use App\Http\Controllers\CorbeilleController;
+use App\Http\Controllers\DevisController;
+use App\Http\Controllers\DevisExpressController;
 use App\Http\Controllers\FichiersController;
 use App\Http\Controllers\ImportClientsController;
 use App\Http\Controllers\JournalController;
@@ -54,6 +56,25 @@ Route::middleware('auth')->group(function () {
         Route::get('/catalogue/{prestation}/modifier', [PrestationController::class, 'edit'])->whereNumber('prestation')->name('catalogue.edit');
         Route::put('/catalogue/{prestation}', [PrestationController::class, 'update'])->whereNumber('prestation')->name('catalogue.update');
         Route::delete('/catalogue/{prestation}', [PrestationController::class, 'destroy'])->whereNumber('prestation')->name('catalogue.destroy');
+    });
+
+    // Devis (gérant et commercial).
+    Route::get('/devis', [DevisController::class, 'index'])->name('devis.index');
+    Route::get('/devis/nouveau', [DevisController::class, 'create'])->name('devis.create');
+    Route::post('/devis', [DevisController::class, 'store'])->name('devis.store');
+    Route::get('/devis/express', [DevisExpressController::class, 'create'])->name('devis.express');
+    Route::post('/devis/express/apercu', [DevisExpressController::class, 'apercu'])->name('devis.express.apercu');
+    Route::post('/devis/express', [DevisExpressController::class, 'store'])->name('devis.express.store');
+    Route::prefix('/devis/{devis}')->whereNumber('devis')->group(function () {
+        Route::get('/', [DevisController::class, 'show'])->name('devis.show');
+        Route::get('/modifier', [DevisController::class, 'edit'])->name('devis.edit');
+        Route::put('/', [DevisController::class, 'update'])->name('devis.update');
+        Route::delete('/', [DevisController::class, 'destroy'])->name('devis.destroy');
+        Route::post('/envoye', [DevisController::class, 'envoyer'])->name('devis.envoyer');
+        Route::post('/accepte', [DevisController::class, 'accepter'])->name('devis.accepter');
+        Route::post('/refuse', [DevisController::class, 'refuser'])->name('devis.refuser');
+        Route::post('/nouvelle-version', [DevisController::class, 'nouvelleVersion'])->name('devis.version');
+        Route::post('/dupliquer', [DevisController::class, 'dupliquer'])->name('devis.dupliquer');
     });
 
     // Clients et chantiers (gérant et commercial).

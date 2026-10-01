@@ -75,7 +75,7 @@ class InterfaceTest extends TestCase
     public function test_page_bientot_et_rubrique_inconnue(): void
     {
         $user = User::factory()->create();
-        $this->actingAs($user)->get('/bientot/devis')->assertOk()->assertSee('Bientôt disponible');
+        $this->actingAs($user)->get('/bientot/factures')->assertOk()->assertSee('Bientôt disponible');
         $this->get('/bientot/nimporte')->assertNotFound();
     }
 

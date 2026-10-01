@@ -3,7 +3,10 @@
 namespace App\Support;
 
 use App\Models\Client;
+use App\Models\Devis;
 use App\Models\User;
+use App\Services\DevisExpress;
+use App\Services\GestionDevis;
 
 /**
  * Données d'EXEMPLE pour la démonstration : personnes et adresses inventées,
@@ -97,5 +100,48 @@ class DonneesDemo
         }
 
         return count(self::clients());
+    }
+
+    /**
+     * Devis d'exemple créés avec le devis express (phrases fictives), à différentes étapes.
+     */
+    public static function installerDevis(User $auteur): int
+    {
+        if (Devis::exists()) {
+            return 0;
+        }
+
+        $express = app(DevisExpress::class);
+        $gestion = app(GestionDevis::class);
+        $exemples = [
+            ['Mme Martin, démoussage de toiture 120 m² à 12 €, traitement hydrofuge 120 m² à 9 €, échafaudage forfait 600 €', 'accepte', 'Démoussage et traitement de la toiture'],
+            ['Bérard, abergement de cheminée forfait 850 €, recherche de fuite forfait 180 €', 'envoye', 'Fuite au niveau de la cheminée'],
+            ['Jérôme Durand, gouttière zinc 18 ml à 65 €, descente d\'eau pluviale 6 ml à 50 €', 'brouillon', 'Remplacement des gouttières'],
+            ['Petit, réfection de couverture en tuiles 80 m² à 95 €, évacuation des déchets forfait 150 €', 'refuse', 'Réfection de la couverture'],
+            ['SCI Les Tilleuls, nettoyage toiture bac acier 310 m² à 4 €', 'envoye', 'Entretien de la toiture'],
+        ];
+
+        $total = 0;
+        foreach ($exemples as [$phrase, $statut, $objet]) {
+            $resultat = $express->analyser($phrase);
+            if ($resultat['erreurs'] || ! $resultat['client']) {
+                continue;
+            }
+            $devis = $gestion->creer($resultat['client'], $resultat['client']->chantiers()->first(), $objet, $auteur->id);
+            $devis->update(['dechets_estimation' => 'Environ 1 m³ de déchets de chantier, évacués en déchetterie professionnelle (exemple).']);
+            $gestion->remplacerLignes($devis, $resultat['lignes']);
+
+            if ($statut !== 'brouillon') {
+                $gestion->marquerEnvoye($devis);
+            }
+            if ($statut === 'accepte') {
+                $gestion->accepter($devis);
+            } elseif ($statut === 'refuse') {
+                $gestion->refuser($devis, 'Budget trop élevé pour cette année (exemple).');
+            }
+            $total++;
+        }
+
+        return $total;
     }
 }

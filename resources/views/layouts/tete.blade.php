@@ -12,3 +12,4 @@
 <link rel="stylesheet" href="{{ route('theme') }}?v={{ substr(md5(reglage('apparence.couleur_principale').reglage('apparence.couleur_accent').reglage('apparence.police')), 0, 8) }}">
 <script src="{{ asset('js/theme-init.js') }}?v={{ filemtime(public_path('js/theme-init.js')) }}"></script>
 <script src="{{ asset('js/app.js') }}?v={{ filemtime(public_path('js/app.js')) }}" defer></script>
+@stack('scripts')

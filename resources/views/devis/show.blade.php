@@ -1,0 +1,139 @@
+@extends('layouts.app')
+
+@section('titre', $devis->reference())
+@section('parent', route('devis.index'))
+
+@section('contenu')
+    @if ($errors->has('devis'))
+        <div class="message message-erreur" role="alert">{{ $errors->first('devis') }}</div>
+    @endif
+
+    <section class="carte">
+        <p>
+            <span @class(['badge', 'statut-'.$devis->statut])>{{ $devis->libelleStatut() }}</span>
+            @if ($devis->version > 1) <span class="badge">Version {{ $devis->version }}</span> @endif
+        </p>
+        <dl class="details">
+            <dt>Client</dt><dd><a href="{{ route('clients.show', $devis->client) }}">{{ $devis->client->nomComplet() }}</a></dd>
+            @if ($devis->chantier)
+                <dt>Chantier</dt><dd>{{ $devis->chantier->titre() }}</dd>
+            @endif
+            @if ($devis->objet)
+                <dt>Objet</dt><dd>{{ $devis->objet }}</dd>
+            @endif
+            @if ($devis->date_devis)
+                <dt>Date</dt><dd>{{ $devis->date_devis->format('d/m/Y') }}</dd>
+                <dt>Valable jusqu'au</dt><dd>{{ $devis->dateValidite()?->format('d/m/Y') }}</dd>
+            @else
+                <dt>Validité</dt><dd>{{ $devis->validite_jours }} jours</dd>
+            @endif
+            @if ($devis->acompte_pourcentage)
+                <dt>Acompte</dt><dd>{{ $devis->acompte_pourcentage }} %</dd>
+            @endif
+            @if ($devis->date_debut_travaux)
+                <dt>Début des travaux</dt><dd>{{ $devis->date_debut_travaux->format('d/m/Y') }}{{ $devis->duree_travaux ? ' · '.$devis->duree_travaux : '' }}</dd>
+            @endif
+            @if ($devis->motif_refus)
+                <dt>Motif du refus</dt><dd>{{ $devis->motif_refus }}</dd>
+            @endif
+        </dl>
+    </section>
+
+    <section class="carte" aria-labelledby="titre-lignes">
+        <h2 id="titre-lignes">Détail</h2>
+        @if ($devis->lignes->isEmpty())
+            <p class="texte-doux">Aucune ligne.</p>
+        @else
+            <ul class="liste lignes-lecture">
+                @foreach ($devis->lignes as $i => $ligne)
+                    @if ($ligne->type === 'section')
+                        <li class="section-lecture"><strong>{{ $ligne->designation }}</strong><span>{{ \App\Support\Montant::formater($detail['sections'][$i] ?? 0) }}</span></li>
+                    @elseif ($ligne->type === 'texte')
+                        <li class="texte-pre texte-doux">{{ $ligne->designation }}</li>
+                    @else
+                        <li class="ligne">
+                            <div>
+                                {{ $ligne->designation }} @if ($ligne->option)<span class="badge">Option</span>@endif
+                                <small>{{ $ligne->quantiteAffichee() }} {{ $ligne->unite }} × {{ $ligne->prixAffiche() }}@unless (\App\Support\Tva::estFranchise()) · TVA {{ \App\Support\Tva::formater($ligne->taux_tva) }}@endunless</small>
+                                @if ($ligne->description)
+                                    <small class="texte-pre">{{ $ligne->description }}</small>
+                                @endif
+                            </div>
+                            <strong>{{ $ligne->totalAffiche() }}</strong>
+                        </li>
+                    @endif
+                @endforeach
+            </ul>
+        @endif
+        <dl class="totaux">
+            @if ($devis->total_remise)
+                <dt>Total brut HT</dt><dd>{{ \App\Support\Montant::formater($detail['total_brut_ht']) }}</dd>
+                <dt>Remise</dt><dd>-{{ \App\Support\Montant::formater($devis->total_remise) }}</dd>
+            @endif
+            <dt>Total HT</dt><dd>{{ \App\Support\Montant::formater($devis->total_ht) }}</dd>
+            @if (\App\Support\Tva::estFranchise())
+                <dt class="ligne-mention">TVA non applicable, art. 293 B du CGI</dt>
+            @else
+                @foreach ($detail['tva'] as $taux => $tva)
+                    <dt>TVA {{ \App\Support\Tva::formater($taux) }}</dt><dd>{{ \App\Support\Montant::formater($tva['montant']) }}</dd>
+                @endforeach
+            @endif
+            <dt class="total-final">Total {{ \App\Support\Tva::estFranchise() ? 'à payer' : 'TTC' }}</dt><dd class="total-final">{{ \App\Support\Montant::formater($devis->total_ttc) }}</dd>
+            @if ($devis->total_options_ht)
+                <dt>Options (non comprises)</dt><dd>{{ \App\Support\Montant::formater($devis->total_options_ht) }} HT</dd>
+            @endif
+        </dl>
+    </section>
+
+    @if ($versions->count() > 1)
+        <section class="carte">
+            <h2>Versions</h2>
+            <ul class="liste">
+                @foreach ($versions as $v)
+                    <li><a class="liste-lien" href="{{ route('devis.show', $v) }}" @if ($v->id === $devis->id) aria-current="page" @endif><span class="libelle">Version {{ $v->version }} · {{ $v->reference() }}</span><span class="badge">{{ $v->libelleStatut() }}</span></a></li>
+                @endforeach
+            </ul>
+        </section>
+    @endif
+
+    <section class="carte actions-devis" aria-label="Actions">
+        @if ($devis->estModifiable())
+            <a class="bouton bouton-large" href="{{ route('devis.edit', $devis) }}">Modifier</a>
+            <form method="post" action="{{ route('devis.envoyer', $devis) }}">
+                @csrf
+                <button type="submit" class="bouton bouton-secondaire bouton-large" data-confirmer="Le devis recevra son numéro et ne pourra plus être modifié. Continuer ?">Marquer comme envoyé</button>
+            </form>
+        @endif
+        @if (in_array($devis->statut, ['envoye', 'expire'], true))
+            <form method="post" action="{{ route('devis.accepter', $devis) }}">
+                @csrf
+                <button type="submit" class="bouton bouton-large">Accepté par le client</button>
+            </form>
+            <details>
+                <summary class="bouton bouton-secondaire bouton-large">Refusé par le client</summary>
+                <form method="post" action="{{ route('devis.refuser', $devis) }}">
+                    @csrf
+                    <x-champ-texte-long nom="motif" libelle="Motif (facultatif)" :lignes="2" />
+                    <button type="submit" class="bouton bouton-secondaire bouton-large">Confirmer le refus</button>
+                </form>
+            </details>
+        @endif
+        @if (in_array($devis->statut, ['envoye', 'refuse', 'expire'], true))
+            <form method="post" action="{{ route('devis.version', $devis) }}">
+                @csrf
+                <button type="submit" class="bouton bouton-secondaire bouton-large">Faire une nouvelle version</button>
+            </form>
+        @endif
+        <form method="post" action="{{ route('devis.dupliquer', $devis) }}">
+            @csrf
+            <button type="submit" class="bouton bouton-secondaire bouton-large">Dupliquer</button>
+        </form>
+        @if ($devis->estModifiable())
+            <form method="post" action="{{ route('devis.destroy', $devis) }}">
+                @csrf
+                @method('delete')
+                <button type="submit" class="bouton bouton-secondaire bouton-large texte-danger" data-confirmer="Mettre ce brouillon à la corbeille ?">Mettre le brouillon à la corbeille</button>
+            </form>
+        @endif
+    </section>
+@endsection

@@ -472,3 +472,47 @@ details.carte[open] summary { margin-bottom: 12px; }
 .etapes li { margin-bottom: 6px; }
 .champ select { appearance: auto; }
 @media (max-width: 359px) { .details { grid-template-columns: 1fr; } }
+
+/* ---------- Devis ---------- */
+.onglets { display: flex; gap: 6px; overflow-x: auto; margin-bottom: 12px; padding-bottom: 4px; }
+.onglets a { flex: none; padding: 8px 12px; min-height: 40px; border-radius: 999px; border: 2px solid var(--bordure); text-decoration: none; color: var(--texte); font-weight: 600; font-size: 0.9rem; }
+.onglets a[aria-current="page"] { border-color: var(--couleur-principale); background: var(--info-fond); }
+.statut-brouillon { background: var(--fond); border: 1px solid var(--bordure); }
+.statut-envoye { background: var(--info-fond); }
+.statut-accepte { background: var(--succes-fond); }
+.statut-refuse, .statut-expire { background: var(--danger-fond); }
+.lignes-devis { list-style: none; padding: 0; margin: 0 0 12px; }
+.ligne-devis { background: var(--fond-carte); border-radius: var(--rayon); box-shadow: var(--ombre); padding: 12px; margin-bottom: 10px; border-left: 4px solid var(--couleur-principale); }
+.ligne-devis[data-type="section"] { border-left-color: var(--couleur-accent); }
+.ligne-devis[data-type="texte"] { border-left-color: var(--bordure); }
+.ligne-devis textarea { width: 100%; font: inherit; color: var(--texte); background: var(--fond-champ); border: 2px solid var(--bordure); border-radius: 10px; padding: 8px; }
+.ligne-entete { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+.ligne-type { font-size: 0.8rem; font-weight: 700; color: var(--texte-doux); text-transform: uppercase; }
+.ligne-boutons { display: flex; gap: 4px; }
+.bouton-icone { min-width: 44px; min-height: 44px; border: 1px solid var(--bordure); background: var(--fond-champ); color: var(--texte); border-radius: 8px; font: inherit; font-weight: 700; cursor: pointer; }
+.champ-compact { margin-bottom: 8px; }
+.champ-compact label { font-size: 0.85rem; margin-bottom: 2px; }
+.grille-ligne { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 8px; }
+.grille-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 12px; }
+.ligne-pied { display: flex; justify-content: space-between; align-items: center; }
+.case-compacte { margin: 0; }
+.ligne-total { font-weight: 800; font-size: 1.05rem; }
+.ajouts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 16px; }
+.ajouts .bouton { padding: 0 8px; }
+.totaux { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; margin: 12px 0 0; }
+.totaux dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; }
+.totaux .total-final { font-weight: 800; font-size: 1.15rem; color: var(--couleur-principale); }
+.ligne-mention { grid-column: 1 / -1; color: var(--texte-doux); }
+.barre-actions { position: sticky; bottom: calc(var(--barre-bas) + env(safe-area-inset-bottom) + 8px); z-index: 10; }
+.dialogue { width: min(560px, calc(100vw - 32px)); max-height: 85vh; border: 0; border-radius: var(--rayon); padding: 16px; background: var(--fond-carte); color: var(--texte); }
+.dialogue::backdrop { background: rgb(0 0 0 / 0.5); }
+.dialogue input[type="search"], .dialogue input[type="text"], .dialogue select { width: 100%; min-height: var(--hauteur-bouton); padding: 10px 12px; font: inherit; color: var(--texte); background: var(--fond-champ); border: 2px solid var(--bordure); border-radius: 10px; margin-bottom: 8px; }
+.bouton-resultat { width: 100%; border: 0; background: none; text-align: left; font: inherit; cursor: pointer; }
+.resultat-toiture { font-weight: 700; min-height: 1.5em; }
+.lignes-lecture small { display: block; color: var(--texte-doux); }
+.section-lecture { display: flex; justify-content: space-between; padding: 10px 0 4px; border-bottom: 2px solid var(--couleur-principale) !important; }
+.actions-devis form, .actions-devis > a, .actions-devis details { margin-bottom: 8px; display: block; }
+.actions-devis details summary { list-style: none; }
+.actions-devis details summary::-webkit-details-marker { display: none; }
+.champ input[type="number"] { -moz-appearance: textfield; }
+@media (min-width: 600px) { .grille-ligne { grid-template-columns: 2fr 1fr 2fr 1fr; } .ajouts { grid-template-columns: repeat(5, auto); } }

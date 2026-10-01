@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Console\Commands\Demo;
 use App\Models\Chantier;
 use App\Models\Client;
+use App\Models\Devis;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -30,6 +31,8 @@ class DemoTest extends TestCase
         $this->assertSame(0, Client::whereNotNull('email')->where('email', 'not like', '%.test')->count());
         $this->assertSame(0, Client::where('telephone', 'not like', '060000%')->count());
         $this->assertGreaterThan(0, Chantier::count());
+        $this->assertSame(5, Devis::count());
+        $this->assertSame(1, Devis::where('statut', 'accepte')->count());
     }
 
     public function test_les_mots_de_passe_sont_aleatoires(): void

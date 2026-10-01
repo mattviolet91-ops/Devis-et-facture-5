@@ -154,9 +154,9 @@ for (const theme of ['light', 'dark']) {
     verifier(await page.textContent('[data-total-ttc]') !== avant, `[${theme}] totaux non recalculés`);
     await page.click('button[data-ouvrir="dialogue-catalogue"]');
     await page.fill('#recherche-catalogue', 'faitiere');
-    await page.waitForSelector('#resultats-catalogue button');
+    await page.waitForSelector('#resultats-catalogue button:has-text("Faîti")');
     await capture('devis-catalogue');
-    await page.click('#resultats-catalogue button >> nth=0');
+    await page.click('#resultats-catalogue button:has-text("Faîti") >> nth=0');
     const ajoutee = await page.waitForFunction(() => {
         const champs = document.querySelectorAll('#lignes > li [data-champ="designation"]');
         return champs.length && champs[champs.length - 1].value.startsWith('Faîti');
@@ -235,6 +235,18 @@ for (const theme of ['light', 'dark']) {
     await capture('rapport');
     await page.click('text=Modifier');
     await capture('rapport-formulaire');
+
+    // Suivi commercial et formulaire public.
+    await page.goto(`${base}/suivi`);
+    await capture('suivi');
+    await page.click('#titre-demandes ~ ul a >> nth=0');
+    await capture('suivi-demande');
+    await page.goto(`${base}/suivi/emails`);
+    await capture('suivi-emails');
+    await page.goto(`${base}/demande`);
+    const piege = await page.locator('#site_web').boundingBox();
+    verifier(piege && piege.x + piege.width <= 0, `[${theme}] le champ piège est visible`);
+    await capture('demande-publique');
 
     await page.goto(`${base}/page-inexistante`);
     await capture('erreur-404');

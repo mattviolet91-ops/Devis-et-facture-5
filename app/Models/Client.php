@@ -30,6 +30,11 @@ class Client extends Model
         'provenance', 'provenance_detail', 'created_by',
     ];
 
+    protected function casts(): array
+    {
+        return ['avis_demande_at' => 'datetime', 'entretien_propose_at' => 'datetime'];
+    }
+
     protected static function booted(): void
     {
         static::saving(function (Client $client) {

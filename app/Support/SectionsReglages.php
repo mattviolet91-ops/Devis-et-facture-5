@@ -153,6 +153,20 @@ class SectionsReglages
                 ],
             ],
 
+            'suivi' => [
+                'titre' => 'Suivi commercial',
+                'description' => 'Relances de devis, avis Google, entretien, demandes du site internet.',
+                'icone' => 'cloche',
+                'champs' => [
+                    ['cle' => 'suivi.relances_devis', 'libelle' => 'Relancer automatiquement les devis sans réponse (à 7 et 15 jours)', 'type' => 'case'],
+                    ['cle' => 'suivi.lien_avis', 'libelle' => 'Lien pour laisser un avis Google', 'type' => 'url', 'regles' => ['url:https', 'max:500'], 'aide' => 'Dans votre fiche Google (Google Business Profile) : « Demander des avis » → copier le lien.'],
+                    ['cle' => 'suivi.entretien_mois', 'libelle' => 'Proposer un entretien après (mois)', 'type' => 'entier', 'obligatoire' => true, 'regles' => ['integer', 'min:1', 'max:60']],
+                    ['cle' => 'suivi.formulaire_actif', 'libelle' => 'Activer le formulaire de demande de devis (à mettre en lien sur votre site)', 'type' => 'case'],
+                    ['cle' => 'suivi.imap_actif', 'libelle' => 'Lire les emails reçus (demandes envoyées par le site WordPress)', 'type' => 'case', 'aide' => 'Utilise l\'adresse Gmail et le mot de passe d\'application de la rubrique Emails. Les emails ne sont jamais supprimés ni modifiés.'],
+                    ['cle' => 'suivi.imap_filtre', 'libelle' => 'Mot qui repère un email du site', 'type' => 'texte', 'regles' => ['max:100'], 'aide' => 'Cherché dans l\'expéditeur ou l\'objet. Par exemple : WordPress, Formulaire de contact.'],
+                ],
+            ],
+
             'paiement' => [
                 'titre' => 'Paiement en ligne',
                 'description' => 'Paiement par carte avec myPOS Checkout.',
@@ -308,7 +322,7 @@ class SectionsReglages
         $variables = 'Variables possibles : {salutation}, {numero}, {montant}, {echeance}, {lien}, {entreprise}.';
         $champs = [];
 
-        foreach (['devis' => 'Envoi d\'un devis', 'facture' => 'Envoi d\'une facture', 'relance' => 'Relance d\'une facture', 'rapport' => 'Rapport d\'intervention'] as $cle => $titre) {
+        foreach (['devis' => 'Envoi d\'un devis', 'relance_devis' => 'Relance d\'un devis', 'facture' => 'Envoi d\'une facture', 'relance' => 'Relance d\'une facture', 'rapport' => 'Rapport d\'intervention', 'avis' => 'Demande d\'avis', 'entretien' => 'Proposition d\'entretien'] as $cle => $titre) {
             $champs[] = ['cle' => "emails.modeles.{$cle}.sujet", 'libelle' => "{$titre} : objet", 'type' => 'texte', 'obligatoire' => true, 'regles' => ['max:200']];
             $champs[] = ['cle' => "emails.modeles.{$cle}.corps", 'libelle' => "{$titre} : message", 'type' => 'textarea', 'obligatoire' => true, 'regles' => ['max:5000'], 'aide' => $variables];
         }

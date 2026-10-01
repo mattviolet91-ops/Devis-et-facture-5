@@ -37,7 +37,7 @@
         <p>{{ match (true) { $document instanceof \App\Models\Devis => 'Devis', $document instanceof \App\Models\Rapport => 'Rapport d\'intervention', default => $document->libelleType() } }} <strong>{{ $document->reference() }}</strong> · {{ $document->client->nomComplet() }}</p>
         <x-champ nom="destinataire" libelle="Email du client" type="email" :valeur="$document->client->email" inputmode="email" />
         @if (count($modeles) > 1)
-            <x-champ-liste nom="modele" libelle="Modèle" :options="collect($modeles)->mapWithKeys(fn ($m) => [$m => ['devis' => 'Envoi du devis', 'facture' => 'Envoi de la facture', 'relance' => 'Relance'][$m]])->all()" :valeur="$modele" :vide="false" data-choix-modele />
+            <x-champ-liste nom="modele" libelle="Modèle" :options="collect($modeles)->mapWithKeys(fn ($m) => [$m => ['devis' => 'Envoi du devis', 'relance_devis' => 'Relance du devis', 'facture' => 'Envoi de la facture', 'relance' => 'Relance', 'rapport' => 'Rapport'][$m] ?? $m])->all()" :valeur="$modele" :vide="false" data-choix-modele />
         @else
             <input type="hidden" name="modele" value="{{ $modele }}">
         @endif

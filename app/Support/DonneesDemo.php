@@ -3,6 +3,7 @@
 namespace App\Support;
 
 use App\Models\Client;
+use App\Models\Demande;
 use App\Models\Devis;
 use App\Models\Facture;
 use App\Models\Photo;
@@ -300,5 +301,22 @@ class DonneesDemo
         imagestring($image, 5, 40, 40, 'EXEMPLE - '.mb_strtoupper(['avant' => 'avant', 'pendant' => 'pendant', 'apres' => 'apres'][$moment]), $noir);
 
         return $image;
+    }
+
+    /**
+     * Demandes de devis d'exemple (formulaire du site).
+     */
+    public static function installerDemandes(): int
+    {
+        if (Demande::exists()) {
+            return 0;
+        }
+
+        Demande::create(['source' => 'formulaire', 'nom' => 'Lucas Exemple', 'telephone' => '0600000011', 'email' => 'lucas@exemple.test', 'ville' => 'Ville-Démo',
+            'message' => 'Bonjour, des tuiles ont glissé après le coup de vent. Pouvez-vous passer ? (exemple)', 'recue_at' => now()->subHours(3)]);
+        Demande::create(['source' => 'email', 'nom' => 'Nadia Test', 'telephone' => '0600000012', 'ville' => 'Village-Test',
+            'message' => 'Devis pour remplacement de gouttières, maison de plain-pied. (exemple)', 'message_id' => 'demo-1@exemple.test', 'recue_at' => now()->subDay()]);
+
+        return 2;
     }
 }

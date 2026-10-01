@@ -8,6 +8,7 @@ use App\Http\Controllers\ChantierController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ConfigurationController;
 use App\Http\Controllers\CorbeilleController;
+use App\Http\Controllers\DemandePubliqueController;
 use App\Http\Controllers\DevisController;
 use App\Http\Controllers\DevisExpressController;
 use App\Http\Controllers\EnvoiController;
@@ -28,6 +29,7 @@ use App\Http\Controllers\PrestationController;
 use App\Http\Controllers\RapportController;
 use App\Http\Controllers\ReglagesController;
 use App\Http\Controllers\SignatureSurPlaceController;
+use App\Http\Controllers\SuiviController;
 use App\Http\Controllers\TextesTypesController;
 use App\Http\Controllers\VisionneuseController;
 use App\Http\Middleware\CompteActif;
@@ -75,6 +77,11 @@ Route::post('/paiement/mypos/notification', [PaiementEnLigneController::class, '
         ConfigurationRequise::class,
     ])
     ->middleware('throttle:60,1')->name('mypos.notification');
+
+// Formulaire public « Demander un devis » (lien à mettre sur le site de l'entreprise).
+Route::get('/demande', [DemandePubliqueController::class, 'create'])->name('demande.create');
+Route::post('/demande', [DemandePubliqueController::class, 'store'])->middleware('throttle:5,10')->name('demande.store');
+Route::get('/demande/merci', [DemandePubliqueController::class, 'merci'])->name('demande.merci');
 
 Route::middleware('guest')->group(function () {
     Route::get('/connexion', [ConnexionController::class, 'create'])->name('login');
@@ -177,6 +184,18 @@ Route::middleware('auth')->group(function () {
     Route::post('/clients/{client}/fichiers', [PieceJointeController::class, 'store'])->middleware('throttle:30,1')->name('pieces.store');
     Route::get('/fichiers/{piece}', [PieceJointeController::class, 'show'])->whereNumber('piece')->name('pieces.show');
     Route::delete('/fichiers/{piece}', [PieceJointeController::class, 'destroy'])->whereNumber('piece')->name('pieces.destroy');
+
+    // Suivi commercial.
+    Route::get('/suivi', [SuiviController::class, 'index'])->name('suivi');
+    Route::get('/suivi/demandes/{demande}', [SuiviController::class, 'demande'])->whereNumber('demande')->name('suivi.demande');
+    Route::post('/suivi/demandes/{demande}/statut', [SuiviController::class, 'statutDemande'])->whereNumber('demande')->name('suivi.demande.statut');
+    Route::post('/suivi/demandes/{demande}/client', [SuiviController::class, 'creerClient'])->whereNumber('demande')->name('suivi.demande.client');
+    Route::post('/suivi/avis/{client}', [SuiviController::class, 'avis'])->whereNumber('client')->middleware('throttle:20,1')->name('suivi.avis');
+    Route::post('/suivi/entretien/{client}', [SuiviController::class, 'entretien'])->whereNumber('client')->middleware('throttle:20,1')->name('suivi.entretien');
+    Route::middleware('gerant')->group(function () {
+        Route::get('/suivi/emails', [SuiviController::class, 'emails'])->name('suivi.emails');
+        Route::post('/suivi/emails', [SuiviController::class, 'actualiser'])->middleware('throttle:4,1')->name('suivi.emails.actualiser');
+    });
 
     // Photos de chantier et rapports d'intervention.
     Route::get('/clients/{client}/photos', [PhotoController::class, 'index'])->whereNumber('client')->name('photos.index');

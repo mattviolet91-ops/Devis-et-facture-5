@@ -9,3 +9,5 @@ Schedule::command('app:expirer-devis')->dailyAt('00:20')->withoutOverlapping();
 Schedule::command('app:relancer-factures')->dailyAt('09:10')->withoutOverlapping();
 Schedule::command('app:rappels-planning')->everyFiveMinutes()->withoutOverlapping();
 Schedule::command('app:meteo')->hourlyAt(17)->withoutOverlapping();
+Schedule::command('app:relancer-devis')->dailyAt('09:20')->withoutOverlapping();
+Schedule::command('app:lire-emails')->everyFifteenMinutes()->withoutOverlapping();

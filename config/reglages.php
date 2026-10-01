@@ -64,6 +64,18 @@ return [
                 'sujet' => 'Rappel : facture {numero}',
                 'corps' => "{salutation},\n\nSauf erreur de notre part, la facture {numero} d'un montant de {montant} arrivée à échéance le {echeance} reste à régler.\nVous pouvez la régler en ligne : {lien}\n\nSi le règlement a déjà été fait, merci de ne pas tenir compte de ce message.\n\nCordialement,\n{entreprise}",
             ],
+            'relance_devis' => [
+                'sujet' => 'Votre devis {numero}',
+                'corps' => "{salutation},\n\nNous revenons vers vous au sujet de notre devis {numero} d'un montant de {montant}, valable jusqu'au {echeance}.\nVous pouvez le consulter et le signer en ligne : {lien}\n\nAvez-vous des questions ? Nous pouvons en parler au {telephone}.\n\nCordialement,\n{entreprise}",
+            ],
+            'avis' => [
+                'sujet' => 'Votre avis compte pour nous',
+                'corps' => "{salutation},\n\nMerci de nous avoir fait confiance pour vos travaux.\nSi vous êtes satisfait, pourriez-vous laisser un petit avis ? Cela nous aide beaucoup : {lien}\n\nCordialement,\n{entreprise}",
+            ],
+            'entretien' => [
+                'sujet' => 'Entretien de votre toiture',
+                'corps' => "{salutation},\n\nCela fait environ un an que nous sommes intervenus chez vous.\nUn petit contrôle de la toiture permet d'éviter les mauvaises surprises. Souhaitez-vous que nous passions ?\nIl suffit de répondre à cet email ou de nous appeler au {telephone}.\n\nCordialement,\n{entreprise}",
+            ],
             'rendez_vous' => [
                 'sujet' => 'Rappel : notre passage le {date}',
                 'corps' => "{salutation},\n\nPetit rappel : nous passerons le {date} ({horaire}) pour : {objet}.\nAdresse : {adresse}\n\nEn cas d'empêchement, merci de nous prévenir au {telephone}.\n\nCordialement,\n{entreprise}",
@@ -77,6 +89,17 @@ return [
 
     'mypos' => [
         'mode' => 'desactive',
+    ],
+
+    'suivi' => [
+        'relances_devis' => true,      // relances automatiques à 7 et 15 jours
+        'lien_avis' => '',             // lien Google pour laisser un avis (vide = désactivé)
+        'entretien_mois' => 12,        // proposer un entretien N mois après un chantier
+        'formulaire_actif' => false,   // formulaire public de demande de devis
+        'imap_actif' => false,         // lire les emails du site (WordPress)
+        'imap_serveur' => 'imap.gmail.com',
+        'imap_port' => 993,
+        'imap_filtre' => 'WordPress',  // mot cherché dans l'expéditeur ou l'objet
     ],
 
     'textes_types' => [],

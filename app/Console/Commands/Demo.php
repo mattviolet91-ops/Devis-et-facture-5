@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Appareil;
+use App\Models\Devis;
 use App\Models\Prestation;
 use App\Models\User;
 use App\Notifications\NouvelAppareil;
@@ -105,6 +106,11 @@ class Demo extends Command
             DonneesDemo::installerFactures($gerant);
             DonneesDemo::installerPlanning($gerant);
             DonneesDemo::installerPhotos($gerant);
+            DonneesDemo::installerDemandes();
+            // Un devis envoyé il y a 9 jours, déjà relancé une fois (pour montrer le suivi).
+            Devis::where('statut', 'envoye')->oldest('id')->first()
+                ?->forceFill(['envoye_at' => now()->subDays(9), 'date_devis' => now()->subDays(9), 'relances' => 1, 'derniere_relance_at' => now()->subDays(2)])->save();
+            $reglages->set('suivi.formulaire_actif', true);
             Prestation::where('nom', 'Échafaudage')->update(['description' => 'Montage, location et démontage (prix d\'exemple).']);
             $appareil = Appareil::firstOrCreate(
                 ['user_id' => $gerant->id, 'empreinte' => hash('sha256', 'demo-tablette')],

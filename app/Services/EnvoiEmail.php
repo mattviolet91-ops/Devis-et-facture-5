@@ -72,6 +72,28 @@ class EnvoiEmail
         ];
     }
 
+    /**
+     * Email simple à un client (avis Google, entretien), d'après un modèle.
+     */
+    public function envoyerAuClient(Client $client, string $modele, ?int $userId, bool $automatique = false): EmailEnvoye
+    {
+        $variables = [
+            '{salutation}' => self::salutation($client),
+            '{client}' => $client->nomComplet(),
+            '{lien}' => (string) reglage('suivi.lien_avis'),
+            '{entreprise}' => (string) reglage('identite.nom_commercial'),
+            '{telephone}' => (string) reglage('identite.telephone'),
+        ];
+
+        return $this->envoyer(
+            $client,
+            (string) $client->email,
+            strtr((string) reglage("emails.modeles.{$modele}.sujet"), $variables),
+            strtr((string) reglage("emails.modeles.{$modele}.corps"), $variables),
+            $modele, false, $userId, $automatique,
+        );
+    }
+
     public static function salutation(Client $client): string
     {
         if ($client->estProfessionnel() && ! $client->nom) {
@@ -110,7 +132,7 @@ class EnvoiEmail
         $historique = EmailEnvoye::create([
             'document_type' => $document->getMorphClass(),
             'document_id' => $document->getKey(),
-            'client_id' => $document->client_id,
+            'client_id' => $document instanceof Client ? $document->id : $document->client_id,
             'destinataire' => $destinataire,
             'sujet' => $sujet,
             'corps' => $corps,

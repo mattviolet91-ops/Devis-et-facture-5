@@ -37,7 +37,7 @@ class EnvoiController extends Controller
             'type' => $type,
             'modeles' => $modeles,
             'textes' => $textes,
-            'modele' => $modeles[0],
+            'modele' => in_array($request->query('modele'), $modeles, true) ? $request->query('modele') : $modeles[0],
             'configure' => app(ConfigurationEmail::class)->estConfiguree(),
             'historique' => EmailEnvoye::where('document_type', $document->getMorphClass())->where('document_id', $document->getKey())->latest()->get(),
         ]);
@@ -112,6 +112,6 @@ class EnvoiController extends Controller
             return ['rapport'];
         }
 
-        return ['devis'];
+        return $document->statut === Devis::ENVOYE ? ['devis', 'relance_devis'] : ['devis'];
     }
 }

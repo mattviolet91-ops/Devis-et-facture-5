@@ -62,6 +62,8 @@ class Devis extends Model
             'date_devis' => 'date',
             'date_debut_travaux' => 'date',
             'envoye_at' => 'datetime',
+            'derniere_relance_at' => 'datetime',
+            'relances_auto' => 'boolean',
             'accepte_at' => 'datetime',
             'refuse_at' => 'datetime',
             'pdf_fige_at' => 'datetime',

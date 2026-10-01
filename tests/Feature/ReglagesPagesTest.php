@@ -190,7 +190,7 @@ class ReglagesPagesTest extends TestCase
         $this->actingAs($this->gerant)->get('/reglages/modeles')->assertSee('Votre devis {numero}');
 
         $donnees = [];
-        foreach (['devis', 'facture', 'relance', 'rapport', 'rendez_vous'] as $modele) {
+        foreach (array_keys(config('reglages.emails.modeles')) as $modele) {
             $donnees["emails__modeles__{$modele}__sujet"] = "Sujet {$modele}";
             $donnees["emails__modeles__{$modele}__corps"] = "{salutation}, corps {$modele}";
         }

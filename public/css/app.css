@@ -1,0 +1,381 @@
+/* ==========================================================================
+   Feuille de style de l'application — mobile d'abord (390 px), clair et sombre.
+   Aucune police externe : polices du téléphone.
+   ========================================================================== */
+
+:root {
+    --couleur-principale: #1f4e79;
+    --couleur-principale-texte: #ffffff;
+    --couleur-accent: #c25e00;
+    --couleur-accent-texte: #ffffff;
+    --fond: #f4f5f7;
+    --fond-carte: #ffffff;
+    --fond-champ: #ffffff;
+    --texte: #1b1d21;
+    --texte-doux: #545a63;
+    --bordure: #c9ced6;
+    --succes: #1d6b38;
+    --succes-fond: #e3f3e8;
+    --danger: #b3261e;
+    --danger-fond: #fce8e6;
+    --info-fond: #e6eef7;
+    --focus: #f0a400;
+    --ombre: 0 1px 3px rgb(0 0 0 / 0.12);
+    --rayon: 12px;
+    --barre-bas: 64px;
+    --taille-texte: 1rem;
+    --hauteur-bouton: 48px;
+    --police: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="clair"]) {
+        --couleur-principale: #7fb2e5;
+        --couleur-principale-texte: #0d1b2a;
+        --couleur-accent: #ffb366;
+        --couleur-accent-texte: #1b1d21;
+        --fond: #121417;
+        --fond-carte: #1d2025;
+        --fond-champ: #262a30;
+        --texte: #eceef1;
+        --texte-doux: #b3b9c2;
+        --bordure: #444b55;
+        --succes: #7dd69b;
+        --succes-fond: #173823;
+        --danger: #ffb4ab;
+        --danger-fond: #4a1512;
+        --info-fond: #1b2b3d;
+        --ombre: 0 1px 3px rgb(0 0 0 / 0.5);
+        color-scheme: dark;
+    }
+}
+
+:root[data-theme="sombre"] {
+    --couleur-principale: #7fb2e5;
+    --couleur-principale-texte: #0d1b2a;
+    --couleur-accent: #ffb366;
+    --couleur-accent-texte: #1b1d21;
+    --fond: #121417;
+    --fond-carte: #1d2025;
+    --fond-champ: #262a30;
+    --texte: #eceef1;
+    --texte-doux: #b3b9c2;
+    --bordure: #444b55;
+    --succes: #7dd69b;
+    --succes-fond: #173823;
+    --danger: #ffb4ab;
+    --danger-fond: #4a1512;
+    --info-fond: #1b2b3d;
+    --ombre: 0 1px 3px rgb(0 0 0 / 0.5);
+    color-scheme: dark;
+}
+
+/* Option « Grands boutons » (réglée sur chaque téléphone). */
+:root[data-grands-boutons="1"] {
+    --taille-texte: 1.15rem;
+    --hauteur-bouton: 60px;
+    --barre-bas: 76px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+    margin: 0;
+    font-family: var(--police);
+    font-size: var(--taille-texte);
+    line-height: 1.5;
+    color: var(--texte);
+    background: var(--fond);
+    min-height: 100vh;
+    padding-bottom: calc(var(--barre-bas) + env(safe-area-inset-bottom) + 16px);
+}
+
+a { color: var(--couleur-principale); }
+
+:focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+.visuellement-cache {
+    position: absolute !important;
+    width: 1px; height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
+.lien-evitement {
+    position: absolute;
+    left: 8px; top: -60px;
+    background: var(--fond-carte);
+    padding: 8px 12px;
+    z-index: 100;
+}
+.lien-evitement:focus { top: 8px; }
+
+/* ---------- En-tête ---------- */
+.entete {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 56px;
+    padding: calc(env(safe-area-inset-top) + 4px) 16px 4px;
+    background: var(--couleur-principale);
+    color: var(--couleur-principale-texte);
+}
+.entete h1 {
+    flex: 1;
+    margin: 0;
+    font-size: 1.15rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.entete a, .entete button { color: inherit; }
+.retour {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 10px 0 4px;
+    margin-left: -4px;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 8px;
+}
+
+/* ---------- Contenu ---------- */
+.contenu {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 16px;
+}
+
+.carte {
+    background: var(--fond-carte);
+    border-radius: var(--rayon);
+    box-shadow: var(--ombre);
+    padding: 16px;
+    margin-bottom: 16px;
+}
+.carte h2 { margin: 0 0 8px; font-size: 1.05rem; }
+.carte p:last-child { margin-bottom: 0; }
+
+.texte-doux { color: var(--texte-doux); }
+
+.message {
+    padding: 12px 14px;
+    border-radius: var(--rayon);
+    margin-bottom: 16px;
+    border-left: 4px solid;
+}
+.message-succes { background: var(--succes-fond); color: var(--texte); border-color: var(--succes); }
+.message-erreur { background: var(--danger-fond); color: var(--texte); border-color: var(--danger); }
+.message-info { background: var(--info-fond); color: var(--texte); border-color: var(--couleur-principale); }
+
+/* ---------- Formulaires ---------- */
+.champ { margin-bottom: 16px; }
+.champ label, .etiquette { display: block; font-weight: 600; margin-bottom: 6px; }
+.champ input[type="email"],
+.champ input[type="password"],
+.champ input[type="text"],
+.champ input[type="search"],
+.champ select,
+.champ textarea {
+    width: 100%;
+    min-height: var(--hauteur-bouton);
+    padding: 10px 12px;
+    font: inherit;
+    color: var(--texte);
+    background: var(--fond-champ);
+    border: 2px solid var(--bordure);
+    border-radius: 10px;
+}
+.champ input:focus-visible, .champ select:focus-visible, .champ textarea:focus-visible {
+    border-color: var(--couleur-principale);
+}
+.champ [aria-invalid="true"] { border-color: var(--danger); }
+.erreur-champ { color: var(--danger); margin: 6px 0 0; font-weight: 600; }
+.aide { color: var(--texte-doux); font-size: 0.9em; margin: 6px 0 0; }
+
+.mot-de-passe { position: relative; }
+.mot-de-passe input { padding-right: 104px; }
+.mot-de-passe .bouton-afficher {
+    position: absolute;
+    right: 4px; top: 4px; bottom: 4px;
+    min-width: 92px;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--couleur-principale);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.case {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 44px;
+    margin-bottom: 12px;
+}
+.case input { width: 24px; height: 24px; accent-color: var(--couleur-principale); }
+
+/* ---------- Boutons ---------- */
+.bouton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: var(--hauteur-bouton);
+    padding: 0 20px;
+    font: inherit;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 10px;
+    border: 2px solid var(--couleur-principale);
+    background: var(--couleur-principale);
+    color: var(--couleur-principale-texte);
+    cursor: pointer;
+}
+.bouton-large { width: 100%; }
+.bouton-secondaire { background: transparent; color: var(--couleur-principale); }
+.bouton-danger { background: var(--danger); border-color: var(--danger); color: #fff; }
+.bouton[disabled], .bouton[aria-disabled="true"] { opacity: 0.6; cursor: not-allowed; }
+.bouton-lien {
+    border: 0; background: none; padding: 0; font: inherit;
+    color: var(--couleur-principale); text-decoration: underline; cursor: pointer;
+}
+
+/* ---------- Listes ---------- */
+.liste { list-style: none; margin: 0; padding: 0; }
+.liste > li { border-bottom: 1px solid var(--bordure); }
+.liste > li:last-child { border-bottom: 0; }
+.liste-lien {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: var(--hauteur-bouton);
+    padding: 10px 4px;
+    color: var(--texte);
+    text-decoration: none;
+}
+.liste-lien .icone { color: var(--couleur-principale); flex: none; }
+.liste-lien span.libelle { flex: 1; }
+.liste-lien[aria-disabled="true"] { color: var(--texte-doux); }
+.ligne { padding: 10px 0; display: flex; gap: 12px; align-items: flex-start; justify-content: space-between; }
+.ligne small { display: block; color: var(--texte-doux); }
+
+.badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 0.8em;
+    font-weight: 700;
+    background: var(--info-fond);
+    color: var(--texte);
+}
+
+/* Choix du thème (boutons radio en segments). */
+.segments { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; border: 0; padding: 0; margin: 0 0 16px; }
+.segments legend { font-weight: 600; margin-bottom: 6px; padding: 0; }
+.segments label {
+    display: flex; align-items: center; justify-content: center;
+    min-height: var(--hauteur-bouton);
+    border: 2px solid var(--bordure);
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+}
+.segments input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.segments input:checked + span { color: var(--couleur-principale); }
+.segments label:has(input:checked) { border-color: var(--couleur-principale); background: var(--info-fond); }
+.segments label:has(input:focus-visible) { outline: 3px solid var(--focus); outline-offset: 2px; }
+
+/* ---------- Barre du bas (mobile) ---------- */
+.barre-bas {
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    z-index: 30;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    align-items: end;
+    height: calc(var(--barre-bas) + env(safe-area-inset-bottom));
+    padding-bottom: env(safe-area-inset-bottom);
+    background: var(--fond-carte);
+    border-top: 1px solid var(--bordure);
+}
+.barre-bas a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    height: var(--barre-bas);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--texte-doux);
+    text-decoration: none;
+}
+.barre-bas a[aria-current="page"] { color: var(--couleur-principale); }
+.barre-bas a.nouveau { color: var(--couleur-principale); }
+.barre-bas a.nouveau .rond {
+    display: flex; align-items: center; justify-content: center;
+    width: 52px; height: 52px;
+    margin-top: -22px;
+    border-radius: 50%;
+    background: var(--couleur-accent);
+    color: var(--couleur-accent-texte);
+    box-shadow: var(--ombre);
+}
+:root[data-grands-boutons="1"] .barre-bas a { font-size: 0.85rem; }
+:root[data-grands-boutons="1"] .barre-bas a.nouveau .rond { width: 62px; height: 62px; }
+
+.icone { width: 24px; height: 24px; flex: none; }
+
+/* ---------- Pages d'accès (connexion) ---------- */
+.page-acces { padding-bottom: 0; display: flex; align-items: center; min-height: 100vh; }
+.page-acces .contenu { width: 100%; max-width: 440px; }
+.page-acces .logo-app { display: block; width: 72px; height: 72px; margin: 0 auto 12px; border-radius: 16px; }
+.page-acces h1 { text-align: center; font-size: 1.4rem; margin: 0 0 20px; }
+.liens-bas { text-align: center; margin-top: 16px; }
+
+/* ---------- Pages d'erreur ---------- */
+.page-erreur { padding-bottom: 0; }
+.page-erreur .code { font-size: 3rem; font-weight: 800; color: var(--couleur-principale); margin: 0; }
+
+/* ---------- Pagination ---------- */
+.pagination { display: flex; justify-content: space-between; gap: 8px; margin-top: 12px; }
+
+/* ---------- Grand écran : barre latérale ---------- */
+@media (min-width: 1024px) {
+    body { padding-bottom: 0; padding-left: 240px; }
+    .barre-bas {
+        top: 0; right: auto; bottom: 0;
+        width: 240px; height: auto;
+        display: flex; flex-direction: column; align-items: stretch;
+        padding: 16px 12px;
+        border-top: 0; border-right: 1px solid var(--bordure);
+    }
+    .barre-bas a {
+        flex-direction: row; justify-content: flex-start;
+        gap: 12px; height: 48px; padding: 0 12px;
+        font-size: 1rem; border-radius: 10px;
+    }
+    .barre-bas a[aria-current="page"] { background: var(--info-fond); }
+    .barre-bas a.nouveau { order: -1; margin-bottom: 12px; }
+    .barre-bas a.nouveau .rond { width: 32px; height: 32px; margin-top: 0; }
+    .page-acces, .page-erreur { padding-left: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
+}

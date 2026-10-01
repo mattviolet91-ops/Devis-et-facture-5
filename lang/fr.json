@@ -1,0 +1,23 @@
+{
+    "Hello!": "Bonjour,",
+    "Regards,": "À bientôt.",
+    "Whoops!": "Oups !",
+    "All rights reserved.": "Tous droits réservés.",
+    "If you're having trouble clicking the \":actionText\" button, copy and paste the URL below\ninto your web browser:": "Si le bouton « :actionText » ne marche pas, copiez cette adresse dans votre navigateur :",
+    "Too Many Requests": "Trop de demandes",
+    "Page Expired": "Page expirée",
+    "Not Found": "Page introuvable",
+    "Forbidden": "Accès refusé",
+    "Server Error": "Erreur du serveur",
+    "Service Unavailable": "Service indisponible",
+    "Unauthorized": "Non autorisé",
+    "Previous": "Précédent",
+    "Next": "Suivant",
+    "Showing": "Affichage de",
+    "to": "à",
+    "of": "sur",
+    "results": "résultats",
+    "Pagination Navigation": "Pages",
+    "pagination.previous": "‹ Précédent",
+    "pagination.next": "Suivant ›"
+}

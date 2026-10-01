@@ -1,0 +1,5 @@
+@extends('errors.layout')
+@section('code', '503')
+@section('titre', 'Mise à jour en cours')
+@section('message', 'L\'application est en cours de mise à jour. Elle revient dans quelques minutes.')
+@section('sans-bouton', '1')

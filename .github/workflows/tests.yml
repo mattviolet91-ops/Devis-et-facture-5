@@ -1,0 +1,49 @@
+name: Tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        base: [sqlite, mariadb]
+
+    services:
+      mariadb:
+        image: mariadb:10.11
+        env:
+          MARIADB_DATABASE: app_test
+          MARIADB_USER: app_test
+          MARIADB_PASSWORD: app_test
+          MARIADB_RANDOM_ROOT_PASSWORD: "1"
+        ports: ["3306:3306"]
+        options: --health-cmd="healthcheck.sh --connect --innodb_initialized" --health-interval=5s --health-timeout=5s --health-retries=10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+          extensions: mbstring, pdo_sqlite, pdo_mysql, gd, intl, zip
+          coverage: none
+
+      - run: composer install --no-interaction --prefer-dist --no-progress
+
+      - run: cp .env.example .env && php artisan key:generate
+
+      - name: Format du code (Pint)
+        if: matrix.base == 'sqlite'
+        run: vendor/bin/pint --test
+
+      - name: Tests SQLite
+        if: matrix.base == 'sqlite'
+        run: php artisan test
+
+      - name: Tests MariaDB
+        if: matrix.base == 'mariadb'
+        run: php artisan test --configuration=phpunit.mariadb.xml

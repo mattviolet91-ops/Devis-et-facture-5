@@ -71,6 +71,10 @@ return [
         ],
     ],
 
+    'mypos' => [
+        'mode' => 'desactive',
+    ],
+
     'textes_types' => [],
 
     'clients' => [

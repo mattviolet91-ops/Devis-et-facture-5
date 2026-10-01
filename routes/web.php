@@ -17,6 +17,8 @@ use App\Http\Controllers\ImportClientsController;
 use App\Http\Controllers\JournalController;
 use App\Http\Controllers\NoteClientController;
 use App\Http\Controllers\PagesController;
+use App\Http\Controllers\PaiementController;
+use App\Http\Controllers\PaiementEnLigneController;
 use App\Http\Controllers\PieceJointeController;
 use App\Http\Controllers\PrestationController;
 use App\Http\Controllers\ReglagesController;
@@ -51,7 +53,22 @@ Route::prefix('/c/{jeton}')->middleware('throttle:60,1')->name('client.')->group
     Route::post('/signer', [EspaceClientController::class, 'signer'])->middleware('throttle:10,1')->name('signer');
     Route::post('/refuser', [EspaceClientController::class, 'refuser'])->middleware('throttle:10,1')->name('refuser');
     Route::post('/modification', [EspaceClientController::class, 'modification'])->middleware('throttle:10,1')->name('modification');
+    Route::post('/payer', [PaiementEnLigneController::class, 'payer'])->middleware('throttle:10,1')->name('payer');
+    Route::get('/paiement/merci', [PaiementEnLigneController::class, 'merci'])->name('paiement.merci');
+    Route::match(['get', 'post'], '/paiement/annule', [PaiementEnLigneController::class, 'annule'])
+        ->withoutMiddleware(ValidateCsrfToken::class)->name('paiement.annule');
 });
+
+// Notification de myPOS (serveur à serveur) : pas de session ni de jeton CSRF, signature vérifiée.
+Route::post('/paiement/mypos/notification', [PaiementEnLigneController::class, 'notification'])
+    ->withoutMiddleware([
+        StartSession::class,
+        ShareErrorsFromSession::class,
+        ValidateCsrfToken::class,
+        CompteActif::class,
+        ConfigurationRequise::class,
+    ])
+    ->middleware('throttle:60,1')->name('mypos.notification');
 
 Route::middleware('guest')->group(function () {
     Route::get('/connexion', [ConnexionController::class, 'create'])->name('login');
@@ -147,6 +164,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/factures', [FactureController::class, 'index'])->name('factures.index');
         Route::get('/factures/nouvelle', [FactureController::class, 'create'])->name('factures.create');
         Route::post('/factures', [FactureController::class, 'store'])->name('factures.store');
+        Route::post('/paiements/{paiement}/annuler', [PaiementController::class, 'annuler'])->whereNumber('paiement')->name('paiements.annuler');
         Route::post('/devis/{devis}/facturer', [FactureController::class, 'depuisDevis'])->whereNumber('devis')->name('factures.depuis-devis');
         Route::prefix('/factures/{facture}')->whereNumber('facture')->group(function () {
             Route::get('/', [FactureController::class, 'show'])->name('factures.show');
@@ -158,6 +176,8 @@ Route::middleware('auth')->group(function () {
             Route::post('/relances', [FactureController::class, 'relancesAuto'])->name('factures.relances');
             Route::post('/lien', [FactureController::class, 'lien'])->name('factures.lien');
             Route::get('/pdf', [FactureController::class, 'pdf'])->name('factures.pdf');
+            Route::post('/paiements', [PaiementController::class, 'store'])->name('paiements.store');
+            Route::post('/paiement-essai', [PaiementEnLigneController::class, 'essai'])->name('paiements.essai');
         });
     });
 

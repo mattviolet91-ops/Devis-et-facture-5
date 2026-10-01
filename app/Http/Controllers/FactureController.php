@@ -96,7 +96,7 @@ class FactureController extends Controller
 
     public function show(Facture $facture): View
     {
-        $facture->load(['client', 'chantier', 'lignes', 'devis', 'origine', 'avoirs']);
+        $facture->load(['client', 'chantier', 'lignes', 'devis', 'origine', 'avoirs', 'paiements']);
 
         return view('factures.show', [
             'facture' => $facture,

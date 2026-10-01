@@ -21,7 +21,15 @@ class EnTetesSecurite
         $response = $next($request);
 
         $entetes = $response->headers;
-        $entetes->set('Content-Security-Policy', self::CSP);
+        $csp = self::CSP;
+
+        // Une page précise peut envoyer un formulaire vers un prestataire (paiement myPOS).
+        $extra = (string) $entetes->get('X-Form-Action-Extra');
+        if (preg_match('#^https://[a-z0-9.-]+$#', $extra)) {
+            $csp = str_replace("form-action 'self'", "form-action 'self' ".$extra, $csp);
+        }
+        $entetes->remove('X-Form-Action-Extra');
+        $entetes->set('Content-Security-Policy', $csp);
         $entetes->set('X-Content-Type-Options', 'nosniff');
         $entetes->set('X-Frame-Options', 'DENY');
         $entetes->set('Referrer-Policy', 'strict-origin-when-cross-origin');

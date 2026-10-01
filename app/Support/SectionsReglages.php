@@ -6,6 +6,7 @@ use App\Rules\Bic;
 use App\Rules\Iban;
 use App\Rules\Siret;
 use App\Rules\TvaIntracom;
+use App\Services\MyPos;
 use App\Services\Numerotation;
 
 /**
@@ -149,6 +150,24 @@ class SectionsReglages
                 'icone' => 'clients',
                 'champs' => [
                     ['cle' => 'clients.provenances', 'libelle' => 'Provenances proposées', 'type' => 'lignes', 'obligatoire' => true, 'aide' => 'Une par ligne. Elles servent aux statistiques par provenance.'],
+                ],
+            ],
+
+            'paiement' => [
+                'titre' => 'Paiement en ligne',
+                'description' => 'Paiement par carte avec myPOS Checkout.',
+                'icone' => 'factures',
+                'champs' => [
+                    ['cle' => 'mypos.mode', 'libelle' => 'Paiement par carte', 'type' => 'select', 'obligatoire' => true, 'options' => [
+                        'desactive' => 'Désactivé',
+                        'test' => 'Mode test (aucun argent réel, invisible pour les clients)',
+                        'production' => 'Activé pour les clients',
+                    ]],
+                    ['cle' => 'mypos.pack', 'libelle' => 'Pack de configuration myPOS', 'type' => 'secret', 'regles' => ['max:20000', function ($attribut, $valeur, $echec) {
+                        if (is_string($valeur) && trim($valeur) !== '' && MyPos::lirePack($valeur) === null) {
+                            $echec('Ce pack de configuration n\'est pas valable. Copiez-le en entier depuis votre compte myPOS.');
+                        }
+                    }], 'aide' => 'À copier depuis votre compte myPOS (paramètres de la boutique en ligne). Il est enregistré chiffré et ne sera plus jamais affiché.'],
                 ],
             ],
 

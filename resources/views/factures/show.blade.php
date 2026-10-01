@@ -95,6 +95,55 @@
         @endif
     </section>
 
+    @if (! $facture->estAvoir() && $facture->resteAPayer() > 0 && $facture->statut === 'emise')
+        <section class="carte" id="encaisser">
+            <h2>Encaisser</h2>
+            <form method="post" action="{{ route('paiements.store', $facture) }}" novalidate>
+                @csrf
+                <div class="grille-2">
+                    <x-champ nom="montant" libelle="Montant (€)" :valeur="number_format($facture->resteAPayer() / 100, 2, ',', '')" inputmode="decimal" />
+                    <x-champ nom="date_paiement" libelle="Date" type="date" :valeur="now()->toDateString()" />
+                </div>
+                <x-champ-liste nom="mode" libelle="Mode de paiement" :options="collect(\App\Models\Paiement::MODES)->except('carte_en_ligne')->all()" :vide="false" />
+                <x-champ nom="reference" libelle="Référence (n° de chèque, virement…)" />
+                <button type="submit" class="bouton bouton-large">Enregistrer l'encaissement</button>
+            </form>
+            @if (app(\App\Services\MyPos::class)->mode() === 'test')
+                <form method="post" action="{{ route('paiements.essai', $facture) }}">
+                    @csrf
+                    <button type="submit" class="bouton bouton-secondaire bouton-large">Essayer le paiement par carte (mode test)</button>
+                </form>
+            @endif
+        </section>
+    @endif
+
+    @if ($facture->paiements->isNotEmpty())
+        <section class="carte">
+            <h2>Encaissements</h2>
+            <ul class="liste">
+                @foreach ($facture->paiements as $paiement)
+                    <li class="ligne">
+                        <div>
+                            <strong>{{ $paiement->montantAffiche() }}</strong> · {{ $paiement->libelleMode() }}
+                            <small>{{ $paiement->date_paiement->format('d/m/Y') }}{{ $paiement->reference ? ' · '.$paiement->reference : '' }}{{ $paiement->notes ? ' · '.$paiement->notes : '' }}</small>
+                        </div>
+                        @if ($paiement->montant > 0 && ! $facture->paiements->contains('annule_paiement_id', $paiement->id))
+                            <details>
+                                <summary class="bouton-lien">Annuler</summary>
+                                <form method="post" action="{{ route('paiements.annuler', $paiement) }}">
+                                    @csrf
+                                    <x-champ nom="motif" libelle="Motif" :id="'motif-'.$paiement->id" />
+                                    <button type="submit" class="bouton bouton-secondaire">Confirmer</button>
+                                </form>
+                            </details>
+                        @endif
+                    </li>
+                @endforeach
+            </ul>
+            <p class="aide">Un encaissement ne s'efface jamais : une annulation ajoute une ligne inverse.</p>
+        </section>
+    @endif
+
     @if (! $facture->estAvoir() && $facture->statut === 'emise')
         @php
             $texteRelance = app(\App\Services\EnvoiEmail::class)->rediger($facture, $facture->estEnRetard() ? 'relance' : 'facture');

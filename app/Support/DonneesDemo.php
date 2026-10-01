@@ -7,6 +7,7 @@ use App\Models\Devis;
 use App\Models\Facture;
 use App\Models\User;
 use App\Services\DevisExpress;
+use App\Services\Encaissements;
 use App\Services\GestionDevis;
 use App\Services\GestionFactures;
 use Illuminate\Support\Carbon;
@@ -164,6 +165,8 @@ class DonneesDemo
         if ($accepte) {
             $acompte = $gestion->depuisDevis($accepte, Facture::ACOMPTE, 3000, $auteur->id);
             $gestion->emettre($acompte);
+            // Acompte réglé par virement (exemple).
+            app(Encaissements::class)->enregistrer($acompte->fresh(), $acompte->fresh()->resteAPayer(), 'virement', now()->toDateString(), 'Virement (exemple)', null, $auteur->id);
             $total++;
         }
 

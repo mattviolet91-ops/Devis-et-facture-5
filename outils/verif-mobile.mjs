@@ -135,6 +135,9 @@ for (const theme of ['light', 'dark']) {
     await page.goto(`${base}/clients/import`);
     await capture('clients-import');
 
+    await page.goto(`${base}/catalogue`);
+    await capture('catalogue');
+
     await page.goto(`${base}/page-inexistante`);
     await capture('erreur-404');
 

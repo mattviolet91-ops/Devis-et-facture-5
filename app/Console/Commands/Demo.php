@@ -3,8 +3,10 @@
 namespace App\Console\Commands;
 
 use App\Models\Appareil;
+use App\Models\Prestation;
 use App\Models\User;
 use App\Notifications\NouvelAppareil;
+use App\Services\CatalogueDepart;
 use App\Support\Configuration;
 use App\Support\DonneesDemo;
 use App\Support\Journal;
@@ -72,7 +74,6 @@ class Demo extends Command
             $reglages->set('demo.active', true);
             $reglages->set('entreprise.metier', 'couvreur');
             $reglages->set('modules.actifs', Metiers::metier('couvreur')['modules']);
-            $reglages->set('catalogue.depart_a_charger', 'couvreur');
             $reglages->set('documents.cgv', Metiers::cgvDeDepart('couvreur'));
             $reglages->set('setup.etapes', array_keys(Configuration::ETAPES));
             $reglages->set('setup.completed_at', now()->toIso8601String());
@@ -99,6 +100,8 @@ class Demo extends Command
 
             $gerant = User::where('email', 'demo@exemple.test')->first();
             DonneesDemo::installerClients($gerant);
+            app(CatalogueDepart::class)->charger('couvreur', DonneesDemo::PRIX_CATALOGUE);
+            Prestation::where('nom', 'Échafaudage')->update(['description' => 'Montage, location et démontage (prix d\'exemple).']);
             $appareil = Appareil::firstOrCreate(
                 ['user_id' => $gerant->id, 'empreinte' => hash('sha256', 'demo-tablette')],
                 ['libelle' => 'Android – Chrome', 'last_seen_at' => now()],

@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Mail\EmailDeTest;
+use App\Models\Prestation;
 use App\Models\User;
 use App\Rules\TvaIntracom;
 use App\Services\Numerotation;
@@ -105,7 +106,7 @@ class ConfigurationTest extends TestCase
 
         $this->assertSame('couvreur', reglage('entreprise.metier'));
         $this->assertContains('calculateur_toiture', reglage('modules.actifs'));
-        $this->assertSame('couvreur', reglage('catalogue.depart_a_charger'));
+        $this->assertTrue(Prestation::where('nom', 'Démoussage de toiture')->exists());
         $this->assertStringContainsString('Travaux de toiture', reglage('documents.cgv'));
         $this->assertStringContainsString('Droit de rétractation', reglage('documents.cgv'));
 

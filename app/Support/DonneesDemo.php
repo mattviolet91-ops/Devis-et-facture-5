@@ -62,6 +62,20 @@ class DonneesDemo
         ];
     }
 
+    /**
+     * Prix FICTIFS (en centimes HT) du catalogue de démonstration.
+     *
+     * @var array<string, int>
+     */
+    public const PRIX_CATALOGUE = [
+        'Démoussage de toiture' => 1200, 'Traitement hydrofuge' => 900, 'Nettoyage des gouttières' => 600,
+        'Remplacement de tuiles' => 3500, 'Réfection de couverture en tuiles' => 9500, 'Réfection de couverture en ardoises' => 13500,
+        'Pose d\'écran sous toiture' => 2500, 'Faîtière scellée' => 4500, 'Faîtage à sec ventilé' => 5500,
+        'Gouttière zinc' => 6500, 'Descente d\'eau pluviale' => 5000, 'Abergement de cheminée' => 85000,
+        'Remplacement de chevrons' => 4500, 'Pose de fenêtre de toit' => 95000, 'Échafaudage' => 60000,
+        'Évacuation des déchets' => 15000, 'Recherche de fuite' => 18000, 'Main-d\'œuvre' => 4500,
+    ];
+
     public static function installerClients(User $auteur): int
     {
         foreach (self::clients() as $i => $donnees) {

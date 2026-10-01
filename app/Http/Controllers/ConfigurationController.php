@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Prestation;
+use App\Services\CatalogueDepart;
 use App\Services\EnregistreurReglages;
 use App\Services\PdfExemple;
 use App\Support\Configuration;
@@ -155,8 +157,11 @@ class ConfigurationController extends Controller
 
         $this->reglages->set('entreprise.metier', $donnees['metier']);
         $this->reglages->set('modules.actifs', array_values($donnees['modules'] ?? $metier['modules']));
-        // Le catalogue de départ est chargé quand le module Catalogue est en place.
-        $this->reglages->set('catalogue.depart_a_charger', $donnees['metier']);
+        // Catalogue de départ du métier (sans prix), seulement si le catalogue est encore vide.
+        if (! Prestation::withTrashed()->exists()) {
+            $this->reglages->set('catalogue.depart_a_charger', $donnees['metier']);
+            app(CatalogueDepart::class)->charger($donnees['metier']);
+        }
 
         // CGV de départ du métier, si elles n'ont pas encore été relues.
         if ($ancien !== $donnees['metier'] && ! Configuration::estFaite('cgv')) {

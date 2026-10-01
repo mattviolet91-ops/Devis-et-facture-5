@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Chantier;
 use App\Models\Client;
+use App\Models\Prestation;
 use App\Services\ConfigurationEmail;
 use App\Support\Corbeille;
 use App\Support\Reglages;
@@ -26,6 +27,7 @@ class AppServiceProvider extends ServiceProvider
         // Éléments que l'on peut remettre depuis la corbeille (30 jours).
         Corbeille::enregistrer('client', Client::class, 'Client');
         Corbeille::enregistrer('chantier', Chantier::class, 'Adresse de chantier');
+        Corbeille::enregistrer('prestation', Prestation::class, 'Prestation du catalogue');
 
         // Compte Gmail des Réglages (mot de passe d'application chiffré en base).
         $this->app->booted(fn () => $this->app->make(ConfigurationEmail::class)->appliquer());

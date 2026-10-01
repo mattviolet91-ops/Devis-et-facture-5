@@ -14,6 +14,7 @@ use App\Http\Controllers\JournalController;
 use App\Http\Controllers\NoteClientController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\PieceJointeController;
+use App\Http\Controllers\PrestationController;
 use App\Http\Controllers\ReglagesController;
 use App\Http\Controllers\TextesTypesController;
 use Illuminate\Support\Facades\Route;
@@ -42,6 +43,18 @@ Route::middleware('auth')->group(function () {
     Route::get('/plus', [PagesController::class, 'plus'])->name('plus');
     Route::get('/nouveau', [PagesController::class, 'nouveau'])->name('nouveau');
     Route::get('/bientot/{rubrique}', [PagesController::class, 'bientot'])->name('bientot');
+
+    // Catalogue : lecture pour tous, modification par le gérant.
+    Route::get('/catalogue', [PrestationController::class, 'index'])->name('catalogue.index');
+    Route::get('/catalogue/recherche', [PrestationController::class, 'recherche'])->name('catalogue.recherche');
+    Route::middleware('gerant')->group(function () {
+        Route::get('/catalogue/nouvelle', [PrestationController::class, 'create'])->name('catalogue.create');
+        Route::post('/catalogue', [PrestationController::class, 'store'])->name('catalogue.store');
+        Route::post('/catalogue/depart', [PrestationController::class, 'chargerDepart'])->name('catalogue.depart');
+        Route::get('/catalogue/{prestation}/modifier', [PrestationController::class, 'edit'])->whereNumber('prestation')->name('catalogue.edit');
+        Route::put('/catalogue/{prestation}', [PrestationController::class, 'update'])->whereNumber('prestation')->name('catalogue.update');
+        Route::delete('/catalogue/{prestation}', [PrestationController::class, 'destroy'])->whereNumber('prestation')->name('catalogue.destroy');
+    });
 
     // Clients et chantiers (gérant et commercial).
     Route::get('/clients/import', [ImportClientsController::class, 'create'])->name('clients.import');

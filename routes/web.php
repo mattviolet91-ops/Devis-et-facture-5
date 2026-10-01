@@ -20,6 +20,7 @@ use App\Http\Controllers\EspaceClientController;
 use App\Http\Controllers\FactureController;
 use App\Http\Controllers\FichiersController;
 use App\Http\Controllers\FraisController;
+use App\Http\Controllers\GuideController;
 use App\Http\Controllers\ImportClientsController;
 use App\Http\Controllers\JournalController;
 use App\Http\Controllers\NoteClientController;
@@ -115,6 +116,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/deconnexion', [ConnexionController::class, 'destroy'])->name('logout');
 
     Route::get('/plus', [PagesController::class, 'plus'])->name('plus');
+    Route::get('/guide', [GuideController::class, 'index'])->name('guide');
     Route::get('/visionneuse', [VisionneuseController::class, 'show'])->name('visionneuse');
     Route::get('/nouveau', [PagesController::class, 'nouveau'])->name('nouveau');
 

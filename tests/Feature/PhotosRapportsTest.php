@@ -70,7 +70,7 @@ class PhotosRapportsTest extends TestCase
         $this->assertTrue($grande->fresh()->dans_documents);
         $this->assertSame('apres', $grande->fresh()->moment);
 
-        $this->delete(route('photos.destroy', $grande));
+        $this->delete(route('photos.destroy', $grande))->assertRedirect(route('photos.index', $this->client));
         Storage::disk('local')->assertMissing($grande->chemin);
     }
 
@@ -84,17 +84,17 @@ class PhotosRapportsTest extends TestCase
         $this->get(route('photos.annotation', $photo))->assertOk()->assertSee('toile-annotation');
         $this->post(route('photos.annoter', $photo), ['image' => $this->jpeg(400, 300)])->assertRedirect();
         $photo->refresh();
-        $this->assertSame($premier, $photo->original);
+        $this->assertSame($premier, $photo->chemin_original);
         $this->assertNotSame($premier, $photo->chemin);
-        Storage::disk('local')->assertExists([$photo->original, $photo->chemin]);
+        Storage::disk('local')->assertExists([$photo->chemin_original, $photo->chemin]);
 
         // Deuxième dessin : l'originale reste la même.
         $this->post(route('photos.annoter', $photo), ['image' => $this->jpeg(400, 300)]);
-        $this->assertSame($premier, $photo->fresh()->original);
+        $this->assertSame($premier, $photo->fresh()->chemin_original);
 
         $this->post(route('photos.retablir', $photo));
         $photo->refresh();
-        $this->assertNull($photo->original);
+        $this->assertNull($photo->chemin_original);
         Storage::disk('local')->assertMissing($premier);
         Storage::disk('local')->assertExists($photo->chemin);
         $this->assertCount(2, Storage::disk('local')->files('photos/'.$this->client->id));

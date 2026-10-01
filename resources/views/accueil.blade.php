@@ -26,6 +26,13 @@
         </section>
     @endif
 
+    @if (auth()->user()->estGerant() && ! \App\Support\BienDemarrer::complet(auth()->user()))
+        <div class="message message-info">
+            <strong>Bien démarrer :</strong> quelques réglages restent à faire.
+            <a href="{{ route('guide') }}#bien-demarrer">Voir la liste ›</a>
+        </div>
+    @endif
+
     <section class="carte" aria-labelledby="titre-aujourdhui">
         <h2 id="titre-aujourdhui">Aujourd'hui <small class="texte-doux">{{ ucfirst(now()->translatedFormat('l j F')) }}</small></h2>
         @if ($aujourdhui->isEmpty())
@@ -119,11 +126,11 @@
                 </section>
                 @break
             @case('astuce')
-                @php($astuce = \App\Support\Astuces::duJour())
+                @php($astuce = \App\Support\Astuces::duJour(auth()->user()))
                 <section class="carte astuce" aria-labelledby="titre-astuce">
                     <h2 id="titre-astuce">Astuce du jour</h2>
-                    <p>{{ $astuce['texte'] }}</p>
-                    <a href="{{ route($astuce['route']) }}">Essayer</a>
+                    <p><strong>{{ $astuce['titre'] }} :</strong> {{ $astuce['texte'] }}</p>
+                    <a href="{{ route('guide', ['r' => $astuce['rubrique']]) }}#{{ $astuce['rubrique'] }}">En savoir plus dans le guide</a>
                 </section>
                 @break
         @endswitch

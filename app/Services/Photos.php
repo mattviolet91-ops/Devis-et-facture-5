@@ -60,8 +60,8 @@ class Photos
         $ancienne = $photo->only(['chemin', 'miniature']);
         $nouvelle = $this->ranger($fichier, dirname($photo->chemin));
 
-        $photo->forceFill($nouvelle + ['original' => $photo->original ?? $ancienne['chemin']])->save();
-        Storage::disk('local')->delete(array_filter([$ancienne['miniature'], $ancienne['chemin'] !== $photo->original ? $ancienne['chemin'] : null]));
+        $photo->forceFill($nouvelle + ['chemin_original' => $photo->chemin_original ?? $ancienne['chemin']])->save();
+        Storage::disk('local')->delete(array_filter([$ancienne['miniature'], $ancienne['chemin'] !== $photo->chemin_original ? $ancienne['chemin'] : null]));
 
         return $photo;
     }
@@ -71,19 +71,19 @@ class Photos
      */
     public function retablir(Photo $photo): Photo
     {
-        if (! $photo->original || ! Storage::disk('local')->exists($photo->original)) {
+        if (! $photo->chemin_original || ! Storage::disk('local')->exists($photo->chemin_original)) {
             return $photo;
         }
 
-        $image = $this->ouvrir(Storage::disk('local')->path($photo->original), 'image/jpeg');
+        $image = $this->ouvrir(Storage::disk('local')->path($photo->chemin_original), 'image/jpeg');
         $ancienne = $photo->only(['chemin', 'miniature']);
         try {
             $nouvelle = $this->rangerImage($image, dirname($photo->chemin));
         } finally {
             imagedestroy($image);
         }
-        Storage::disk('local')->delete([$photo->original, $ancienne['chemin'], $ancienne['miniature']]);
-        $photo->forceFill($nouvelle + ['original' => null])->save();
+        Storage::disk('local')->delete([$photo->chemin_original, $ancienne['chemin'], $ancienne['miniature']]);
+        $photo->forceFill($nouvelle + ['chemin_original' => null])->save();
 
         return $photo;
     }

@@ -30,6 +30,7 @@
     <nav class="carte" aria-labelledby="titre-menu">
         <h2 id="titre-menu">Menu</h2>
         <ul class="liste">
+            <li><a class="liste-lien" href="{{ route('guide') }}"><x-icone nom="journal" /><span class="libelle">Guide</span><x-icone nom="fleche" /></a></li>
             <li><a class="liste-lien" href="{{ route('catalogue.index') }}"><x-icone nom="journal" /><span class="libelle">Catalogue de prestations</span><x-icone nom="fleche" /></a></li>
             @if (auth()->user()->estGerant())
                 <li><a class="liste-lien" href="{{ route('factures.index') }}"><x-icone nom="factures" /><span class="libelle">Factures</span><x-icone nom="fleche" /></a></li>

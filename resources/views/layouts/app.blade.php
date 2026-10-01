@@ -11,6 +11,9 @@
             <a href="@yield('parent')" class="retour" data-retour>‹ Retour</a>
         @endif
         <h1>@yield('titre')</h1>
+        @auth
+            <a class="bouton-aide" href="{{ route('guide', array_filter(['r' => \App\Support\Guide::rubriqueDeLaPage()])) }}{{ \App\Support\Guide::rubriqueDeLaPage() ? '#'.\App\Support\Guide::rubriqueDeLaPage() : '' }}" aria-label="Aide sur cette page">?</a>
+        @endauth
     </header>
 
     <main id="contenu" class="contenu" tabindex="-1">

@@ -32,7 +32,7 @@
                                     <button type="submit" class="bouton bouton-secondaire">Enregistrer</button>
                                 </form>
                                 <a class="bouton bouton-secondaire" href="{{ route('photos.annotation', $photo) }}">Dessiner sur la photo</a>
-                                @if ($photo->original)
+                                @if ($photo->chemin_original)
                                     <form method="post" action="{{ route('photos.retablir', $photo) }}">
                                         @csrf
                                         <button type="submit" class="bouton-lien">Remettre la photo d'origine</button>

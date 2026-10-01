@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Support\Reglages;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Cache;
 use Tests\TestCase;
 
 class ReglagesTest extends TestCase
@@ -50,5 +51,21 @@ class ReglagesTest extends TestCase
     public function test_valeur_par_defaut_pour_une_cle_inconnue(): void
     {
         $this->assertSame('x', reglage('cle.inconnue', 'x'));
+    }
+
+    public function test_valeurs_par_defaut_si_la_base_n_existe_pas_encore(): void
+    {
+        $avant = config('database.default');
+        config(['database.connections.absente' => ['driver' => 'sqlite', 'database' => '/chemin/inexistant/base.sqlite', 'prefix' => '']]);
+        config(['database.default' => 'absente']);
+        Cache::forget(Reglages::CLE_CACHE);
+
+        try {
+            $reglages = new Reglages;
+            $this->assertSame('', $reglages->get('identite.nom_commercial'));
+            $this->assertSame('DEV', $reglages->get('numerotation.devis_prefixe'));
+        } finally {
+            config(['database.default' => $avant]);
+        }
     }
 }

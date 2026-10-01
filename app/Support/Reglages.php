@@ -95,13 +95,18 @@ class Reglages
             return $this->valeurs;
         }
 
-        if (! Schema::hasTable('settings')) {
+        try {
+            if (! Schema::hasTable('settings')) {
+                return [];
+            }
+
+            return $this->valeurs = Cache::rememberForever(
+                self::CLE_CACHE,
+                fn () => Setting::query()->pluck('value', 'key')->all(),
+            );
+        } catch (\Throwable) {
+            // Base pas encore créée (installation en cours) : valeurs par défaut.
             return [];
         }
-
-        return $this->valeurs = Cache::rememberForever(
-            self::CLE_CACHE,
-            fn () => Setting::query()->pluck('value', 'key')->all(),
-        );
     }
 }

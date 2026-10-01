@@ -388,3 +388,36 @@ a { color: var(--couleur-principale); }
 @media (prefers-reduced-motion: reduce) {
     * { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
 }
+
+/* ---------- Réglages ---------- */
+.bloc { display: block; font-size: 0.85em; font-weight: 400; }
+.obligatoire { color: var(--texte-doux); font-weight: 400; font-size: 0.85em; }
+.champ input[type="url"], .champ input[type="tel"], .champ input[type="date"], .champ input[type="number"] {
+    width: 100%;
+    min-height: var(--hauteur-bouton);
+    padding: 10px 12px;
+    font: inherit;
+    color: var(--texte);
+    background: var(--fond-champ);
+    border: 2px solid var(--bordure);
+    border-radius: 10px;
+}
+.champ input[readonly] { background: var(--fond); color: var(--texte-doux); }
+.champ input[type="file"] { width: 100%; min-height: var(--hauteur-bouton); padding: 8px 0; font: inherit; color: var(--texte); }
+.champ textarea { resize: vertical; }
+.champ-couleur { width: 96px; height: var(--hauteur-bouton); padding: 4px; border: 2px solid var(--bordure); border-radius: 10px; background: var(--fond-champ); }
+.avec-suffixe { display: flex; align-items: center; gap: 8px; }
+.avec-suffixe input { flex: 1; }
+.suffixe { color: var(--texte-doux); white-space: nowrap; }
+.apercu-logo { max-width: 200px; max-height: 80px; background: #fff; padding: 4px; border-radius: 6px; }
+.apercu-icone { width: 64px; height: 64px; border-radius: 14px; }
+.badge-succes { background: var(--succes-fond); }
+.texte-danger { color: var(--danger); }
+.formulaire-supprimer { margin-top: 12px; }
+details.carte summary { cursor: pointer; min-height: 32px; }
+details.carte[open] summary { margin-bottom: 12px; }
+
+.apercu-titre { margin: 0 0 8px; font-weight: 700; }
+.apercu-entete { background: var(--couleur-principale); color: var(--couleur-principale-texte); padding: 10px 12px; border-radius: 8px; font-weight: 700; }
+.apercu-bouton { display: inline-block; margin-top: 12px; padding: 8px 16px; border-radius: 8px; background: var(--couleur-principale); color: var(--couleur-principale-texte); font-weight: 700; }
+.apercu-rond { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: var(--couleur-accent); color: var(--couleur-accent-texte); font-weight: 700; margin-left: 8px; }

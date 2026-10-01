@@ -3,7 +3,9 @@
 namespace App\Support;
 
 use App\Models\Setting;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Schema;
 
 /**
@@ -25,7 +27,45 @@ class Reglages
             return $valeurs[$cle];
         }
 
-        return config('entreprise.'.$cle, $defaut);
+        return config('entreprise.'.$cle, config('reglages.'.$cle, $defaut));
+    }
+
+    /**
+     * Enregistre un secret (mot de passe email, clé de paiement…) chiffré avec APP_KEY.
+     * Une valeur vide efface le secret.
+     */
+    public function setSecret(string $cle, ?string $valeur): void
+    {
+        if ($valeur === null || $valeur === '') {
+            $this->oublier($cle);
+
+            return;
+        }
+
+        $this->set($cle, ['chiffre' => Crypt::encryptString($valeur)]);
+    }
+
+    /**
+     * Lit un secret en clair, pour l'utiliser (jamais pour l'afficher).
+     */
+    public function getSecret(string $cle): ?string
+    {
+        $valeur = $this->tous()[$cle] ?? null;
+
+        if (! is_array($valeur) || ! isset($valeur['chiffre'])) {
+            return null;
+        }
+
+        try {
+            return Crypt::decryptString($valeur['chiffre']);
+        } catch (DecryptException) {
+            return null;
+        }
+    }
+
+    public function aSecret(string $cle): bool
+    {
+        return $this->getSecret($cle) !== null;
     }
 
     public function set(string $cle, mixed $valeur): void

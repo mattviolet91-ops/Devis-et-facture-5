@@ -38,6 +38,15 @@ class Demo extends Command
         'identite.siret' => '00000000000000',
         'identite.code_ape' => '4391B',
         'identite.tva_intracom' => '',
+        'identite.mediateur_nom' => 'Médiateur fictif de la consommation',
+        'tva.regime' => 'franchise',
+        'documents.iban' => 'FR7630006000011234567890189',
+        'documents.bic' => 'AGRIFRPP',
+        'documents.cgv' => "Article 1 — Objet\nLes présentes conditions générales (texte de démonstration) s'appliquent aux travaux réalisés par l'entreprise.\n\nArticle 2 — Devis\nLe devis est valable pendant la durée indiquée.",
+        'assurance.assureur' => 'Assureur fictif',
+        'assurance.numero_contrat' => 'DEMO-0000',
+        'assurance.activites' => "Couverture\nZinguerie\nCharpente (démonstration)",
+        'assurance.zone' => 'France métropolitaine',
     ];
 
     public function handle(Reglages $reglages): int
@@ -59,6 +68,13 @@ class Demo extends Command
                 $reglages->set($cle, $valeur);
             }
             $reglages->set('demo.active', true);
+            $reglages->set('tva.taux_defaut', 0);
+            $reglages->set('assurance.date_debut', now()->startOfYear()->toDateString());
+            $reglages->set('assurance.date_fin', now()->addDays(20)->toDateString());
+            $reglages->set('textes_types', [
+                ['titre' => 'Accès au chantier', 'texte' => 'Accès au toit par échafaudage installé par nos soins.'],
+                ['titre' => 'Météo', 'texte' => 'Les dates d\'intervention peuvent être décalées en cas de pluie ou de vent fort.'],
+            ]);
 
             foreach (['demo@exemple.test' => User::ROLE_GERANT, 'commercial@exemple.test' => User::ROLE_COMMERCIAL] as $email => $role) {
                 $motDePasse = Str::password(14, symbols: false);
@@ -80,6 +96,8 @@ class Demo extends Command
             );
             $gerant->notifyNow(new NouvelAppareil($gerant, $appareil), ['database']);
         });
+
+        $this->callSilently('app:alerte-assurance');
 
         $this->info('Données de démonstration installées (entreprise et comptes fictifs).');
         $this->line('Notez ces mots de passe : ils ne seront plus affichés.');

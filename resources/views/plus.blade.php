@@ -29,7 +29,7 @@
             <li><a class="liste-lien" href="{{ route('bientot', 'factures') }}"><x-icone nom="factures" /><span class="libelle">Factures</span><x-icone nom="fleche" /></a></li>
             <li><a class="liste-lien" href="{{ route('bientot', 'planning') }}"><x-icone nom="planning" /><span class="libelle">Planning</span><x-icone nom="fleche" /></a></li>
             @if (auth()->user()->estGerant())
-                <li><a class="liste-lien" href="{{ route('bientot', 'reglages') }}"><x-icone nom="reglages" /><span class="libelle">Réglages</span><x-icone nom="fleche" /></a></li>
+                <li><a class="liste-lien" href="{{ route('reglages') }}"><x-icone nom="reglages" /><span class="libelle">Réglages</span><x-icone nom="fleche" /></a></li>
                 <li><a class="liste-lien" href="{{ route('journal') }}"><x-icone nom="journal" /><span class="libelle">Journal d'activité</span><x-icone nom="fleche" /></a></li>
                 <li><a class="liste-lien" href="{{ route('corbeille') }}"><x-icone nom="corbeille" /><span class="libelle">Corbeille</span><x-icone nom="fleche" /></a></li>
             @endif

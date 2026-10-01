@@ -57,3 +57,7 @@ de passe `app_test`), créée seulement sur le poste de développement ou dans G
   appareil, mise en page mobile, thème clair/sombre, grands boutons, pages d'erreur,
   application installable, journal, corbeille, commande de création du gérant.
 - [x] Données de démonstration fictives (`app:demo`).
+- [x] Étape 2 — Réglages : entreprise (SIRET contrôlé), apparence (logo, icône, couleurs,
+  police), TVA (franchise / assujetti, n° intracommunautaire contrôlé), numérotation continue
+  sans trou, documents (IBAN/BIC contrôlés, déchets, CGV), assurance décennale (alerte avant
+  échéance), emails Gmail (mot de passe chiffré, email de test), modèles d'emails, textes types.

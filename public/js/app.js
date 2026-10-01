@@ -157,6 +157,36 @@
         });
     }
 
+    /* ----------------------------------------------------------------
+       Réglages → Apparence : aperçu en direct des couleurs.
+       ---------------------------------------------------------------- */
+    function luminance(hex) {
+        var canaux = [1, 3, 5].map(function (i) {
+            var c = parseInt(hex.substr(i, 2), 16) / 255;
+            return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+        });
+        return 0.2126 * canaux[0] + 0.7152 * canaux[1] + 0.0722 * canaux[2];
+    }
+
+    function texteSur(fond) {
+        var l = luminance(fond);
+        var blanc = 1.05 / (l + 0.05);
+        var fonce = (l + 0.05) / (luminance('#1b1d21') + 0.05);
+        return blanc >= fonce ? '#ffffff' : '#1b1d21';
+    }
+
+    var apercu = document.getElementById('apercu');
+    if (apercu) {
+        document.querySelectorAll('[data-apercu]').forEach(function (champ) {
+            var variable = champ.getAttribute('data-apercu') === 'apparence.couleur_accent' ? '--couleur-accent' : '--couleur-principale';
+            var appliquer = function () {
+                apercu.style.setProperty(variable, champ.value);
+                apercu.style.setProperty(variable + '-texte', texteSur(champ.value));
+            };
+            champ.addEventListener('input', appliquer);
+        });
+    }
+
     /* Réglages d'affichage : visibles seulement si le JavaScript fonctionne. */
     document.querySelectorAll('[data-si-js]').forEach(function (el) { el.hidden = false; });
     document.querySelectorAll('[data-sans-js]').forEach(function (el) { el.hidden = true; });

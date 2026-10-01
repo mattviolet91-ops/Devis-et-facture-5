@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Support\FichiersReglages;
 use Illuminate\Http\JsonResponse;
 use Illuminate\View\View;
 
@@ -27,7 +28,6 @@ class PagesController extends Controller
             'devis' => 'Devis',
             'factures' => 'Factures',
             'planning' => 'Planning',
-            'reglages' => 'Réglages',
         ];
 
         abort_unless(isset($titres[$rubrique]), 404);
@@ -48,8 +48,11 @@ class PagesController extends Controller
             'display' => 'standalone',
             'orientation' => 'portrait',
             'background_color' => '#ffffff',
-            'theme_color' => '#1f4e79',
-            'icons' => [
+            'theme_color' => (string) reglage('apparence.couleur_principale'),
+            'icons' => FichiersReglages::aIcone() ? [
+                ['src' => '/fichiers/icone-192.png', 'sizes' => '192x192', 'type' => 'image/png'],
+                ['src' => '/fichiers/icone-512.png', 'sizes' => '512x512', 'type' => 'image/png'],
+            ] : [
                 ['src' => '/icons/icone-192.png', 'sizes' => '192x192', 'type' => 'image/png'],
                 ['src' => '/icons/icone-512.png', 'sizes' => '512x512', 'type' => 'image/png'],
                 ['src' => '/icons/icone-maskable-512.png', 'sizes' => '512x512', 'type' => 'image/png', 'purpose' => 'maskable'],

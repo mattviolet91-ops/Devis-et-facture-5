@@ -4,11 +4,10 @@ namespace App\Services;
 
 use App\Models\User;
 use App\Notifications\NouvelAppareil;
+use App\Support\Alertes;
 use App\Support\Journal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
 
 /**
@@ -56,12 +55,8 @@ class DetecteurAppareil
 
         $destinataires = User::gerantsActifs()->get()->push($user)->unique('id');
 
-        try {
-            Notification::send($destinataires, new NouvelAppareil($user, $appareil));
-        } catch (\Throwable $e) {
-            // L'alerte ne doit jamais empêcher la connexion.
-            Log::warning('Alerte nouvel appareil non envoyée : '.$e->getMessage());
-        }
+        // L'alerte ne doit jamais empêcher la connexion.
+        Alertes::envoyer($destinataires, new NouvelAppareil($user, $appareil));
     }
 
     public static function libelle(string $userAgent): string

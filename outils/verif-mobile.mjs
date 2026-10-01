@@ -84,6 +84,30 @@ for (const theme of ['light', 'dark']) {
     const contour = await page.evaluate(() => getComputedStyle(document.activeElement).outlineStyle);
     verifier(contour !== 'none', `[${theme}] focus invisible`);
 
+    // Réglages (gérant) : liste et formulaires.
+    await page.goto(`${base}/reglages`);
+    await capture('reglages');
+    for (const section of ['entreprise', 'apparence', 'tva', 'numerotation', 'documents', 'assurance', 'emails', 'modeles']) {
+        await page.goto(`${base}/reglages/${section}`);
+        await capture(`reglages-${section}`);
+    }
+    await page.goto(`${base}/reglages/apparence`);
+    await page.fill('[data-apercu="apparence.couleur_principale"]', '#2a9d8f');
+    const apercu = await page.$eval('#apercu', (e) => e.style.getPropertyValue('--couleur-principale'));
+    verifier(apercu === '#2a9d8f', `[${theme}] aperçu des couleurs inactif`);
+    await page.goto(`${base}/reglages`);
+    await page.click('a[href$="/reglages/entreprise"]');
+    await page.waitForURL('**/reglages/entreprise');
+    await page.fill('[name="identite__siret"]', '12345678901234');
+    await page.click('form.carte button[type=submit]');
+    await page.waitForLoadState();
+    verifier(await page.locator('.erreur-champ').count() > 0, `[${theme}] erreur SIRET non affichée`);
+    await capture('reglages-erreur');
+    await page.click('[data-retour]');
+    await page.waitForURL('**/reglages');
+    await page.goto(`${base}/reglages/textes-types`);
+    await capture('reglages-textes');
+
     await page.goto(`${base}/page-inexistante`);
     await capture('erreur-404');
 

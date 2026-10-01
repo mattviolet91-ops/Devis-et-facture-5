@@ -1,0 +1,39 @@
+@extends('layouts.app')
+
+@section('titre', 'Réglages')
+@section('parent', route('plus'))
+
+@section('contenu')
+    <nav class="carte" aria-label="Rubriques des réglages">
+        <ul class="liste">
+            @foreach ($sections as $cle => $section)
+                <li>
+                    <a class="liste-lien" href="{{ route('reglages.edit', $cle) }}">
+                        <x-icone :nom="$section['icone']" />
+                        <span class="libelle">{{ $section['titre'] }}<small class="texte-doux bloc">{{ $section['description'] }}</small></span>
+                        <x-icone nom="fleche" />
+                    </a>
+                </li>
+            @endforeach
+            <li>
+                <a class="liste-lien" href="{{ route('reglages.textes') }}">
+                    <x-icone nom="journal" />
+                    <span class="libelle">Textes types<small class="texte-doux bloc">Phrases toutes prêtes pour vos devis et emails.</small></span>
+                    <x-icone nom="fleche" />
+                </a>
+            </li>
+            <li>
+                <a class="liste-lien" href="{{ route('journal') }}">
+                    <x-icone nom="journal" />
+                    <span class="libelle">Journal d'activité<small class="texte-doux bloc">Qui a fait quoi, et quand.</small></span>
+                    <x-icone nom="fleche" />
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="carte">
+        <h2>Sauvegardes</h2>
+        <p class="texte-doux">Les sauvegardes automatiques (base chaque jour, fichiers chaque mois) arrivent dans une prochaine étape.</p>
+    </div>
+@endsection

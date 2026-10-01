@@ -10,6 +10,7 @@ use App\Models\Photo;
 use App\Models\Rapport;
 use App\Models\RendezVous;
 use App\Models\User;
+use App\Models\VisiteSite;
 use App\Services\DevisExpress;
 use App\Services\Encaissements;
 use App\Services\GestionDevis;
@@ -318,5 +319,38 @@ class DonneesDemo
             'message' => 'Devis pour remplacement de gouttières, maison de plain-pied. (exemple)', 'message_id' => 'demo-1@exemple.test', 'recue_at' => now()->subDay()]);
 
         return 2;
+    }
+
+    /**
+     * Visites fictives du site (30 jours) et un frais sur une facture, pour montrer les statistiques.
+     */
+    public static function installerStatistiques(User $auteur): void
+    {
+        if (! VisiteSite::exists()) {
+            $sources = ['Google', 'Google', 'Accès direct', 'Facebook', 'Pages Jaunes'];
+            $pages = ['/', '/couverture', '/zinguerie', '/contact', '/realisations'];
+            $appareils = ['Téléphone', 'Téléphone', 'Ordinateur', 'Tablette'];
+            $lignes = [];
+            for ($j = 29; $j >= 0; $j--) {
+                $jour = today()->subDays($j)->toDateString();
+                $nombre = 3 + (($j * 7) % 9);
+                for ($v = 0; $v < $nombre; $v++) {
+                    $empreinte = substr(hash('sha256', 'demo'.$jour.$v), 0, 16);
+                    $lignes[] = ['jour' => $jour, 'empreinte' => $empreinte, 'evenement' => 'vue', 'page' => $pages[($v + $j) % 5], 'source' => $sources[($v * 3 + $j) % 5], 'appareil' => $appareils[($v + $j) % 4], 'created_at' => now()];
+                    if (($v + $j) % 6 === 0) {
+                        $lignes[] = ['jour' => $jour, 'empreinte' => $empreinte, 'evenement' => ['appeler', 'devis', 'email', 'whatsapp'][($v + $j) % 4], 'page' => '/contact', 'source' => null, 'appareil' => $appareils[($v + $j) % 4], 'created_at' => now()];
+                    }
+                }
+            }
+            foreach (array_chunk($lignes, 200) as $paquet) {
+                VisiteSite::insert($paquet);
+            }
+        }
+
+        $facture = Facture::where('type', '!=', Facture::AVOIR)->whereNotNull('numero')->oldest('id')->first();
+        if ($facture && ! $facture->frais()->exists()) {
+            $facture->frais()->create(['libelle' => 'Tuiles et crochets (exemple)', 'categorie' => 'materiaux', 'montant_ttc' => 38650, 'date_frais' => today()->subDays(3), 'user_id' => $auteur->id]);
+            $facture->frais()->create(['libelle' => 'Location échafaudage (exemple)', 'categorie' => 'location', 'montant_ttc' => 42000, 'date_frais' => today()->subDays(2), 'user_id' => $auteur->id]);
+        }
     }
 }

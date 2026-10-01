@@ -1,11 +1,15 @@
 @php
+    $boutons = \App\Support\Personnalisation::boutons(auth()->user());
+    $choix = fn (string $cle) => \App\Support\Personnalisation::BOUTONS[$cle];
     $onglets = [
-        ['route' => 'accueil', 'url' => route('accueil'), 'libelle' => 'Accueil', 'icone' => 'accueil', 'actif' => request()->routeIs('accueil')],
-        ['route' => 'clients', 'url' => route('clients.index'), 'libelle' => 'Clients', 'icone' => 'clients', 'actif' => request()->routeIs('clients.*', 'chantiers.*')],
+        ['route' => 'accueil', 'url' => route('accueil'), 'libelle' => 'Accueil', 'icone' => 'accueil', 'actif' => request()->routeIs('accueil*')],
+        ['route' => $boutons[0], 'url' => route($choix($boutons[0])['route']), 'libelle' => $choix($boutons[0])['libelle'], 'icone' => $choix($boutons[0])['icone'], 'actif' => request()->routeIs(...$choix($boutons[0])['actif'])],
         ['route' => 'nouveau', 'url' => route('nouveau'), 'libelle' => 'Nouveau', 'icone' => 'plus', 'actif' => request()->routeIs('nouveau')],
-        ['route' => 'devis', 'url' => route('devis.index'), 'libelle' => 'Devis', 'icone' => 'devis', 'actif' => request()->routeIs('devis.*')],
-        ['route' => 'plus', 'url' => route('plus'), 'libelle' => 'Plus', 'icone' => 'menu', 'actif' => request()->routeIs('plus', 'journal', 'corbeille', 'reglages*', 'catalogue.*', 'factures.*', 'planning.*', 'suivi*')],
+        ['route' => $boutons[1], 'url' => route($choix($boutons[1])['route']), 'libelle' => $choix($boutons[1])['libelle'], 'icone' => $choix($boutons[1])['icone'], 'actif' => request()->routeIs(...$choix($boutons[1])['actif'])],
+        ['route' => 'plus', 'url' => route('plus'), 'libelle' => 'Plus', 'icone' => 'menu', 'actif' => false],
     ];
+    $dejaActif = collect($onglets)->contains('actif', true);
+    $onglets[4]['actif'] = ! $dejaActif && ! request()->routeIs('nouveau');
 @endphp
 <nav class="barre-bas" aria-label="Menu principal">
     @foreach ($onglets as $onglet)

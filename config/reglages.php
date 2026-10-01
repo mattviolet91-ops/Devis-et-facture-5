@@ -102,6 +102,11 @@ return [
         'imap_filtre' => 'WordPress',  // mot cherché dans l'expéditeur ou l'objet
     ],
 
+    'site' => [
+        'compteur_actif' => false,     // compteur de visites (balise s.js sur le site)
+        'jetpack_client_id' => '',     // application WordPress.com (statistiques Jetpack)
+    ],
+
     'textes_types' => [],
 
     'clients' => [

@@ -140,7 +140,7 @@ for (const theme of ['light', 'dark']) {
     await page.waitForURL('**/devis');
     await capture('devis');
     await page.goto(`${base}/devis?statut=brouillon`);
-    await page.click('ul.liste.carte a >> nth=0');
+    await page.click('ul.liste.carte a.liste-lien >> nth=0');
     await page.waitForURL(/\/devis\/\d+$/);
     await capture('devis-fiche');
     await page.click('.actions-devis a[href$="/modifier"]');
@@ -181,7 +181,7 @@ for (const theme of ['light', 'dark']) {
 
     // Visionneuse PDF (pdf.js, sans appel extérieur).
     await page.goto(`${base}/devis?statut=accepte`);
-    await page.click('ul.liste.carte a >> nth=0');
+    await page.click('ul.liste.carte a.liste-lien >> nth=0');
     await page.waitForURL(/\/devis\/\d+$/);
     await page.click('a:has-text("Voir le PDF")');
     await page.waitForFunction(() => document.querySelectorAll('canvas.page-pdf').length >= 2, null, { timeout: 20000 }).catch(() => {});
@@ -192,7 +192,7 @@ for (const theme of ['light', 'dark']) {
 
     // Envoi par email d'un devis.
     await page.goto(`${base}/devis?statut=envoye`);
-    await page.click('ul.liste.carte a >> nth=0');
+    await page.click('ul.liste.carte a.liste-lien >> nth=0');
     await page.waitForURL(/\/devis\/\d+$/);
     await page.click('a:has-text("Renvoyer par email")');
     await page.waitForURL(/\/envoyer\/devis\/\d+$/);
@@ -202,7 +202,7 @@ for (const theme of ['light', 'dark']) {
     await page.goto(`${base}/factures`);
     await capture('factures');
     await page.goto(`${base}/factures?filtre=retard`);
-    await page.click('ul.liste.carte a >> nth=0');
+    await page.click('ul.liste.carte a.liste-lien >> nth=0');
     await page.waitForURL(/\/factures\/\d+$/);
     await capture('facture-fiche');
 
@@ -247,6 +247,19 @@ for (const theme of ['light', 'dark']) {
     const piege = await page.locator('#site_web').boundingBox();
     verifier(piege && piege.x + piege.width <= 0, `[${theme}] le champ piège est visible`);
     await capture('demande-publique');
+
+    // Accueil personnalisable, statistiques, frais.
+    await page.goto(`${base}/accueil/personnaliser`);
+    await capture('accueil-personnaliser');
+    await page.goto(`${base}/statistiques`);
+    await capture('statistiques');
+    await page.goto(`${base}/statistiques/site`);
+    await capture('statistiques-site');
+    await page.goto(`${base}/factures?filtre=retard`);
+    await page.click('[data-glisser] a.contenu-glisser >> nth=0');
+    await page.waitForURL(/\/factures\/\d+$/);
+    verifier(await page.locator('.barre-etape').count() === 1, `[${theme}] barre d'actions absente sur la facture`);
+    await capture('facture-frais');
 
     await page.goto(`${base}/page-inexistante`);
     await capture('erreur-404');

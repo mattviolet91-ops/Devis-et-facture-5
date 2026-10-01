@@ -48,7 +48,13 @@ class User extends Authenticatable
             'last_login_at' => 'datetime',
             'is_active' => 'boolean',
             'password' => 'hashed',
+            'preferences' => 'array',
         ];
+    }
+
+    public function preference(string $cle, mixed $defaut = null): mixed
+    {
+        return data_get($this->preferences, $cle, $defaut);
     }
 
     public function estGerant(): bool

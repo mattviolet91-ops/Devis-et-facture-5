@@ -30,8 +30,12 @@
     @else
         <ul class="liste carte">
             @foreach ($factures as $f)
-                <li>
-                    <a class="liste-lien" href="{{ route('factures.show', $f) }}">
+                @php($encaisser = ! $f->estAvoir() && $f->statut === 'emise' && $f->resteAPayer() > 0)
+                <li @if ($encaisser) data-glisser @endif>
+                    @if ($encaisser)
+                        <span class="action-glisser"><a href="{{ route('factures.show', $f) }}#encaisser" tabindex="-1">Encaisser<span class="visuellement-cache"> {{ $f->reference() }}</span></a></span>
+                    @endif
+                    <a class="liste-lien contenu-glisser" href="{{ route('factures.show', $f) }}">
                         <span class="libelle">
                             <strong>{{ $f->client->nomComplet() }}</strong>
                             <span @class(['badge', 'statut-'.$f->statut, 'en-retard' => $f->estEnRetard()])>{{ $f->libelleStatut() }}</span>

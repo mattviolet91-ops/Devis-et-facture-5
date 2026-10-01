@@ -22,7 +22,7 @@ class AdresseClient
     public function handle(Request $request, Closure $next): Response
     {
         // Appliqué avant tout le reste (y compris la connexion) : seules les adresses clients passent.
-        if (self::estAdresseClient($request) && ! preg_match('#^(c/[A-Za-z0-9]+(/.*)?|demande(/merci)?|theme\.css|fichiers/logo|paiement/mypos/notification|css/.+|js/.+|icons/.+|vendor/.+|robots\.txt|up)$#', $request->path())) {
+        if (self::estAdresseClient($request) && ! preg_match('#^(c/[A-Za-z0-9]+(/.*)?|demande(/merci)?|s\.js|s|theme\.css|fichiers/logo|paiement/mypos/notification|css/.+|js/.+|icons/.+|vendor/.+|robots\.txt|up)$#', $request->path())) {
             abort(404);
         }
 

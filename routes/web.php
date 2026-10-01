@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\MotDePasseOublieController;
 use App\Http\Controllers\Auth\NouveauMotDePasseController;
 use App\Http\Controllers\ChantierController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\CompteurSiteController;
 use App\Http\Controllers\ConfigurationController;
 use App\Http\Controllers\CorbeilleController;
 use App\Http\Controllers\DemandePubliqueController;
@@ -15,6 +16,7 @@ use App\Http\Controllers\EnvoiController;
 use App\Http\Controllers\EspaceClientController;
 use App\Http\Controllers\FactureController;
 use App\Http\Controllers\FichiersController;
+use App\Http\Controllers\FraisController;
 use App\Http\Controllers\ImportClientsController;
 use App\Http\Controllers\JournalController;
 use App\Http\Controllers\NoteClientController;
@@ -29,6 +31,8 @@ use App\Http\Controllers\PrestationController;
 use App\Http\Controllers\RapportController;
 use App\Http\Controllers\ReglagesController;
 use App\Http\Controllers\SignatureSurPlaceController;
+use App\Http\Controllers\StatistiquesController;
+use App\Http\Controllers\StatistiquesSiteController;
 use App\Http\Controllers\SuiviController;
 use App\Http\Controllers\TextesTypesController;
 use App\Http\Controllers\VisionneuseController;
@@ -51,6 +55,10 @@ Route::withoutMiddleware([
     Route::get('/theme.css', [FichiersController::class, 'theme'])->name('theme');
     Route::get('/fichiers/logo', [FichiersController::class, 'logo'])->name('fichiers.logo');
     Route::get('/fichiers/icone-{taille}.png', [FichiersController::class, 'icone'])->whereNumber('taille')->name('fichiers.icone');
+
+    // Compteur du site internet de l'entreprise (balise à coller sur le site).
+    Route::get('/s.js', [CompteurSiteController::class, 'script'])->name('compteur.script');
+    Route::post('/s', [CompteurSiteController::class, 'collecter'])->middleware('throttle:120,1')->name('compteur.collecter');
 });
 
 // Pages clients (lien personnel, sans compte), aussi sur l'adresse réservée aux clients.
@@ -96,6 +104,8 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::redirect('/', '/accueil');
     Route::get('/accueil', [AccueilController::class, 'index'])->name('accueil');
+    Route::get('/accueil/personnaliser', [AccueilController::class, 'personnaliser'])->name('accueil.personnaliser');
+    Route::post('/accueil/personnaliser', [AccueilController::class, 'enregistrer'])->name('accueil.enregistrer');
     Route::post('/alertes/{id}/lue', [AccueilController::class, 'lireAlerte'])->name('alertes.lue');
     Route::post('/deconnexion', [ConnexionController::class, 'destroy'])->name('logout');
 
@@ -237,6 +247,13 @@ Route::middleware('auth')->group(function () {
         Route::get('/factures', [FactureController::class, 'index'])->name('factures.index');
         Route::get('/factures/nouvelle', [FactureController::class, 'create'])->name('factures.create');
         Route::post('/factures', [FactureController::class, 'store'])->name('factures.store');
+        Route::get('/frais/{frais}/ticket', [FraisController::class, 'ticket'])->whereNumber('frais')->name('frais.ticket');
+        Route::delete('/frais/{frais}', [FraisController::class, 'destroy'])->whereNumber('frais')->name('frais.destroy');
+        Route::get('/statistiques', [StatistiquesController::class, 'index'])->name('statistiques');
+        Route::get('/statistiques/site', [StatistiquesSiteController::class, 'index'])->name('statistiques.site');
+        Route::post('/statistiques/site/jetpack', [StatistiquesSiteController::class, 'connecter'])->name('statistiques.jetpack.connecter');
+        Route::get('/statistiques/site/jetpack/retour', [StatistiquesSiteController::class, 'retour'])->name('statistiques.jetpack.retour');
+        Route::post('/statistiques/site/jetpack/deconnecter', [StatistiquesSiteController::class, 'deconnecter'])->name('statistiques.jetpack.deconnecter');
         Route::post('/paiements/{paiement}/annuler', [PaiementController::class, 'annuler'])->whereNumber('paiement')->name('paiements.annuler');
         Route::post('/devis/{devis}/facturer', [FactureController::class, 'depuisDevis'])->whereNumber('devis')->name('factures.depuis-devis');
         Route::prefix('/factures/{facture}')->whereNumber('facture')->group(function () {
@@ -250,6 +267,7 @@ Route::middleware('auth')->group(function () {
             Route::post('/lien', [FactureController::class, 'lien'])->name('factures.lien');
             Route::get('/pdf', [FactureController::class, 'pdf'])->name('factures.pdf');
             Route::post('/paiements', [PaiementController::class, 'store'])->name('paiements.store');
+            Route::post('/frais', [FraisController::class, 'store'])->middleware('throttle:30,1')->name('frais.store');
             Route::post('/paiement-essai', [PaiementEnLigneController::class, 'essai'])->name('paiements.essai');
         });
     });

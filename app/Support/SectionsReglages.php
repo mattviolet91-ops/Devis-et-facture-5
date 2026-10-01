@@ -167,6 +167,17 @@ class SectionsReglages
                 ],
             ],
 
+            'site' => [
+                'titre' => 'Site internet',
+                'description' => 'Compteur de visites et statistiques Jetpack.',
+                'icone' => 'journal',
+                'champs' => [
+                    ['cle' => 'site.compteur_actif', 'libelle' => 'Compter les visites de mon site (balise à coller sur le site)', 'type' => 'case', 'aide' => 'Aucun cookie, aucune adresse IP enregistrée. L\'adresse du site se règle dans Entreprise → Site internet.'],
+                    ['cle' => 'site.jetpack_client_id', 'libelle' => 'Jetpack : identifiant de l\'application (Client ID)', 'type' => 'texte', 'regles' => ['max:20', 'regex:/^\d*$/'], 'aide' => 'Seulement si le site est sur WordPress.com. À créer sur developer.wordpress.com/apps.'],
+                    ['cle' => 'site.jetpack_client_secret', 'libelle' => 'Jetpack : clé secrète de l\'application (Client Secret)', 'type' => 'secret', 'regles' => ['max:120'], 'aide' => 'Enregistrée chiffrée, jamais réaffichée.'],
+                ],
+            ],
+
             'paiement' => [
                 'titre' => 'Paiement en ligne',
                 'description' => 'Paiement par carte avec myPOS Checkout.',

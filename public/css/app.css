@@ -586,3 +586,45 @@ details.carte[open] summary { margin-bottom: 12px; }
 .piege { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
 .zone-annotation { margin: 0 0 12px; }
 .zone-annotation canvas { width: 100%; height: auto; display: block; border-radius: 8px; touch-action: none; background: var(--bordure); }
+
+/* Accueil */
+.chiffres-cles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 0 0 12px; }
+.chiffres-cles > div { background: var(--fond); border-radius: 10px; padding: 10px; }
+.chiffres-cles dt { font-size: 0.85rem; color: var(--texte-doux); }
+.chiffres-cles dd { margin: 4px 0 0; font-weight: 800; font-size: 1.1rem; color: var(--couleur-principale); overflow-wrap: anywhere; }
+.rdv-jour { padding: 10px 0; }
+.rdv-jour > a { color: inherit; text-decoration: none; display: block; }
+.rdv-jour .ligne-boutons { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+.astuce { border-left: 4px solid var(--couleur-accent, var(--couleur-principale)); }
+#titre-aujourdhui small { font-weight: 400; font-size: 0.85rem; }
+.ligne-boutons { display: flex; gap: 8px; flex-wrap: wrap; }
+
+/* Statistiques */
+.graphe-mois { width: 100%; height: auto; display: block; }
+.barre-graphe { fill: var(--couleur-principale); }
+.texte-graphe { fill: var(--texte-doux); font-size: 10px; }
+.graphe-barre { width: 100%; height: 10px; display: block; margin: 6px 0 4px; background: var(--fond); border-radius: 4px; }
+.stat-ligne { padding: 10px 0; }
+
+/* Barre d'actions de l'étape (devis, factures) */
+.barre-etape {
+    position: fixed; left: 0; right: 0; bottom: calc(var(--barre-bas) + env(safe-area-inset-bottom));
+    z-index: 20; display: flex; gap: 8px; padding: 8px 16px; background: var(--fond-carte);
+    border-top: 1px solid var(--bordure); box-shadow: 0 -4px 12px rgb(0 0 0 / 0.08);
+}
+.barre-etape > a, .barre-etape > form { flex: 1 1 0; min-width: 0; }
+.barre-etape .bouton { width: 100%; padding-left: 6px; padding-right: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.espace-barre-etape { height: 76px; }
+@media (min-width: 1024px) { .barre-etape { left: 240px; bottom: 0; } }
+
+/* Glisser une ligne vers la gauche : action rapide */
+[data-glisser] { position: relative; overflow: hidden; }
+[data-glisser] .contenu-glisser { position: relative; z-index: 1; background: var(--fond-carte); transition: transform 0.2s ease; }
+[data-glisser] .action-glisser { position: absolute; top: 0; right: 0; bottom: 0; width: 110px; display: flex; }
+[data-glisser] .action-glisser > *, [data-glisser] .action-glisser button { flex: 1; display: flex; align-items: center; justify-content: center; border: 0; margin: 0;
+    background: var(--couleur-principale); color: #fff; font: inherit; font-weight: 700; text-decoration: none; cursor: pointer; }
+[data-glisser] .action-glisser form { display: flex; }
+[data-glisser].ouvert .contenu-glisser { transform: translateX(-110px); }
+@media (hover: hover) and (pointer: fine) {
+    [data-glisser]:hover .contenu-glisser { transform: translateX(-110px); }
+}

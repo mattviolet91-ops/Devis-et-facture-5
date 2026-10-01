@@ -82,7 +82,7 @@ class PlanningTest extends TestCase
 
         // Visible chacun des trois jours de la semaine.
         $page = $this->get(route('planning.index'))->getContent();
-        $this->assertSame(3, substr_count($page, 'Réfection'));
+        $this->assertSame(3, substr_count($page, 'Du 07/10 au 09/10'));
 
         $this->post(route('planning.store'), ['type' => 'rdv', 'titre' => 'X', 'date_debut' => '2026-10-09', 'date_fin' => '2026-10-08', 'heure_debut' => '10:00', 'heure_fin' => '09:00'])
             ->assertSessionHasErrors('date_fin');

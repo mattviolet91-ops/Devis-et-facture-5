@@ -40,7 +40,7 @@ class Demo extends Command
         'identite.ville' => 'Ville-Démo',
         'identite.telephone' => '01 00 00 00 00',
         'identite.email' => 'contact@couverture-demo.test',
-        'identite.site' => '',
+        'identite.site' => 'https://www.couverture-demo.test',
         'identite.siret' => '00000000000000',
         'identite.code_ape' => '4391B',
         'identite.tva_intracom' => '',
@@ -111,6 +111,8 @@ class Demo extends Command
             Devis::where('statut', 'envoye')->oldest('id')->first()
                 ?->forceFill(['envoye_at' => now()->subDays(9), 'date_devis' => now()->subDays(9), 'relances' => 1, 'derniere_relance_at' => now()->subDays(2)])->save();
             $reglages->set('suivi.formulaire_actif', true);
+            $reglages->set('site.compteur_actif', true);
+            DonneesDemo::installerStatistiques($gerant);
             Prestation::where('nom', 'Échafaudage')->update(['description' => 'Montage, location et démontage (prix d\'exemple).']);
             $appareil = Appareil::firstOrCreate(
                 ['user_id' => $gerant->id, 'empreinte' => hash('sha256', 'demo-tablette')],

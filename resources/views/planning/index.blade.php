@@ -61,8 +61,12 @@
                     <ul class="liste">
                         @foreach ($jour['rdv'] as $rdv)
                             @php($prevision = ($previsions[$rdv->id] ?? collect())->get($cle))
-                            <li>
-                                <a class="liste-lien" href="{{ route('planning.show', $rdv) }}">
+                            <li data-glisser>
+                                <form method="post" action="{{ route('planning.fait', $rdv) }}" class="action-glisser">
+                                    @csrf
+                                    <button type="submit" tabindex="-1">{{ $rdv->fait ? 'À faire' : 'Fait' }}<span class="visuellement-cache"> : {{ $rdv->titre }}</span></button>
+                                </form>
+                                <a class="liste-lien contenu-glisser" href="{{ route('planning.show', $rdv) }}">
                                     <span class="libelle">
                                         <strong @class(['barre' => $rdv->fait])>{{ $rdv->titre }}</strong>
                                         <span @class(['badge', 'badge-succes' => $rdv->estChantier()])>{{ $rdv->estChantier() ? 'Chantier' : 'Rendez-vous' }}</span>

@@ -238,6 +238,36 @@
         });
     });
 
+    /* Listes : glisser une ligne vers la gauche pour montrer l'action rapide. */
+    document.querySelectorAll('[data-glisser]').forEach(function (ligne) {
+        var contenu = ligne.querySelector('.contenu-glisser');
+        if (!contenu) { return; }
+        var depart = null;
+        var ecart = 0;
+
+        ligne.addEventListener('touchstart', function (e) {
+            depart = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+            ecart = 0;
+        }, { passive: true });
+        ligne.addEventListener('touchmove', function (e) {
+            if (!depart) { return; }
+            var dx = e.touches[0].clientX - depart.x;
+            var dy = e.touches[0].clientY - depart.y;
+            if (Math.abs(dy) > Math.abs(dx)) { return; }
+            ecart = Math.max(-120, Math.min(0, dx + (ligne.classList.contains('ouvert') ? -110 : 0)));
+            contenu.style.transform = 'translateX(' + ecart + 'px)';
+        }, { passive: true });
+        ligne.addEventListener('touchend', function () {
+            if (!depart) { return; }
+            depart = null;
+            contenu.style.transform = '';
+            ligne.classList.toggle('ouvert', ecart < -50);
+            document.querySelectorAll('[data-glisser].ouvert').forEach(function (autre) {
+                if (autre !== ligne) { autre.classList.remove('ouvert'); }
+            });
+        });
+    });
+
         /* Réglages d'affichage : visibles seulement si le JavaScript fonctionne. */
     document.querySelectorAll('[data-si-js]').forEach(function (el) { el.hidden = false; });
     document.querySelectorAll('[data-sans-js]').forEach(function (el) { el.hidden = true; });

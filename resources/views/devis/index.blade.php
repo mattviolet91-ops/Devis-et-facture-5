@@ -26,8 +26,11 @@
     @else
         <ul class="liste carte">
             @foreach ($devis as $d)
-                <li>
-                    <a class="liste-lien" href="{{ route('devis.show', $d) }}">
+                <li @if ($d->peutEtreSigne()) data-glisser @endif>
+                    @if ($d->peutEtreSigne())
+                        <span class="action-glisser"><a href="{{ route('envoi.create', ['devis', $d->id, 'modele' => 'relance_devis']) }}" tabindex="-1">Relancer<span class="visuellement-cache"> {{ $d->reference() }}</span></a></span>
+                    @endif
+                    <a class="liste-lien contenu-glisser" href="{{ route('devis.show', $d) }}">
                         <span class="libelle">
                             <strong>{{ $d->client->nomComplet() }}</strong>
                             <span @class(['badge', 'statut-'.$d->statut])>{{ $d->libelleStatut() }}</span>

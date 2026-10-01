@@ -201,6 +201,59 @@
         </section>
     @endif
 
+    @if (! $facture->estAvoir() && $facture->statut !== 'brouillon')
+        @php
+            $totalFrais = (int) $facture->frais->sum('montant_ttc');
+            $factureNet = $facture->total_ttc - $facture->totalAvoirs();
+        @endphp
+        <section class="carte" id="frais" aria-labelledby="titre-frais">
+            <h2 id="titre-frais">Frais du chantier</h2>
+            <p class="aide">Visible par vous seul. Notez les achats et locations pour savoir ce qu'il vous reste.</p>
+            @if ($facture->frais->isNotEmpty())
+                <ul class="liste">
+                    @foreach ($facture->frais as $f)
+                        <li class="ligne">
+                            <div>
+                                <strong>{{ \App\Support\Montant::formater($f->montant_ttc) }}</strong> · {{ $f->libelle }}
+                                <small>{{ $f->date_frais->format('d/m/Y') }} · {{ $f->libelleCategorie() }}@if ($f->justificatif) · <a href="{{ route('frais.ticket', $f) }}" target="_blank" rel="noopener">Ticket</a>@endif</small>
+                            </div>
+                            <form method="post" action="{{ route('frais.destroy', $f) }}">
+                                @csrf
+                                @method('delete')
+                                <button type="submit" class="bouton-lien texte-danger" data-confirmer="Supprimer ce frais ?">Supprimer<span class="visuellement-cache"> {{ $f->libelle }}</span></button>
+                            </form>
+                        </li>
+                    @endforeach
+                </ul>
+            @endif
+            <dl class="chiffres-cles">
+                <div><dt>Facturé (TTC)</dt><dd>{{ \App\Support\Montant::formater($factureNet) }}</dd></div>
+                <div><dt>Frais (TTC)</dt><dd>{{ \App\Support\Montant::formater($totalFrais) }}</dd></div>
+                <div><dt>Il vous reste</dt><dd @class(['texte-danger' => $factureNet - $totalFrais < 0])>{{ \App\Support\Montant::formater($factureNet - $totalFrais) }}</dd></div>
+            </dl>
+            <details>
+                <summary class="bouton bouton-secondaire bouton-large">Ajouter un frais</summary>
+                <form method="post" action="{{ route('frais.store', $facture) }}" enctype="multipart/form-data" novalidate>
+                    @csrf
+                    <x-champ nom="libelle" libelle="Libellé" aide="Par exemple : tuiles, location nacelle." />
+                    <x-champ-liste nom="categorie" libelle="Catégorie" :options="\App\Models\Frais::CATEGORIES" :vide="false" />
+                    <div class="grille-2">
+                        <x-champ nom="montant_frais" libelle="Montant TTC (€)" inputmode="decimal" />
+                        <x-champ nom="date_frais" libelle="Date" type="date" :valeur="now()->toDateString()" />
+                    </div>
+                    <div class="champ">
+                        <label for="ticket">Photo du ticket (facultatif)</label>
+                        <input type="file" id="ticket" name="ticket" accept="image/jpeg,image/png,image/webp,application/pdf" capture="environment">
+                        @error('ticket')
+                            <p class="erreur-champ">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <button type="submit" class="bouton bouton-large">Ajouter le frais</button>
+                </form>
+            </details>
+        </section>
+    @endif
+
     @if ($emails->isNotEmpty())
         <section class="carte">
             <h2>Emails envoyés</h2>
@@ -211,4 +264,6 @@
             </ul>
         </section>
     @endif
+
+    @include('_barre-etape', ['actions' => \App\Support\BarreEtape::facture($facture, auth()->user())])
 @endsection

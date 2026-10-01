@@ -219,4 +219,6 @@
             </form>
         @endif
     </section>
+
+    @include('_barre-etape', ['actions' => \App\Support\BarreEtape::devis($devis, auth()->user())])
 @endsection

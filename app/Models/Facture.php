@@ -106,6 +106,11 @@ class Facture extends Model
         return $this->hasMany(LigneFacture::class)->orderBy('position');
     }
 
+    public function frais(): HasMany
+    {
+        return $this->hasMany(Frais::class)->orderBy('date_frais')->orderBy('id');
+    }
+
     public function paiements(): HasMany
     {
         return $this->hasMany(Paiement::class)->orderBy('date_paiement')->orderBy('id');

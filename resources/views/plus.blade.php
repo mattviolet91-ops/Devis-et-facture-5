@@ -37,6 +37,7 @@
             <li><a class="liste-lien" href="{{ route('suivi') }}"><x-icone nom="cloche" /><span class="libelle">Suivi commercial</span><x-icone nom="fleche" /></a></li>
             <li><a class="liste-lien" href="{{ route('planning.index') }}"><x-icone nom="planning" /><span class="libelle">Planning</span><x-icone nom="fleche" /></a></li>
             @if (auth()->user()->estGerant())
+                <li><a class="liste-lien" href="{{ route('statistiques') }}"><x-icone nom="journal" /><span class="libelle">Statistiques</span><x-icone nom="fleche" /></a></li>
                 <li><a class="liste-lien" href="{{ route('reglages') }}"><x-icone nom="reglages" /><span class="libelle">Réglages</span><x-icone nom="fleche" /></a></li>
                 <li><a class="liste-lien" href="{{ route('journal') }}"><x-icone nom="journal" /><span class="libelle">Journal d'activité</span><x-icone nom="fleche" /></a></li>
                 <li><a class="liste-lien" href="{{ route('corbeille') }}"><x-icone nom="corbeille" /><span class="libelle">Corbeille</span><x-icone nom="fleche" /></a></li>

@@ -43,7 +43,7 @@ Une seule ligne de cron (cPanel), chaque minute :
 
 ```bash
 php artisan test                                        # SQLite
-php artisan test --configuration=phpunit.mariadb.xml    # MariaDB (base de test locale)
+vendor/bin/phpunit -c phpunit.mariadb.xml              # MariaDB (base de test locale)
 vendor/bin/pint --test                                  # format du code
 NODE_PATH=$(npm root -g) node outils/verif-mobile.mjs http://127.0.0.1:8000 email motdepasse captures
 NODE_PATH=$(npm root -g) node outils/verif-configuration.mjs http://127.0.0.1:8000 email motdepasse captures  # base neuve

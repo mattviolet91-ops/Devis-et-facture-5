@@ -46,4 +46,4 @@ jobs:
 
       - name: Tests MariaDB
         if: matrix.base == 'mariadb'
-        run: php artisan test --configuration=phpunit.mariadb.xml
+        run: vendor/bin/phpunit -c phpunit.mariadb.xml

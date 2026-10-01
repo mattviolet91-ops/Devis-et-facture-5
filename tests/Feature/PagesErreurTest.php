@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use Illuminate\Support\Facades\Route;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 class PagesErreurTest extends TestCase
@@ -22,9 +23,7 @@ class PagesErreurTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider codes
-     */
+    #[DataProvider('codes')]
     public function test_pages_d_erreur_en_francais(int $code, string $titre): void
     {
         Route::get('/test-erreur', fn () => abort($code));

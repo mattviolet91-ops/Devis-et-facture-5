@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 
@@ -89,6 +90,24 @@ class Devis extends Model
     public function lignes(): HasMany
     {
         return $this->hasMany(LigneDevis::class)->orderBy('position');
+    }
+
+    public function signature(): HasOne
+    {
+        return $this->hasOne(Signature::class)->latestOfMany();
+    }
+
+    public function demandesModification(): HasMany
+    {
+        return $this->hasMany(DemandeModification::class)->latest();
+    }
+
+    /**
+     * Le client peut-il signer en ligne ? (devis envoyé et encore valable)
+     */
+    public function peutEtreSigne(): bool
+    {
+        return $this->statut === self::ENVOYE && ! ($this->dateValidite()?->endOfDay()->isPast() ?? false);
     }
 
     public function origine(): BelongsTo

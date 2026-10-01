@@ -222,7 +222,23 @@
         }
     });
 
-    /* Réglages d'affichage : visibles seulement si le JavaScript fonctionne. */
+    /* Bouton « Copier » (lien client, message prêt…). */
+    document.querySelectorAll('[data-copier]').forEach(function (bouton) {
+        if (!navigator.clipboard) {
+            return;
+        }
+        bouton.hidden = false;
+        bouton.addEventListener('click', function () {
+            var source = document.getElementById(bouton.getAttribute('data-copier'));
+            navigator.clipboard.writeText(source.value || source.textContent.trim()).then(function () {
+                var texte = bouton.textContent;
+                bouton.textContent = 'Copié ✓';
+                setTimeout(function () { bouton.textContent = texte; }, 2000);
+            });
+        });
+    });
+
+        /* Réglages d'affichage : visibles seulement si le JavaScript fonctionne. */
     document.querySelectorAll('[data-si-js]').forEach(function (el) { el.hidden = false; });
     document.querySelectorAll('[data-sans-js]').forEach(function (el) { el.hidden = true; });
 

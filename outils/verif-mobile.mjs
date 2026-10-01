@@ -180,7 +180,7 @@ for (const theme of ['light', 'dark']) {
     await page.click('ul.liste.carte a >> nth=0');
     await page.waitForURL(/\/devis\/\d+$/);
     await page.click('a:has-text("Voir le PDF")');
-    await page.waitForSelector('canvas.page-pdf', { timeout: 20000 });
+    await page.waitForFunction(() => document.querySelectorAll('canvas.page-pdf').length >= 2, null, { timeout: 20000 }).catch(() => {});
     verifier(await page.locator('canvas.page-pdf').count() >= 2, `[${theme}] visionneuse PDF`);
     await capture('visionneuse');
     await page.click('[data-retour]');

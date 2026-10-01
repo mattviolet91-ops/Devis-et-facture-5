@@ -85,6 +85,50 @@
         </dl>
     </section>
 
+    @if ($devis->signature)
+        <section class="carte">
+            <h2>Signature</h2>
+            <p>Signé par <strong>{{ $devis->signature->nom }}</strong> le {{ $devis->signature->signe_at->timezone(config('app.timezone'))->format('d/m/Y à H:i') }}
+                ({{ $devis->signature->sur_place ? 'sur place' : 'en ligne' }}, adresse IP {{ $devis->signature->ip_address }}).</p>
+            @if ($devis->signature->execution_immediate)
+                <p class="message message-info">Le client a demandé que les travaux commencent avant la fin du délai de rétractation.</p>
+            @endif
+            @if ($devis->signature->pdf_sha256)
+                <p class="aide">PDF signé · empreinte SHA-256 : <code class="empreinte">{{ $devis->signature->pdf_sha256 }}</code></p>
+            @endif
+        </section>
+    @endif
+
+    @if ($devis->demandesModification->isNotEmpty())
+        <section class="carte">
+            <h2>Demandes de modification du client</h2>
+            <ul class="liste">
+                @foreach ($devis->demandesModification as $demande)
+                    <li class="ligne"><div>{{ $demande->message }}<small>{{ $demande->created_at->timezone(config('app.timezone'))->format('d/m/Y à H:i') }}</small></div></li>
+                @endforeach
+            </ul>
+        </section>
+    @endif
+
+    @if ($devis->statut !== 'brouillon')
+        <section class="carte" id="lien-client">
+            <h2>Lien pour le client</h2>
+            @php($lienClient = \App\Models\LienClient::where('document_type', $devis->getMorphClass())->where('document_id', $devis->id)->whereNull('revoque_at')->first())
+            @if ($lienClient)
+                <p class="lien-client" id="adresse-lien">{{ $lienClient->url() }}</p>
+                <button type="button" class="bouton bouton-secondaire bouton-large" data-copier="adresse-lien" hidden>Copier le lien</button>
+                @unless (\App\Support\Configuration::accesClientsActif())
+                    <p class="message message-info">Le lien marchera quand la configuration sera terminée.</p>
+                @endunless
+            @else
+                <form method="post" action="{{ route('devis.lien', $devis) }}">
+                    @csrf
+                    <button type="submit" class="bouton bouton-secondaire bouton-large">Créer le lien du client</button>
+                </form>
+            @endif
+        </section>
+    @endif
+
     @if ($versions->count() > 1)
         <section class="carte">
             <h2>Versions</h2>
@@ -107,6 +151,9 @@
                 @csrf
                 <button type="submit" class="bouton bouton-secondaire bouton-large" data-confirmer="Le devis recevra son numéro et ne pourra plus être modifié. Continuer ?">Marquer comme envoyé</button>
             </form>
+        @endif
+        @if ($devis->peutEtreSigne())
+            <a class="bouton bouton-large" href="{{ route('devis.signer', $devis) }}">Faire signer sur place</a>
         @endif
         @if (in_array($devis->statut, ['envoye', 'expire'], true))
             <form method="post" action="{{ route('devis.accepter', $devis) }}">

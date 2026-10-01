@@ -75,7 +75,7 @@ class DevisController extends Controller
 
     public function show(Devis $devis): View
     {
-        $devis->load(['client', 'chantier', 'lignes', 'origine']);
+        $devis->load(['client', 'chantier', 'lignes', 'origine', 'signature', 'demandesModification']);
 
         return view('devis.show', [
             'devis' => $devis,

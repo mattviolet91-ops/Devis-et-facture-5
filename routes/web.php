@@ -10,6 +10,7 @@ use App\Http\Controllers\ConfigurationController;
 use App\Http\Controllers\CorbeilleController;
 use App\Http\Controllers\DevisController;
 use App\Http\Controllers\DevisExpressController;
+use App\Http\Controllers\EspaceClientController;
 use App\Http\Controllers\FichiersController;
 use App\Http\Controllers\ImportClientsController;
 use App\Http\Controllers\JournalController;
@@ -18,14 +19,38 @@ use App\Http\Controllers\PagesController;
 use App\Http\Controllers\PieceJointeController;
 use App\Http\Controllers\PrestationController;
 use App\Http\Controllers\ReglagesController;
+use App\Http\Controllers\SignatureSurPlaceController;
 use App\Http\Controllers\TextesTypesController;
 use App\Http\Controllers\VisionneuseController;
+use App\Http\Middleware\CompteActif;
+use App\Http\Middleware\ConfigurationRequise;
+use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
+use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\Route;
+use Illuminate\View\Middleware\ShareErrorsFromSession;
 
-Route::get('/manifest.webmanifest', [PagesController::class, 'manifest'])->name('manifest');
-Route::get('/theme.css', [FichiersController::class, 'theme'])->name('theme');
-Route::get('/fichiers/logo', [FichiersController::class, 'logo'])->name('fichiers.logo');
-Route::get('/fichiers/icone-{taille}.png', [FichiersController::class, 'icone'])->whereNumber('taille')->name('fichiers.icone');
+// Ressources publiques sans session : elles ne doivent pas devenir la « page précédente ».
+Route::withoutMiddleware([
+    StartSession::class,
+    ShareErrorsFromSession::class,
+    ValidateCsrfToken::class,
+    CompteActif::class,
+    ConfigurationRequise::class,
+])->group(function () {
+    Route::get('/manifest.webmanifest', [PagesController::class, 'manifest'])->name('manifest');
+    Route::get('/theme.css', [FichiersController::class, 'theme'])->name('theme');
+    Route::get('/fichiers/logo', [FichiersController::class, 'logo'])->name('fichiers.logo');
+    Route::get('/fichiers/icone-{taille}.png', [FichiersController::class, 'icone'])->whereNumber('taille')->name('fichiers.icone');
+});
+
+// Pages clients (lien personnel, sans compte), aussi sur l'adresse réservée aux clients.
+Route::prefix('/c/{jeton}')->middleware('throttle:60,1')->name('client.')->group(function () {
+    Route::get('/', [EspaceClientController::class, 'show'])->name('document');
+    Route::get('/pdf', [EspaceClientController::class, 'pdf'])->name('pdf');
+    Route::post('/signer', [EspaceClientController::class, 'signer'])->middleware('throttle:10,1')->name('signer');
+    Route::post('/refuser', [EspaceClientController::class, 'refuser'])->middleware('throttle:10,1')->name('refuser');
+    Route::post('/modification', [EspaceClientController::class, 'modification'])->middleware('throttle:10,1')->name('modification');
+});
 
 Route::middleware('guest')->group(function () {
     Route::get('/connexion', [ConnexionController::class, 'create'])->name('login');
@@ -78,6 +103,9 @@ Route::middleware('auth')->group(function () {
         Route::post('/nouvelle-version', [DevisController::class, 'nouvelleVersion'])->name('devis.version');
         Route::post('/dupliquer', [DevisController::class, 'dupliquer'])->name('devis.dupliquer');
         Route::get('/pdf', [DevisController::class, 'pdf'])->name('devis.pdf');
+        Route::get('/signer', [SignatureSurPlaceController::class, 'create'])->name('devis.signer');
+        Route::post('/signer', [SignatureSurPlaceController::class, 'store']);
+        Route::post('/lien', [SignatureSurPlaceController::class, 'lien'])->name('devis.lien');
     });
 
     // Clients et chantiers (gérant et commercial).

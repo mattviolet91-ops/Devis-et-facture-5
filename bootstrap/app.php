@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\AdresseClient;
 use App\Http\Middleware\CompteActif;
 use App\Http\Middleware\ConfigurationRequise;
 use App\Http\Middleware\EnTetesSecurite;
@@ -16,7 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->prepend(ForcerHttps::class);
+        $middleware->prepend([ForcerHttps::class, AdresseClient::class]);
         $middleware->append(EnTetesSecurite::class);
         $middleware->web(append: [CompteActif::class, ConfigurationRequise::class]);
         $middleware->alias(['gerant' => EstGerant::class]);

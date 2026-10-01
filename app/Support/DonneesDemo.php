@@ -4,9 +4,12 @@ namespace App\Support;
 
 use App\Models\Client;
 use App\Models\Devis;
+use App\Models\Facture;
 use App\Models\User;
 use App\Services\DevisExpress;
 use App\Services\GestionDevis;
+use App\Services\GestionFactures;
+use Illuminate\Support\Carbon;
 
 /**
  * Données d'EXEMPLE pour la démonstration : personnes et adresses inventées,
@@ -150,24 +153,24 @@ class DonneesDemo
      */
     public static function installerFactures(User $auteur): int
     {
-        if (\App\Models\Facture::exists()) {
+        if (Facture::exists()) {
             return 0;
         }
 
-        $gestion = app(\App\Services\GestionFactures::class);
+        $gestion = app(GestionFactures::class);
         $total = 0;
 
-        $accepte = \App\Models\Devis::where('statut', 'accepte')->first();
+        $accepte = Devis::where('statut', 'accepte')->first();
         if ($accepte) {
-            $acompte = $gestion->depuisDevis($accepte, \App\Models\Facture::ACOMPTE, 3000, $auteur->id);
+            $acompte = $gestion->depuisDevis($accepte, Facture::ACOMPTE, 3000, $auteur->id);
             $gestion->emettre($acompte);
             $total++;
         }
 
-        $client = \App\Models\Client::where('nom', 'Garnier')->first();
+        $client = Client::where('nom', 'Garnier')->first();
         if ($client) {
             // Facture émise il y a 45 jours (dates fictives) : elle apparaît « en retard ».
-            \Illuminate\Support\Carbon::setTestNow(now()->subDays(45));
+            Carbon::setTestNow(now()->subDays(45));
             try {
                 $facture = $gestion->creerVide($client, $auteur->id);
                 $facture->update(['objet' => 'Recherche de fuite et réparation (exemple)']);
@@ -177,7 +180,7 @@ class DonneesDemo
                 ]);
                 $gestion->emettre($facture);
             } finally {
-                \Illuminate\Support\Carbon::setTestNow();
+                Carbon::setTestNow();
             }
             $total++;
         }

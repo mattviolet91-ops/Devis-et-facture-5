@@ -10,6 +10,7 @@ use App\Http\Controllers\ConfigurationController;
 use App\Http\Controllers\CorbeilleController;
 use App\Http\Controllers\DevisController;
 use App\Http\Controllers\DevisExpressController;
+use App\Http\Controllers\EnvoiController;
 use App\Http\Controllers\EspaceClientController;
 use App\Http\Controllers\FactureController;
 use App\Http\Controllers\FichiersController;
@@ -125,6 +126,10 @@ Route::middleware('auth')->group(function () {
         Route::post('/signer', [SignatureSurPlaceController::class, 'store']);
         Route::post('/lien', [SignatureSurPlaceController::class, 'lien'])->name('devis.lien');
     });
+
+    // Envoi par email (devis : tous ; factures : gérant).
+    Route::get('/envoyer/{type}/{id}', [EnvoiController::class, 'create'])->whereIn('type', ['devis', 'facture'])->whereNumber('id')->name('envoi.create');
+    Route::post('/envoyer/{type}/{id}', [EnvoiController::class, 'store'])->whereIn('type', ['devis', 'facture'])->whereNumber('id')->middleware('throttle:20,1')->name('envoi.store');
 
     // Clients et chantiers (gérant et commercial).
     Route::get('/clients/import', [ImportClientsController::class, 'create'])->name('clients.import');

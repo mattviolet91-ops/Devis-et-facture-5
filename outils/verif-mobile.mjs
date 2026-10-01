@@ -186,6 +186,14 @@ for (const theme of ['light', 'dark']) {
     await page.click('[data-retour]');
     await page.waitForURL(/\/devis\/\d+$/);
 
+    // Envoi par email d'un devis.
+    await page.goto(`${base}/devis?statut=envoye`);
+    await page.click('ul.liste.carte a >> nth=0');
+    await page.waitForURL(/\/devis\/\d+$/);
+    await page.click('a:has-text("Renvoyer par email")');
+    await page.waitForURL(/\/envoyer\/devis\/\d+$/);
+    await capture('envoi-email');
+
     // Factures (gérant).
     await page.goto(`${base}/factures`);
     await capture('factures');

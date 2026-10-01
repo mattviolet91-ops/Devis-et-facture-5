@@ -153,12 +153,7 @@
             <h2>Lien de paiement et relances</h2>
             @if ($lien)
                 <p class="lien-client" id="adresse-lien">{{ $lien->url() }}</p>
-                <div class="actions-rapides">
-                    <a class="bouton bouton-secondaire" href="{{ \App\Support\MessagesPrets::whatsapp($facture->client->telephone, $message) }}" target="_blank" rel="noopener">WhatsApp</a>
-                    <a class="bouton bouton-secondaire" href="{{ \App\Support\MessagesPrets::sms($facture->client->telephone, $message) }}">SMS</a>
-                    <button type="button" class="bouton bouton-secondaire" data-copier="message-pret" hidden>Copier</button>
-                </div>
-                <textarea id="message-pret" class="visuellement-cache" readonly>{{ $message }}</textarea>
+                @include('_partage', ['document' => $facture, 'message' => $message, 'routeEmail' => route('envoi.create', ['facture', $facture->id])])
             @else
                 <form method="post" action="{{ route('factures.lien', $facture) }}">
                     @csrf

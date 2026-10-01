@@ -116,7 +116,11 @@
             @php($lienClient = \App\Models\LienClient::where('document_type', $devis->getMorphClass())->where('document_id', $devis->id)->whereNull('revoque_at')->first())
             @if ($lienClient)
                 <p class="lien-client" id="adresse-lien">{{ $lienClient->url() }}</p>
-                <button type="button" class="bouton bouton-secondaire bouton-large" data-copier="adresse-lien" hidden>Copier le lien</button>
+                @include('_partage', [
+                    'document' => $devis,
+                    'message' => \App\Support\MessagesPrets::court(app(\App\Services\EnvoiEmail::class)->rediger($devis, 'devis')['corps']),
+                    'routeEmail' => route('envoi.create', ['devis', $devis->id]),
+                ])
                 @unless (\App\Support\Configuration::accesClientsActif())
                     <p class="message message-info">Le lien marchera quand la configuration sera terminée.</p>
                 @endunless
@@ -170,8 +174,11 @@
         @if ($devis->pdf_sha256)
             <p class="aide">PDF figé le {{ $devis->pdf_fige_at?->timezone(config('app.timezone'))->format('d/m/Y à H:i') }} · empreinte SHA-256 : <code class="empreinte">{{ $devis->pdf_sha256 }}</code></p>
         @endif
+        @if (in_array($devis->statut, ['brouillon', 'envoye'], true))
+            <a class="bouton bouton-large" href="{{ route('envoi.create', ['devis', $devis->id]) }}">{{ $devis->statut === 'brouillon' ? 'Envoyer au client' : 'Renvoyer par email' }}</a>
+        @endif
         @if ($devis->estModifiable())
-            <a class="bouton bouton-large" href="{{ route('devis.edit', $devis) }}">Modifier</a>
+            <a class="bouton bouton-secondaire bouton-large" href="{{ route('devis.edit', $devis) }}">Modifier</a>
             <form method="post" action="{{ route('devis.envoyer', $devis) }}">
                 @csrf
                 <button type="submit" class="bouton bouton-secondaire bouton-large" data-confirmer="Le devis recevra son numéro et ne pourra plus être modifié. Continuer ?">Marquer comme envoyé</button>

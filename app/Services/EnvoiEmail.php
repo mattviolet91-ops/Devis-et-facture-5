@@ -92,6 +92,7 @@ class EnvoiEmail
             'piece_jointe' => $nomPdf,
             'modele' => $modele,
             'automatique' => $automatique,
+            'statut' => 'envoye',
             'user_id' => $userId,
         ]);
 

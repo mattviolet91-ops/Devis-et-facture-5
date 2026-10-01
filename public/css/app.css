@@ -640,3 +640,6 @@ details.carte[open] summary { margin-bottom: 12px; }
 .bon-a-savoir { background: var(--info-fond); border-radius: 10px; padding: 10px 12px; margin: 10px 0; }
 .capture-guide { display: block; width: 100%; max-width: 390px; height: auto; margin: 10px auto; border: 1px solid var(--bordure); border-radius: 12px; }
 .bouton-aide { margin-left: auto; width: 36px; height: 36px; border-radius: 50%; border: 2px solid currentColor; display: inline-flex; align-items: center; justify-content: center; font-weight: 800; text-decoration: none; flex-shrink: 0; }
+
+/* Hors connexion */
+.bandeau-hors-connexion { position: sticky; top: 0; z-index: 30; margin: 0; padding: 8px 16px; background: #5c3d00; color: #fff; text-align: center; font-weight: 600; }

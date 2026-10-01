@@ -268,6 +268,54 @@
         });
     });
 
+    /* Hors connexion : service worker, bandeau, nouvel essai automatique des formulaires. */
+    if ('serviceWorker' in navigator && window.isSecureContext) {
+        navigator.serviceWorker.register('/sw.js').catch(function () { /* pas de mode hors connexion */ });
+    }
+
+    var bandeau = document.createElement('p');
+    bandeau.className = 'bandeau-hors-connexion';
+    bandeau.setAttribute('role', 'status');
+    bandeau.hidden = true;
+    document.body.insertBefore(bandeau, document.body.firstChild);
+    var enAttente = null;
+
+    function etatReseau() {
+        if (navigator.onLine) {
+            bandeau.hidden = true;
+            if (enAttente) {
+                var formulaire = enAttente;
+                enAttente = null;
+                formulaire.submit();
+            }
+            return;
+        }
+        bandeau.textContent = enAttente
+            ? 'Pas de réseau : l\'envoi partira tout seul dès que la connexion reviendra.'
+            : 'Pas de réseau : vous lisez la dernière version enregistrée de cette page.';
+        bandeau.hidden = false;
+    }
+    window.addEventListener('online', etatReseau);
+    window.addEventListener('offline', etatReseau);
+    etatReseau();
+
+    document.addEventListener('submit', function (e) {
+        var formulaire = e.target;
+        // Déconnexion : on oublie les pages gardées sur ce téléphone.
+        if (/\/deconnexion$/.test(formulaire.getAttribute('action') || '')) {
+            if (navigator.serviceWorker && navigator.serviceWorker.controller) {
+                navigator.serviceWorker.controller.postMessage('oublier-pages');
+            }
+            if (window.caches) { caches.keys().then(function (cles) { cles.forEach(function (c) { if (c.indexOf('pages-') === 0) { caches.delete(c); } }); }); }
+            return;
+        }
+        if (!navigator.onLine && (formulaire.method || '').toLowerCase() === 'post' && !e.defaultPrevented) {
+            e.preventDefault();
+            enAttente = formulaire;
+            etatReseau();
+        }
+    });
+
         /* Réglages d'affichage : visibles seulement si le JavaScript fonctionne. */
     document.querySelectorAll('[data-si-js]').forEach(function (el) { el.hidden = false; });
     document.querySelectorAll('[data-sans-js]').forEach(function (el) { el.hidden = true; });

@@ -24,7 +24,6 @@ class PagesController extends Controller
     public function bientot(string $rubrique): View
     {
         $titres = [
-            'factures' => 'Factures',
             'planning' => 'Planning',
         ];
 

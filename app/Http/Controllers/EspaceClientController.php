@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Devis;
+use App\Models\Facture;
 use App\Models\LienClient;
 use App\Services\PdfDevis;
+use App\Services\PdfFacture;
 use App\Services\SignatureDevis;
 use App\Support\Configuration;
 use Illuminate\Database\Eloquent\Model;
@@ -32,18 +34,25 @@ class EspaceClientController extends Controller
                 'devis' => $document->load(['client', 'chantier', 'lignes', 'signature']),
                 'detail' => $document->detailTotaux(),
             ]),
+            $document instanceof Facture => view('client.facture', [
+                'lien' => $lien,
+                'facture' => $document->load(['client', 'lignes']),
+            ]),
             default => abort(404),
         };
     }
 
-    public function pdf(string $jeton, PdfDevis $pdf): Response
+    public function pdf(string $jeton, PdfDevis $pdf, PdfFacture $pdfFacture): Response
     {
         [, $document] = $this->ouvrir($jeton);
-        abort_unless($document instanceof Devis, 404);
+        abort_unless($document instanceof Devis || $document instanceof Facture, 404);
 
-        return response($pdf->contenu($document), 200, [
+        $contenu = $document instanceof Devis ? $pdf->contenu($document) : $pdfFacture->contenu($document);
+        $nom = $document instanceof Devis ? 'devis-'.$document->reference() : $document->libelleType().'-'.$document->reference();
+
+        return response($contenu, 200, [
             'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'inline; filename="devis-'.Str::slug($document->reference()).'.pdf"',
+            'Content-Disposition' => 'inline; filename="'.Str::slug($nom).'.pdf"',
             'Cache-Control' => 'private, no-store',
             'X-Robots-Tag' => 'noindex',
         ]);

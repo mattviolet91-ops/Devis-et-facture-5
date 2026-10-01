@@ -140,6 +140,31 @@
         </section>
     @endif
 
+    @if ($devis->statut === 'accepte' && auth()->user()->estGerant())
+        <section class="carte" id="facturer">
+            <h2>Facturer ce devis</h2>
+            @if ($devis->factures->isNotEmpty())
+                <ul class="liste">
+                    @foreach ($devis->factures as $f)
+                        <li><a class="liste-lien" href="{{ route('factures.show', $f) }}"><span class="libelle">{{ $f->libelleType() }} {{ $f->reference() }}<small class="bloc texte-doux">{{ \App\Support\Montant::formater($f->total_ttc) }} · {{ $f->libelleStatut() }}</small></span></a></li>
+                    @endforeach
+                </ul>
+            @endif
+            <form method="post" action="{{ route('factures.depuis-devis', $devis) }}" novalidate>
+                @csrf
+                <fieldset class="segments segments-2">
+                    <legend>Type de facture</legend>
+                    <label><input type="radio" name="type" value="facture" checked><span>Complète</span></label>
+                    <label><input type="radio" name="type" value="acompte"><span>Acompte</span></label>
+                    <label><input type="radio" name="type" value="situation"><span>Situation</span></label>
+                    <label><input type="radio" name="type" value="solde"><span>Solde</span></label>
+                </fieldset>
+                <x-champ nom="pourcentage" libelle="Pourcentage (acompte ou avancement cumulé)" :valeur="$devis->acompte_pourcentage ?: null" inputmode="decimal" aide="Acompte : part du devis. Situation : avancement total des travaux." />
+                <button type="submit" class="bouton bouton-large">Préparer la facture</button>
+            </form>
+        </section>
+    @endif
+
     <section class="carte actions-devis" aria-label="Actions">
         <a class="bouton bouton-secondaire bouton-large" href="{{ route('visionneuse', ['f' => '/devis/'.$devis->id.'/pdf', 'titre' => 'Devis '.$devis->reference()]) }}">Voir le PDF</a>
         @if ($devis->pdf_sha256)

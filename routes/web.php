@@ -11,6 +11,7 @@ use App\Http\Controllers\CorbeilleController;
 use App\Http\Controllers\DevisController;
 use App\Http\Controllers\DevisExpressController;
 use App\Http\Controllers\EspaceClientController;
+use App\Http\Controllers\FactureController;
 use App\Http\Controllers\FichiersController;
 use App\Http\Controllers\ImportClientsController;
 use App\Http\Controllers\JournalController;
@@ -139,6 +140,25 @@ Route::middleware('auth')->group(function () {
         Route::post('/{etape}/plus-tard', [ConfigurationController::class, 'plusTard'])->name('.plus-tard');
         Route::get('/{etape}', [ConfigurationController::class, 'edit'])->name('.etape');
         Route::put('/{etape}', [ConfigurationController::class, 'update'])->name('.enregistrer');
+    });
+
+    // Factures et avoirs : gérant seulement.
+    Route::middleware('gerant')->group(function () {
+        Route::get('/factures', [FactureController::class, 'index'])->name('factures.index');
+        Route::get('/factures/nouvelle', [FactureController::class, 'create'])->name('factures.create');
+        Route::post('/factures', [FactureController::class, 'store'])->name('factures.store');
+        Route::post('/devis/{devis}/facturer', [FactureController::class, 'depuisDevis'])->whereNumber('devis')->name('factures.depuis-devis');
+        Route::prefix('/factures/{facture}')->whereNumber('facture')->group(function () {
+            Route::get('/', [FactureController::class, 'show'])->name('factures.show');
+            Route::get('/modifier', [FactureController::class, 'edit'])->name('factures.edit');
+            Route::put('/', [FactureController::class, 'update'])->name('factures.update');
+            Route::delete('/', [FactureController::class, 'destroy'])->name('factures.destroy');
+            Route::post('/emettre', [FactureController::class, 'emettre'])->name('factures.emettre');
+            Route::post('/avoir', [FactureController::class, 'avoir'])->name('factures.avoir');
+            Route::post('/relances', [FactureController::class, 'relancesAuto'])->name('factures.relances');
+            Route::post('/lien', [FactureController::class, 'lien'])->name('factures.lien');
+            Route::get('/pdf', [FactureController::class, 'pdf'])->name('factures.pdf');
+        });
     });
 
     Route::middleware('gerant')->group(function () {

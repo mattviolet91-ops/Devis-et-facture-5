@@ -144,4 +144,44 @@ class DonneesDemo
 
         return $total;
     }
+
+    /**
+     * Factures d'exemple : un acompte sur le devis accepté, une facture en retard.
+     */
+    public static function installerFactures(User $auteur): int
+    {
+        if (\App\Models\Facture::exists()) {
+            return 0;
+        }
+
+        $gestion = app(\App\Services\GestionFactures::class);
+        $total = 0;
+
+        $accepte = \App\Models\Devis::where('statut', 'accepte')->first();
+        if ($accepte) {
+            $acompte = $gestion->depuisDevis($accepte, \App\Models\Facture::ACOMPTE, 3000, $auteur->id);
+            $gestion->emettre($acompte);
+            $total++;
+        }
+
+        $client = \App\Models\Client::where('nom', 'Garnier')->first();
+        if ($client) {
+            // Facture émise il y a 45 jours (dates fictives) : elle apparaît « en retard ».
+            \Illuminate\Support\Carbon::setTestNow(now()->subDays(45));
+            try {
+                $facture = $gestion->creerVide($client, $auteur->id);
+                $facture->update(['objet' => 'Recherche de fuite et réparation (exemple)']);
+                $gestion->remplacerLignes($facture, [
+                    ['type' => 'ligne', 'designation' => 'Recherche de fuite', 'quantite' => 1000, 'unite' => 'forfait', 'prix_unitaire_ht' => 18000],
+                    ['type' => 'ligne', 'designation' => 'Remplacement de tuiles', 'quantite' => 8000, 'unite' => 'u', 'prix_unitaire_ht' => 3500],
+                ]);
+                $gestion->emettre($facture);
+            } finally {
+                \Illuminate\Support\Carbon::setTestNow();
+            }
+            $total++;
+        }
+
+        return $total;
+    }
 }

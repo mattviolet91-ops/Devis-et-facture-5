@@ -59,10 +59,14 @@
             @endunless
         </div>
         <div class="ligne-pied">
-            <label class="case case-compacte">
-                <input type="checkbox" name="lignes[{{ $i }}][option]" value="1" data-champ="option" @checked(! empty($ligne['option']))>
-                <span>En option</span>
-            </label>
+            @if (empty($sansOption))
+                <label class="case case-compacte">
+                    <input type="checkbox" name="lignes[{{ $i }}][option]" value="1" data-champ="option" @checked(! empty($ligne['option']))>
+                    <span>En option</span>
+                </label>
+            @else
+                <span></span>
+            @endif
             <output class="ligne-total" data-total>{{ $ligne['total_texte'] ?? '' }}</output>
         </div>
     @endif

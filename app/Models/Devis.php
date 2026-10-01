@@ -2,8 +2,7 @@
 
 namespace App\Models;
 
-use App\Services\CalculDevis;
-use App\Support\Tva;
+use App\Models\Concerns\AvecLignes;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,7 +13,7 @@ use Illuminate\Support\Carbon;
 
 class Devis extends Model
 {
-    use SoftDeletes;
+    use AvecLignes, SoftDeletes;
 
     protected $table = 'devis';
 
@@ -110,6 +109,11 @@ class Devis extends Model
         return $this->statut === self::ENVOYE && ! ($this->dateValidite()?->endOfDay()->isPast() ?? false);
     }
 
+    public function factures(): HasMany
+    {
+        return $this->hasMany(Facture::class);
+    }
+
     public function origine(): BelongsTo
     {
         return $this->belongsTo(Devis::class, 'devis_origine_id');
@@ -146,47 +150,6 @@ class Devis extends Model
     public function libelleCorbeille(): string
     {
         return $this->reference().' — '.$this->client?->nomComplet();
-    }
-
-    /**
-     * Recalcule et enregistre les totaux à partir des lignes.
-     */
-    public function recalculer(): void
-    {
-        $lignes = $this->lignes()->get();
-        $calcul = app(CalculDevis::class)->calculer(
-            $lignes->map(fn (LigneDevis $l) => $l->only(['type', 'quantite', 'prix_unitaire_ht', 'taux_tva', 'option']))->all(),
-            $this->remise_type,
-            (int) $this->remise_valeur,
-            Tva::estFranchise(),
-        );
-
-        foreach ($lignes->values() as $i => $ligne) {
-            $ligne->updateQuietly(['total_ht' => $calcul['lignes'][$i] ?? 0]);
-        }
-
-        $this->forceFill([
-            'total_ht' => $calcul['total_ht'],
-            'total_remise' => $calcul['remise'],
-            'total_tva' => $calcul['total_tva'],
-            'total_ttc' => $calcul['total_ttc'],
-            'total_options_ht' => $calcul['total_options_ht'],
-        ])->save();
-    }
-
-    /**
-     * Détail des totaux (TVA par taux, sous-totaux des sections).
-     *
-     * @return array<string, mixed>
-     */
-    public function detailTotaux(): array
-    {
-        return app(CalculDevis::class)->calculer(
-            $this->lignes->map(fn (LigneDevis $l) => $l->only(['type', 'quantite', 'prix_unitaire_ht', 'taux_tva', 'option']))->values()->all(),
-            $this->remise_type,
-            (int) $this->remise_valeur,
-            Tva::estFranchise(),
-        );
     }
 
     /**

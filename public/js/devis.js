@@ -22,8 +22,12 @@
     }
 
     function lireCentimes(texte) {
-        var m = nettoyer(texte).match(/^(\d+)(?:[.,](\d{1,2}))?$/);
-        return m ? parseInt(m[1], 10) * 100 + parseInt((m[2] || '0').padEnd(2, '0'), 10) : null;
+        var m = nettoyer(texte).match(/^(-?)(\d+)(?:[.,](\d{1,2}))?$/);
+        if (!m) {
+            return null;
+        }
+        var c = parseInt(m[2], 10) * 100 + parseInt((m[3] || '0').padEnd(2, '0'), 10);
+        return m[1] === '-' ? -c : c;
     }
 
     function lireTaux(texte) {

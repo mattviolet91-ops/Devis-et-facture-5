@@ -186,6 +186,14 @@ for (const theme of ['light', 'dark']) {
     await page.click('[data-retour]');
     await page.waitForURL(/\/devis\/\d+$/);
 
+    // Factures (gérant).
+    await page.goto(`${base}/factures`);
+    await capture('factures');
+    await page.goto(`${base}/factures?filtre=retard`);
+    await page.click('ul.liste.carte a >> nth=0');
+    await page.waitForURL(/\/factures\/\d+$/);
+    await capture('facture-fiche');
+
     await page.goto(`${base}/catalogue`);
     await capture('catalogue');
 

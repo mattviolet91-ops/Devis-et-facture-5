@@ -537,3 +537,13 @@ details.carte[open] summary { margin-bottom: 12px; }
 .formulaire-signature .bouton-secondaire { margin-bottom: 12px; }
 .lien-client { overflow-wrap: anywhere; font-size: 0.9rem; background: var(--fond); padding: 8px; border-radius: 8px; }
 @media (min-width: 1024px) { .page-client { padding-left: 0; } }
+
+/* ---------- Factures ---------- */
+.chiffres { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; text-align: center; }
+.chiffres > div { display: flex; flex-direction: column; }
+.chiffre { font-size: 1.4rem; font-weight: 800; color: var(--couleur-principale); }
+.statut-emise { background: var(--info-fond); }
+.statut-payee { background: var(--succes-fond); }
+.statut-annulee { background: var(--fond); border: 1px solid var(--bordure); }
+.segments:has(> label:nth-of-type(4)) { grid-template-columns: repeat(2, 1fr); }
+.badge.en-retard { background: var(--danger-fond); color: var(--danger); }

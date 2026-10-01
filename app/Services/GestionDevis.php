@@ -216,7 +216,7 @@ class GestionDevis
      * @param  array<int, array<string, mixed>>  $saisies
      * @return array{lignes: list<array<string, mixed>>, erreurs: array<string, string>}
      */
-    public static function lireLignes(array $saisies): array
+    public static function lireLignes(array $saisies, bool $negatifsAutorises = false): array
     {
         $lignes = [];
         $erreurs = [];
@@ -231,13 +231,17 @@ class GestionDevis
                 // Prix vide accepté sur un brouillon (à compléter) : l'envoi sera bloqué tant qu'il manque.
                 $prixSaisi = trim((string) ($saisie['prix'] ?? ''));
                 $prix = $prixSaisi === '' ? 0 : Montant::lire($prixSaisi);
+                // Sur une facture, une ligne de déduction (acompte déjà versé) peut être négative.
+                if ($prix !== null && $prix < 0 && ! $negatifsAutorises) {
+                    $prix = null;
+                }
                 if ($designation === '') {
                     $erreurs["lignes.$i.designation"] = 'Ligne '.($i + 1).' : indiquez la désignation.';
                 }
                 if ($quantite === null) {
                     $erreurs["lignes.$i.quantite"] = 'Ligne '.($i + 1).' : quantité illisible (exemple : 12,5).';
                 }
-                if ($prix === null || $prix < 0) {
+                if ($prix === null) {
                     $erreurs["lignes.$i.prix"] = 'Ligne '.($i + 1).' : prix illisible (exemple : 45,00).';
                 }
                 $taux = (int) ($saisie['taux_tva'] ?? reglage('tva.taux_defaut'));

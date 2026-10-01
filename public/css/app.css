@@ -628,3 +628,4 @@ details.carte[open] summary { margin-bottom: 12px; }
 @media (hover: hover) and (pointer: fine) {
     [data-glisser]:hover .contenu-glisser { transform: translateX(-110px); }
 }
+.compte { display: flex; justify-content: space-between; gap: 8px; padding: 10px 0; flex-wrap: wrap; } .compte details { flex-basis: 100%; } .compte details form { margin-top: 8px; }

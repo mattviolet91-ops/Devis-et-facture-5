@@ -39,6 +39,7 @@
             @if (auth()->user()->estGerant())
                 <li><a class="liste-lien" href="{{ route('statistiques') }}"><x-icone nom="journal" /><span class="libelle">Statistiques</span><x-icone nom="fleche" /></a></li>
                 <li><a class="liste-lien" href="{{ route('reglages') }}"><x-icone nom="reglages" /><span class="libelle">Réglages</span><x-icone nom="fleche" /></a></li>
+                <li><a class="liste-lien" href="{{ route('comptes') }}"><x-icone nom="clients" /><span class="libelle">Comptes</span><x-icone nom="fleche" /></a></li>
                 <li><a class="liste-lien" href="{{ route('journal') }}"><x-icone nom="journal" /><span class="libelle">Journal d'activité</span><x-icone nom="fleche" /></a></li>
                 <li><a class="liste-lien" href="{{ route('corbeille') }}"><x-icone nom="corbeille" /><span class="libelle">Corbeille</span><x-icone nom="fleche" /></a></li>
             @endif

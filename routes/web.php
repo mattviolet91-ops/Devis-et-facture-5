@@ -2,10 +2,12 @@
 
 use App\Http\Controllers\AccueilController;
 use App\Http\Controllers\Auth\ConnexionController;
+use App\Http\Controllers\Auth\InvitationController;
 use App\Http\Controllers\Auth\MotDePasseOublieController;
 use App\Http\Controllers\Auth\NouveauMotDePasseController;
 use App\Http\Controllers\ChantierController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\ComptesController;
 use App\Http\Controllers\CompteurSiteController;
 use App\Http\Controllers\ConfigurationController;
 use App\Http\Controllers\CorbeilleController;
@@ -97,6 +99,8 @@ Route::middleware('guest')->group(function () {
 
     Route::get('/mot-de-passe-oublie', [MotDePasseOublieController::class, 'create'])->name('password.request');
     Route::post('/mot-de-passe-oublie', [MotDePasseOublieController::class, 'store'])->middleware('throttle:6,1')->name('password.email');
+    Route::get('/invitation/{jeton}', [InvitationController::class, 'create'])->name('invitation.create');
+    Route::post('/invitation/{jeton}', [InvitationController::class, 'store'])->middleware('throttle:6,1')->name('invitation.store');
     Route::get('/nouveau-mot-de-passe/{token}', [NouveauMotDePasseController::class, 'create'])->name('password.reset');
     Route::post('/nouveau-mot-de-passe', [NouveauMotDePasseController::class, 'store'])->middleware('throttle:6,1')->name('password.store');
 });
@@ -274,6 +278,15 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware('gerant')->group(function () {
         Route::get('/journal', [JournalController::class, 'index'])->name('journal');
+
+        Route::get('/comptes', [ComptesController::class, 'index'])->name('comptes');
+        Route::post('/comptes', [ComptesController::class, 'inviter'])->middleware('throttle:10,1')->name('comptes.inviter');
+        Route::prefix('/comptes/{compte}')->whereNumber('compte')->group(function () {
+            Route::post('/renvoyer', [ComptesController::class, 'renvoyer'])->middleware('throttle:10,1')->name('comptes.renvoyer');
+            Route::post('/desactiver', [ComptesController::class, 'desactiver'])->name('comptes.desactiver');
+            Route::post('/reactiver', [ComptesController::class, 'reactiver'])->name('comptes.reactiver');
+            Route::post('/role', [ComptesController::class, 'role'])->name('comptes.role');
+        });
 
         Route::get('/reglages', [ReglagesController::class, 'index'])->name('reglages');
         Route::get('/reglages/textes-types', [TextesTypesController::class, 'index'])->name('reglages.textes');

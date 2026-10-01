@@ -36,6 +36,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'invitation_sha256',
     ];
 
     /**
@@ -49,7 +50,14 @@ class User extends Authenticatable
             'is_active' => 'boolean',
             'password' => 'hashed',
             'preferences' => 'array',
+            'invitation_expire_at' => 'datetime',
+            'desactive_at' => 'datetime',
         ];
+    }
+
+    public function invitationEnAttente(): bool
+    {
+        return $this->invitation_sha256 !== null;
     }
 
     public function preference(string $cle, mixed $defaut = null): mixed

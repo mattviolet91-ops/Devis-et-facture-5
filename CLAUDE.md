@@ -17,3 +17,6 @@
 - Pages avec bouton Retour : `@section('parent', route(...))` dans la vue.
 - Suppression douce : enregistrer le modèle dans `App\Support\Corbeille` (jamais les factures émises).
 - Journal : `App\Support\Journal::ecrire()` — jamais de secret dedans.
+- Menu de configuration : `App\Support\Configuration`. Les pages clients (lien de devis, formulaire public) doivent vérifier `Configuration::accesClientsActif()`.
+- Tests : `Tests\TestCase` marque la configuration comme terminée ; mettre `protected bool $configurationTerminee = false;` pour tester une installation neuve.
+- Catalogue et CGV de départ par métier : `App\Support\Metiers` (jamais de prix : chaque entreprise saisit les siens). Le réglage `catalogue.depart_a_charger` indique le catalogue à charger quand le module Catalogue existera.

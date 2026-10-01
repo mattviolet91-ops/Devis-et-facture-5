@@ -3,7 +3,7 @@
 <head>
     @include('layouts.tete')
 </head>
-<body>
+<body class="page-configuration">
     <a class="lien-evitement" href="#contenu">Aller au contenu</a>
 
     <header class="entete">
@@ -11,19 +11,15 @@
             <a href="@yield('parent')" class="retour" data-retour>‹ Retour</a>
         @endif
         <h1>@yield('titre')</h1>
+        <form method="post" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit" class="bouton-entete">Quitter</button>
+        </form>
     </header>
 
     <main id="contenu" class="contenu" tabindex="-1">
         @if (reglage('demo.active'))
             <p class="bandeau-demo">Démonstration : toutes les données sont fictives.</p>
-        @endif
-
-        @if (auth()->user()?->estGerant() && ! \App\Support\Configuration::estTerminee())
-            <div class="message message-info bandeau-configuration">
-                <strong>Configuration à terminer.</strong>
-                Vos liens clients restent coupés tant qu'elle n'est pas finie.
-                <a href="{{ route('configuration') }}">Continuer la configuration ›</a>
-            </div>
         @endif
 
         @if (session('statut'))
@@ -32,7 +28,5 @@
 
         @yield('contenu')
     </main>
-
-    @include('layouts.navigation')
 </body>
 </html>

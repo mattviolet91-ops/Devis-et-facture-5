@@ -421,3 +421,27 @@ details.carte[open] summary { margin-bottom: 12px; }
 .apercu-entete { background: var(--couleur-principale); color: var(--couleur-principale-texte); padding: 10px 12px; border-radius: 8px; font-weight: 700; }
 .apercu-bouton { display: inline-block; margin-top: 12px; padding: 8px 16px; border-radius: 8px; background: var(--couleur-principale); color: var(--couleur-principale-texte); font-weight: 700; }
 .apercu-rond { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: var(--couleur-accent); color: var(--couleur-accent-texte); font-weight: 700; margin-left: 8px; }
+
+/* ---------- Menu de configuration ---------- */
+.page-configuration { padding-bottom: 24px; }
+.page-configuration .entete form { margin-left: auto; }
+.page-configuration { padding-left: 0 !important; }
+.bouton-entete { min-height: 44px; padding: 0 12px; border: 2px solid currentColor; border-radius: 8px; background: transparent; font: inherit; font-weight: 600; cursor: pointer; }
+.progression { margin-bottom: 16px; }
+.progression-texte { margin: 0 0 6px; }
+.progression progress { width: 100%; height: 10px; accent-color: var(--couleur-principale); }
+.progression-etapes { display: flex; justify-content: space-between; list-style: none; margin: 8px 0 0; padding: 0; }
+.progression-etapes a {
+    display: flex; align-items: center; justify-content: center;
+    width: 32px; height: 32px; border-radius: 50%;
+    border: 2px solid var(--bordure); color: var(--texte-doux);
+    text-decoration: none; font-weight: 700; font-size: 0.85rem; background: var(--fond-carte);
+}
+.progression-etapes li.faite a { border-color: var(--succes); color: var(--succes); }
+.progression-etapes li.actuelle a { background: var(--couleur-principale); border-color: var(--couleur-principale); color: var(--couleur-principale-texte); }
+.choix-metier { border: 0; padding: 0; margin: 0 0 16px; }
+.navigation-configuration { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
+.navigation-configuration a, .navigation-configuration .bouton-lien { min-height: 44px; display: inline-flex; align-items: center; }
+.page-configuration form + form { margin-top: 12px; }
+.badge-danger { background: var(--danger-fond); }
+.bandeau-configuration a { font-weight: 700; }

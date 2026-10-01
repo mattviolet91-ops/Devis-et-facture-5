@@ -11,6 +11,8 @@ class CreerGerantTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected bool $configurationTerminee = false;
+
     public function test_creation_du_compte_gerant(): void
     {
         $this->artisan('app:creer-gerant')

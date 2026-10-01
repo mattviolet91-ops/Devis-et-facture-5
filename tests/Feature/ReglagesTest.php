@@ -11,6 +11,8 @@ class ReglagesTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected bool $configurationTerminee = false;
+
     public function test_aucune_donnee_d_entreprise_par_defaut(): void
     {
         $valeurs = config('entreprise');

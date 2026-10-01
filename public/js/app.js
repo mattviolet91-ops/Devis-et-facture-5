@@ -187,6 +187,18 @@
         });
     }
 
+    /* ----------------------------------------------------------------
+       Configuration → Métier : coche les modules conseillés du métier choisi.
+       ---------------------------------------------------------------- */
+    document.querySelectorAll('input[name="metier"][data-modules]').forEach(function (choix) {
+        choix.addEventListener('change', function () {
+            var conseilles = choix.getAttribute('data-modules').split(',');
+            document.querySelectorAll('input[data-module]').forEach(function (module) {
+                module.checked = conseilles.indexOf(module.value) !== -1;
+            });
+        });
+    });
+
     /* Réglages d'affichage : visibles seulement si le JavaScript fonctionne. */
     document.querySelectorAll('[data-si-js]').forEach(function (el) { el.hidden = false; });
     document.querySelectorAll('[data-sans-js]').forEach(function (el) { el.hidden = true; });

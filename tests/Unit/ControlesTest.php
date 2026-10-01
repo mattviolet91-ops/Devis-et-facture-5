@@ -7,6 +7,7 @@ use App\Rules\Luhn;
 use App\Rules\Siret;
 use App\Rules\TvaIntracom;
 use App\Support\Couleurs;
+use App\Support\Montant;
 use App\Support\Tva;
 use PHPUnit\Framework\TestCase;
 
@@ -91,5 +92,21 @@ class ControlesTest extends TestCase
         $this->assertSame('#1b1d21', Couleurs::texteSur('#ffd700'));
         $this->assertGreaterThanOrEqual(4.5, Couleurs::contraste(Couleurs::pourModeSombre('#1f4e79'), '#1d2025'));
         $this->assertGreaterThanOrEqual(4.5, Couleurs::contraste(Couleurs::pourModeClair('#ffd700'), '#ffffff'));
+    }
+
+    public function test_montants_en_centimes(): void
+    {
+        $this->assertSame("1\u{202F}234,56\u{00A0}€", Montant::formater(123456));
+        $this->assertSame("0,05\u{00A0}€", Montant::formater(5));
+        $this->assertSame("-12,00\u{00A0}€", Montant::formater(-1200));
+        $this->assertSame(123456, Montant::lire('1 234,56'));
+        $this->assertSame(150000, Montant::lire('1500 €'));
+        $this->assertSame(1250, Montant::lire('12.5'));
+        $this->assertNull(Montant::lire('douze'));
+        // TVA arrondie au centime : 10,00 € à 5,5 % = 0,55 € ; 0,09 € à 5,5 % = 0,005 → 0,01 €.
+        $this->assertSame(55, Montant::tva(1000, 550));
+        $this->assertSame(0, Montant::tva(9, 550));
+        $this->assertSame(1, Montant::tva(10, 550));
+        $this->assertSame(24000, Montant::tva(120000, 2000));
     }
 }

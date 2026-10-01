@@ -46,6 +46,7 @@ php artisan test                                        # SQLite
 php artisan test --configuration=phpunit.mariadb.xml    # MariaDB (base de test locale)
 vendor/bin/pint --test                                  # format du code
 NODE_PATH=$(npm root -g) node outils/verif-mobile.mjs http://127.0.0.1:8000 email motdepasse captures
+NODE_PATH=$(npm root -g) node outils/verif-configuration.mjs http://127.0.0.1:8000 email motdepasse captures  # base neuve
 ```
 
 `phpunit.mariadb.xml` utilise une base **de test** locale `app_test` (utilisateur et mot
@@ -61,3 +62,7 @@ de passe `app_test`), créée seulement sur le poste de développement ou dans G
   police), TVA (franchise / assujetti, n° intracommunautaire contrôlé), numérotation continue
   sans trou, documents (IBAN/BIC contrôlés, déchets, CGV), assurance décennale (alerte avant
   échéance), emails Gmail (mot de passe chiffré, email de test), modèles d'emails, textes types.
+- [x] Étape 3 — Menu de configuration au premier lancement (9 écrans, barre de progression,
+  reprise, retour arrière, devis PDF d'exemple). Le gérant peut le passer pour l'instant :
+  l'application s'ouvre avec un bandeau, et les pages destinées aux clients restent coupées
+  jusqu'à la fin. Un commercial voit « en cours de configuration par le gérant ».

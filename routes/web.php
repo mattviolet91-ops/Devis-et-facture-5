@@ -4,6 +4,7 @@ use App\Http\Controllers\AccueilController;
 use App\Http\Controllers\Auth\ConnexionController;
 use App\Http\Controllers\Auth\MotDePasseOublieController;
 use App\Http\Controllers\Auth\NouveauMotDePasseController;
+use App\Http\Controllers\ConfigurationController;
 use App\Http\Controllers\CorbeilleController;
 use App\Http\Controllers\FichiersController;
 use App\Http\Controllers\JournalController;
@@ -36,6 +37,17 @@ Route::middleware('auth')->group(function () {
     Route::get('/plus', [PagesController::class, 'plus'])->name('plus');
     Route::get('/nouveau', [PagesController::class, 'nouveau'])->name('nouveau');
     Route::get('/bientot/{rubrique}', [PagesController::class, 'bientot'])->name('bientot');
+
+    Route::middleware('gerant')->prefix('configuration')->name('configuration')->group(function () {
+        Route::get('/', [ConfigurationController::class, 'index']);
+        Route::post('/passer', [ConfigurationController::class, 'passer'])->name('.passer');
+        Route::post('/terminer', [ConfigurationController::class, 'terminer'])->name('.terminer');
+        Route::get('/devis-exemple.pdf', [ConfigurationController::class, 'pdfExemple'])->name('.pdf');
+        Route::post('/emails/test', [ReglagesController::class, 'testerEmail'])->middleware('throttle:5,1')->name('.test-email');
+        Route::post('/{etape}/plus-tard', [ConfigurationController::class, 'plusTard'])->name('.plus-tard');
+        Route::get('/{etape}', [ConfigurationController::class, 'edit'])->name('.etape');
+        Route::put('/{etape}', [ConfigurationController::class, 'update'])->name('.enregistrer');
+    });
 
     Route::middleware('gerant')->group(function () {
         Route::get('/journal', [JournalController::class, 'index'])->name('journal');

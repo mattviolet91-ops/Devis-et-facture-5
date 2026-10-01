@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\CompteActif;
+use App\Http\Middleware\ConfigurationRequise;
 use App\Http\Middleware\EnTetesSecurite;
 use App\Http\Middleware\EstGerant;
 use App\Http\Middleware\ForcerHttps;
@@ -17,7 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->prepend(ForcerHttps::class);
         $middleware->append(EnTetesSecurite::class);
-        $middleware->web(append: [CompteActif::class]);
+        $middleware->web(append: [CompteActif::class, ConfigurationRequise::class]);
         $middleware->alias(['gerant' => EstGerant::class]);
         $middleware->redirectGuestsTo(fn () => route('login'));
         $middleware->redirectUsersTo(fn () => route('accueil'));

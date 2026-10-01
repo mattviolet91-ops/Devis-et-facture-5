@@ -5,7 +5,9 @@ namespace App\Console\Commands;
 use App\Models\Appareil;
 use App\Models\User;
 use App\Notifications\NouvelAppareil;
+use App\Support\Configuration;
 use App\Support\Journal;
+use App\Support\Metiers;
 use App\Support\Reglages;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
@@ -42,7 +44,6 @@ class Demo extends Command
         'tva.regime' => 'franchise',
         'documents.iban' => 'FR7630006000011234567890189',
         'documents.bic' => 'AGRIFRPP',
-        'documents.cgv' => "Article 1 — Objet\nLes présentes conditions générales (texte de démonstration) s'appliquent aux travaux réalisés par l'entreprise.\n\nArticle 2 — Devis\nLe devis est valable pendant la durée indiquée.",
         'assurance.assureur' => 'Assureur fictif',
         'assurance.numero_contrat' => 'DEMO-0000',
         'assurance.activites' => "Couverture\nZinguerie\nCharpente (démonstration)",
@@ -68,6 +69,12 @@ class Demo extends Command
                 $reglages->set($cle, $valeur);
             }
             $reglages->set('demo.active', true);
+            $reglages->set('entreprise.metier', 'couvreur');
+            $reglages->set('modules.actifs', Metiers::metier('couvreur')['modules']);
+            $reglages->set('catalogue.depart_a_charger', 'couvreur');
+            $reglages->set('documents.cgv', Metiers::cgvDeDepart('couvreur'));
+            $reglages->set('setup.etapes', array_keys(Configuration::ETAPES));
+            $reglages->set('setup.completed_at', now()->toIso8601String());
             $reglages->set('tva.taux_defaut', 0);
             $reglages->set('assurance.date_debut', now()->startOfYear()->toDateString());
             $reglages->set('assurance.date_fin', now()->addDays(20)->toDateString());

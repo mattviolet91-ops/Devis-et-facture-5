@@ -19,6 +19,7 @@ use App\Http\Controllers\PieceJointeController;
 use App\Http\Controllers\PrestationController;
 use App\Http\Controllers\ReglagesController;
 use App\Http\Controllers\TextesTypesController;
+use App\Http\Controllers\VisionneuseController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/manifest.webmanifest', [PagesController::class, 'manifest'])->name('manifest');
@@ -43,6 +44,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/deconnexion', [ConnexionController::class, 'destroy'])->name('logout');
 
     Route::get('/plus', [PagesController::class, 'plus'])->name('plus');
+    Route::get('/visionneuse', [VisionneuseController::class, 'show'])->name('visionneuse');
     Route::get('/nouveau', [PagesController::class, 'nouveau'])->name('nouveau');
     Route::get('/bientot/{rubrique}', [PagesController::class, 'bientot'])->name('bientot');
 
@@ -75,6 +77,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/refuse', [DevisController::class, 'refuser'])->name('devis.refuser');
         Route::post('/nouvelle-version', [DevisController::class, 'nouvelleVersion'])->name('devis.version');
         Route::post('/dupliquer', [DevisController::class, 'dupliquer'])->name('devis.dupliquer');
+        Route::get('/pdf', [DevisController::class, 'pdf'])->name('devis.pdf');
     });
 
     // Clients et chantiers (gérant et commercial).

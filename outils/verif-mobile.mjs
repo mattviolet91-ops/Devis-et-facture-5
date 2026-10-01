@@ -175,6 +175,17 @@ for (const theme of ['light', 'dark']) {
     verifier(await page.locator('button:has-text("Créer le brouillon")').count() === 1, `[${theme}] aperçu du devis express`);
     await capture('devis-express');
 
+    // Visionneuse PDF (pdf.js, sans appel extérieur).
+    await page.goto(`${base}/devis?statut=accepte`);
+    await page.click('ul.liste.carte a >> nth=0');
+    await page.waitForURL(/\/devis\/\d+$/);
+    await page.click('a:has-text("Voir le PDF")');
+    await page.waitForSelector('canvas.page-pdf', { timeout: 20000 });
+    verifier(await page.locator('canvas.page-pdf').count() >= 2, `[${theme}] visionneuse PDF`);
+    await capture('visionneuse');
+    await page.click('[data-retour]');
+    await page.waitForURL(/\/devis\/\d+$/);
+
     await page.goto(`${base}/catalogue`);
     await capture('catalogue');
 

@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use App\Models\Devis;
 use App\Services\GestionDevis;
+use App\Services\PdfDevis;
 use App\Support\Metiers;
 use App\Support\Montant;
 use App\Support\Tva;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
@@ -190,6 +193,17 @@ class DevisController extends Controller
         $copie = $this->gestion->dupliquer($devis, $clientId, $request->user()->id);
 
         return redirect()->route('devis.edit', $copie)->with('statut', 'Copie créée (brouillon).');
+    }
+
+    public function pdf(Devis $devis, PdfDevis $pdf): Response
+    {
+        $nom = 'devis-'.str_replace([' ', '/'], '-', mb_strtolower($devis->reference())).'.pdf';
+
+        return response($pdf->contenu($devis), 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="'.Str::ascii($nom).'"',
+            'Cache-Control' => 'private, no-store',
+        ]);
     }
 
     public function destroy(Devis $devis): RedirectResponse

@@ -100,6 +100,9 @@ class GestionDevis
             $devis->envoye_at = now();
             $devis->save();
 
+            // Le PDF envoyé est figé : son empreinte SHA-256 prouve qu'il n'a pas changé.
+            app(PdfDevis::class)->figer($devis->fresh(['client', 'chantier', 'lignes']));
+
             // L'ancienne version est remplacée.
             if ($origine) {
                 Devis::where(fn ($q) => $q->whereKey($origine->id)->orWhere('devis_origine_id', $origine->id))

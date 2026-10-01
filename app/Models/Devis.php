@@ -64,6 +64,7 @@ class Devis extends Model
             'envoye_at' => 'datetime',
             'accepte_at' => 'datetime',
             'refuse_at' => 'datetime',
+            'pdf_fige_at' => 'datetime',
             'hors_etablissement' => 'boolean',
             'urgence' => 'boolean',
             'total_ht' => 'integer',

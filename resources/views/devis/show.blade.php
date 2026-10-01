@@ -97,6 +97,10 @@
     @endif
 
     <section class="carte actions-devis" aria-label="Actions">
+        <a class="bouton bouton-secondaire bouton-large" href="{{ route('visionneuse', ['f' => '/devis/'.$devis->id.'/pdf', 'titre' => 'Devis '.$devis->reference()]) }}">Voir le PDF</a>
+        @if ($devis->pdf_sha256)
+            <p class="aide">PDF figé le {{ $devis->pdf_fige_at?->timezone(config('app.timezone'))->format('d/m/Y à H:i') }} · empreinte SHA-256 : <code class="empreinte">{{ $devis->pdf_sha256 }}</code></p>
+        @endif
         @if ($devis->estModifiable())
             <a class="bouton bouton-large" href="{{ route('devis.edit', $devis) }}">Modifier</a>
             <form method="post" action="{{ route('devis.envoyer', $devis) }}">

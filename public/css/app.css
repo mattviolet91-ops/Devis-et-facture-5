@@ -516,3 +516,12 @@ details.carte[open] summary { margin-bottom: 12px; }
 .actions-devis details summary::-webkit-details-marker { display: none; }
 .champ input[type="number"] { -moz-appearance: textfield; }
 @media (min-width: 600px) { .grille-ligne { grid-template-columns: 2fr 1fr 2fr 1fr; } .ajouts { grid-template-columns: repeat(5, auto); } }
+
+/* ---------- Visionneuse PDF ---------- */
+.page-visionneuse { padding: 0; background: #525659; }
+.barre-visionneuse { position: sticky; top: 0; z-index: 5; display: flex; justify-content: space-between; gap: 8px; padding: calc(env(safe-area-inset-top) + 8px) 12px 8px; background: var(--fond-carte); box-shadow: var(--ombre); }
+.pages-pdf { padding: 8px; max-width: 900px; margin: 0 auto; }
+.page-pdf { display: block; width: 100%; height: auto; margin: 0 auto 8px; background: #fff; box-shadow: 0 1px 4px rgb(0 0 0 / 0.4); }
+.chargement { color: #fff; text-align: center; padding: 40px 0; }
+@media (min-width: 1024px) { .page-visionneuse { padding-left: 0; } }
+.empreinte { overflow-wrap: anywhere; font-size: 0.75rem; }

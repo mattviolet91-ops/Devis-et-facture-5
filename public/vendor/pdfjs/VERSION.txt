@@ -1,0 +1,1 @@
+pdf.js 4.10.38 (legacy build) — Mozilla, licence Apache 2.0 — https://mozilla.github.io/pdf.js/

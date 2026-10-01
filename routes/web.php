@@ -17,10 +17,12 @@ use App\Http\Controllers\FichiersController;
 use App\Http\Controllers\ImportClientsController;
 use App\Http\Controllers\JournalController;
 use App\Http\Controllers\NoteClientController;
+use App\Http\Controllers\NotificationsTelephoneController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\PaiementController;
 use App\Http\Controllers\PaiementEnLigneController;
 use App\Http\Controllers\PieceJointeController;
+use App\Http\Controllers\PlanningController;
 use App\Http\Controllers\PrestationController;
 use App\Http\Controllers\ReglagesController;
 use App\Http\Controllers\SignatureSurPlaceController;
@@ -90,7 +92,27 @@ Route::middleware('auth')->group(function () {
     Route::get('/plus', [PagesController::class, 'plus'])->name('plus');
     Route::get('/visionneuse', [VisionneuseController::class, 'show'])->name('visionneuse');
     Route::get('/nouveau', [PagesController::class, 'nouveau'])->name('nouveau');
-    Route::get('/bientot/{rubrique}', [PagesController::class, 'bientot'])->name('bientot');
+
+    // Notifications sur le téléphone.
+    Route::post('/notifications/abonnement', [NotificationsTelephoneController::class, 'abonner'])->middleware('throttle:10,1')->name('push.abonner');
+    Route::delete('/notifications/abonnement', [NotificationsTelephoneController::class, 'desabonner'])->name('push.desabonner');
+    Route::post('/notifications/essai', [NotificationsTelephoneController::class, 'essai'])->middleware('throttle:5,1')->name('push.essai');
+
+    // Planning (gérant et commercial).
+    Route::get('/planning', [PlanningController::class, 'index'])->name('planning.index');
+    Route::get('/planning/a-planifier', [PlanningController::class, 'aPlanifier'])->name('planning.a-planifier');
+    Route::get('/planning/export.ics', [PlanningController::class, 'exporter'])->name('planning.exporter');
+    Route::get('/planning/nouveau', [PlanningController::class, 'create'])->name('planning.create');
+    Route::post('/planning', [PlanningController::class, 'store'])->name('planning.store');
+    Route::prefix('/planning/{rdv}')->whereNumber('rdv')->group(function () {
+        Route::get('/', [PlanningController::class, 'show'])->name('planning.show');
+        Route::get('/modifier', [PlanningController::class, 'edit'])->name('planning.edit');
+        Route::put('/', [PlanningController::class, 'update'])->name('planning.update');
+        Route::delete('/', [PlanningController::class, 'destroy'])->name('planning.destroy');
+        Route::post('/fait', [PlanningController::class, 'fait'])->name('planning.fait');
+        Route::post('/provenance', [PlanningController::class, 'provenance'])->name('planning.provenance');
+        Route::get('/calendrier.ics', [PlanningController::class, 'ics'])->name('planning.ics');
+    });
 
     // Catalogue : lecture pour tous, modification par le gérant.
     Route::get('/catalogue', [PrestationController::class, 'index'])->name('catalogue.index');

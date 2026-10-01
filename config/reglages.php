@@ -64,6 +64,10 @@ return [
                 'sujet' => 'Rappel : facture {numero}',
                 'corps' => "{salutation},\n\nSauf erreur de notre part, la facture {numero} d'un montant de {montant} arrivée à échéance le {echeance} reste à régler.\nVous pouvez la régler en ligne : {lien}\n\nSi le règlement a déjà été fait, merci de ne pas tenir compte de ce message.\n\nCordialement,\n{entreprise}",
             ],
+            'rendez_vous' => [
+                'sujet' => 'Rappel : notre passage le {date}',
+                'corps' => "{salutation},\n\nPetit rappel : nous passerons le {date} ({horaire}) pour : {objet}.\nAdresse : {adresse}\n\nEn cas d'empêchement, merci de nous prévenir au {telephone}.\n\nCordialement,\n{entreprise}",
+            ],
             'rapport' => [
                 'sujet' => 'Rapport d\'intervention',
                 'corps' => "{salutation},\n\nVeuillez trouver le rapport de notre intervention : {lien}\n\nCordialement,\n{entreprise}",

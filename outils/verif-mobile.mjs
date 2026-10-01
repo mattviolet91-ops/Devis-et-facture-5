@@ -205,6 +205,21 @@ for (const theme of ['light', 'dark']) {
     await page.goto(`${base}/catalogue`);
     await capture('catalogue');
 
+    // Planning : semaine, mois, fiche, formulaire, à planifier.
+    await page.goto(`${base}/planning`);
+    verifier(await page.locator('.jour-planning').count() === 7, `[${theme}] planning : 7 jours attendus`);
+    await capture('planning-semaine');
+    await page.goto(`${base}/planning?vue=mois`);
+    await capture('planning-mois');
+    await page.goto(`${base}/planning`);
+    await page.click('.jour-planning ul.liste a >> nth=0');
+    await page.waitForURL(/\/planning\/\d+$/);
+    await capture('planning-fiche');
+    await page.goto(`${base}/planning/nouveau`);
+    await capture('planning-formulaire');
+    await page.goto(`${base}/planning/a-planifier`);
+    await capture('planning-a-planifier');
+
     await page.goto(`${base}/page-inexistante`);
     await capture('erreur-404');
 

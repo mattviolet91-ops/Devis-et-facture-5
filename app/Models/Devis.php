@@ -96,6 +96,11 @@ class Devis extends Model
         return $this->hasOne(Signature::class)->latestOfMany();
     }
 
+    public function rendezVous(): HasMany
+    {
+        return $this->hasMany(RendezVous::class);
+    }
+
     public function demandesModification(): HasMany
     {
         return $this->hasMany(DemandeModification::class)->latest();

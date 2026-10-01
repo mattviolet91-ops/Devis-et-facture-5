@@ -8,6 +8,7 @@ use App\Models\Devis;
 use App\Models\EmailEnvoye;
 use App\Models\Facture;
 use App\Models\LienClient;
+use App\Models\RendezVous;
 use App\Support\Montant;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
@@ -42,6 +43,25 @@ class EnvoiEmail
             '{reste}' => $document instanceof Facture ? Montant::formater($document->resteAPayer()) : Montant::formater((int) $document->total_ttc),
             '{echeance}' => $document instanceof Facture ? (string) $document->date_echeance?->format('d/m/Y') : (string) $document->dateValidite()?->format('d/m/Y'),
             '{lien}' => $lien,
+            '{entreprise}' => (string) reglage('identite.nom_commercial'),
+            '{telephone}' => (string) reglage('identite.telephone'),
+        ];
+    }
+
+    /**
+     * Variables du rappel de rendez-vous envoyé au client.
+     *
+     * @return array<string, string>
+     */
+    public function variablesRendezVous(RendezVous $rdv): array
+    {
+        return [
+            '{salutation}' => self::salutation($rdv->client),
+            '{client}' => $rdv->client->nomComplet(),
+            '{date}' => $rdv->debut->translatedFormat('l j F'),
+            '{horaire}' => $rdv->horaire(),
+            '{objet}' => $rdv->titre,
+            '{adresse}' => (string) $rdv->adresse(),
             '{entreprise}' => (string) reglage('identite.nom_commercial'),
             '{telephone}' => (string) reglage('identite.telephone'),
         ];

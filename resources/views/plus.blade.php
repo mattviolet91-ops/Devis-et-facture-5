@@ -2,6 +2,10 @@
 
 @section('titre', 'Plus')
 
+@push('scripts')
+    <script src="{{ asset('js/notifications.js') }}?v={{ filemtime(public_path('js/notifications.js')) }}" defer></script>
+@endpush
+
 @section('contenu')
     <section class="carte" aria-labelledby="titre-affichage">
         <h2 id="titre-affichage">Affichage sur ce téléphone</h2>
@@ -30,7 +34,7 @@
             @if (auth()->user()->estGerant())
                 <li><a class="liste-lien" href="{{ route('factures.index') }}"><x-icone nom="factures" /><span class="libelle">Factures</span><x-icone nom="fleche" /></a></li>
             @endif
-            <li><a class="liste-lien" href="{{ route('bientot', 'planning') }}"><x-icone nom="planning" /><span class="libelle">Planning</span><x-icone nom="fleche" /></a></li>
+            <li><a class="liste-lien" href="{{ route('planning.index') }}"><x-icone nom="planning" /><span class="libelle">Planning</span><x-icone nom="fleche" /></a></li>
             @if (auth()->user()->estGerant())
                 <li><a class="liste-lien" href="{{ route('reglages') }}"><x-icone nom="reglages" /><span class="libelle">Réglages</span><x-icone nom="fleche" /></a></li>
                 <li><a class="liste-lien" href="{{ route('journal') }}"><x-icone nom="journal" /><span class="libelle">Journal d'activité</span><x-icone nom="fleche" /></a></li>
@@ -38,6 +42,19 @@
             @endif
         </ul>
     </nav>
+
+    <section class="carte" aria-labelledby="titre-notifications" data-notifications data-cle="{{ app(\App\Services\NotificationsTelephone::class)->clePublique() }}" data-url="{{ route('push.abonner') }}">
+        <h2 id="titre-notifications">Notifications sur ce téléphone</h2>
+        <p class="aide">Rappels du planning, devis signés, paiements reçus… même quand l'application est fermée.</p>
+        <p data-etat-notifications class="texte-doux">Les notifications ne sont pas disponibles sur ce navigateur.</p>
+        <button type="button" class="bouton bouton-large" data-activer-notifications hidden>Activer les notifications</button>
+        <button type="button" class="bouton bouton-secondaire bouton-large" data-couper-notifications hidden>Couper les notifications</button>
+        <form method="post" action="{{ route('push.essai') }}" data-essai-notifications hidden>
+            @csrf
+            <button type="submit" class="bouton bouton-secondaire bouton-large">Envoyer une notification d'essai</button>
+        </form>
+        <p class="aide">Sur iPhone : ajoutez d'abord l'application à l'écran d'accueil (bouton Partager → « Sur l'écran d'accueil »).</p>
+    </section>
 
     <section class="carte" aria-labelledby="titre-compte">
         <h2 id="titre-compte">Mon compte</h2>

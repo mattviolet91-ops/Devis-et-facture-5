@@ -547,3 +547,27 @@ details.carte[open] summary { margin-bottom: 12px; }
 .statut-annulee { background: var(--fond); border: 1px solid var(--bordure); }
 .segments:has(> label:nth-of-type(4)) { grid-template-columns: repeat(2, 1fr); }
 .badge.en-retard { background: var(--danger-fond); color: var(--danger); }
+
+/* Planning */
+.segments:not(:has(> label:nth-of-type(3))) { grid-template-columns: repeat(2, 1fr); }
+.grille-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px; }
+.centre { text-align: center; }
+.barre { text-decoration: line-through; }
+.navigation-periode { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 8px 0 0; }
+.navigation-periode h2 { margin: 0; font-size: 1.1rem; text-align: center; }
+.jour-planning h3 { margin: 0 0 6px; font-size: 1rem; }
+.jour-planning.aujourdhui { border-left: 4px solid var(--couleur-principale); }
+.calendrier-mois { background: var(--fond-carte); border: 1px solid var(--bordure); border-radius: 12px; overflow: hidden; }
+.calendrier-entete, .calendrier-semaine { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); }
+.calendrier-entete span { text-align: center; font-size: 0.75rem; font-weight: 600; padding: 6px 0; color: var(--texte-doux); }
+.calendrier-jour {
+    min-height: 72px; padding: 3px; border-top: 1px solid var(--bordure); border-left: 1px solid var(--bordure);
+    color: inherit; text-decoration: none; display: flex; flex-direction: column; gap: 2px; overflow: hidden; font-size: 0.7rem;
+}
+.calendrier-jour:first-child { border-left: 0; }
+.calendrier-jour .numero { font-weight: 600; font-size: 0.85rem; }
+.calendrier-jour.hors-mois { color: var(--texte-doux); opacity: 0.6; }
+.calendrier-jour.aujourdhui .numero { color: var(--couleur-principale); text-decoration: underline; }
+.pastille { display: block; border-radius: 4px; padding: 1px 3px; background: var(--info-fond); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pastille-chantier { background: var(--succes-fond); }
+.pastille-fait { text-decoration: line-through; opacity: 0.7; }

@@ -4,7 +4,7 @@
         ['route' => 'clients', 'url' => route('clients.index'), 'libelle' => 'Clients', 'icone' => 'clients', 'actif' => request()->routeIs('clients.*', 'chantiers.*')],
         ['route' => 'nouveau', 'url' => route('nouveau'), 'libelle' => 'Nouveau', 'icone' => 'plus', 'actif' => request()->routeIs('nouveau')],
         ['route' => 'devis', 'url' => route('devis.index'), 'libelle' => 'Devis', 'icone' => 'devis', 'actif' => request()->routeIs('devis.*')],
-        ['route' => 'plus', 'url' => route('plus'), 'libelle' => 'Plus', 'icone' => 'menu', 'actif' => request()->routeIs('plus', 'journal', 'corbeille', 'reglages*', 'catalogue.*', 'factures.*')],
+        ['route' => 'plus', 'url' => route('plus'), 'libelle' => 'Plus', 'icone' => 'menu', 'actif' => request()->routeIs('plus', 'journal', 'corbeille', 'reglages*', 'catalogue.*', 'factures.*', 'planning.*')],
     ];
 @endphp
 <nav class="barre-bas" aria-label="Menu principal">

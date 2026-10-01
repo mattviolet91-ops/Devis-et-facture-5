@@ -72,11 +72,10 @@ class InterfaceTest extends TestCase
         $this->get('/manifest.webmanifest')->assertJsonPath('name', 'Entreprise Fictive');
     }
 
-    public function test_page_bientot_et_rubrique_inconnue(): void
+    public function test_rubrique_inconnue(): void
     {
         $user = User::factory()->create();
-        $this->actingAs($user)->get('/bientot/planning')->assertOk()->assertSee('Bientôt disponible');
-        $this->get('/bientot/nimporte')->assertNotFound();
+        $this->actingAs($user)->get('/bientot/planning')->assertNotFound();
     }
 
     public function test_accessibilite_de_base(): void

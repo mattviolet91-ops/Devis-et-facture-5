@@ -74,7 +74,7 @@ class SecuriteTest extends TestCase
     public function test_aucun_script_ni_style_inline_dans_les_pages(): void
     {
         $gerant = User::factory()->gerant()->create();
-        $pages = ['/accueil', '/plus', '/nouveau', '/journal', '/corbeille', '/bientot/planning'];
+        $pages = ['/accueil', '/plus', '/nouveau', '/journal', '/corbeille', '/planning'];
 
         $html = [$this->get('/connexion')->getContent(), $this->get('/mot-de-passe-oublie')->getContent()];
         foreach ($pages as $page) {

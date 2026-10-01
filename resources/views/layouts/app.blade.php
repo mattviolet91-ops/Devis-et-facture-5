@@ -29,6 +29,9 @@
         @if (session('statut'))
             <div class="message message-succes" role="status">{{ session('statut') }}</div>
         @endif
+        @if (session('erreur'))
+            <div class="message message-erreur" role="alert">{{ session('erreur') }}</div>
+        @endif
 
         @yield('contenu')
     </main>

@@ -18,20 +18,6 @@ class PagesController extends Controller
         return view('nouveau');
     }
 
-    /**
-     * Rubriques prévues dans les prochaines étapes.
-     */
-    public function bientot(string $rubrique): View
-    {
-        $titres = [
-            'planning' => 'Planning',
-        ];
-
-        abort_unless(isset($titres[$rubrique]), 404);
-
-        return view('bientot', ['titre' => $titres[$rubrique]]);
-    }
-
     public function manifest(): JsonResponse
     {
         $nom = (string) reglage('identite.nom_commercial') ?: config('app.name');

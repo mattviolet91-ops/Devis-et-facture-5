@@ -103,6 +103,7 @@ class Demo extends Command
             app(CatalogueDepart::class)->charger('couvreur', DonneesDemo::PRIX_CATALOGUE);
             DonneesDemo::installerDevis($gerant);
             DonneesDemo::installerFactures($gerant);
+            DonneesDemo::installerPlanning($gerant);
             Prestation::where('nom', 'Échafaudage')->update(['description' => 'Montage, location et démontage (prix d\'exemple).']);
             $appareil = Appareil::firstOrCreate(
                 ['user_id' => $gerant->id, 'empreinte' => hash('sha256', 'demo-tablette')],

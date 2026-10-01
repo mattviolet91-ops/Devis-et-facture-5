@@ -29,13 +29,11 @@
                     </a>
                 </li>
             @endif
-            @foreach ([['planning', 'Un rendez-vous', 'planning']] as [$rubrique, $libelle, $icone])
-                <li>
-                    <a class="liste-lien" href="{{ route('bientot', $rubrique) }}">
-                        <x-icone :nom="$icone" /><span class="libelle">{{ $libelle }}</span><span class="badge">Bientôt</span>
-                    </a>
-                </li>
-            @endforeach
+            <li>
+                <a class="liste-lien" href="{{ route('planning.create') }}">
+                    <x-icone nom="planning" /><span class="libelle">Un rendez-vous</span><x-icone nom="fleche" />
+                </a>
+            </li>
         </ul>
     </div>
 @endsection

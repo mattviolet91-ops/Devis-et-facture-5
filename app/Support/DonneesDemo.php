@@ -5,6 +5,7 @@ namespace App\Support;
 use App\Models\Client;
 use App\Models\Devis;
 use App\Models\Facture;
+use App\Models\RendezVous;
 use App\Models\User;
 use App\Services\DevisExpress;
 use App\Services\Encaissements;
@@ -185,6 +186,44 @@ class DonneesDemo
             } finally {
                 Carbon::setTestNow();
             }
+            $total++;
+        }
+
+        return $total;
+    }
+
+    /**
+     * Rendez-vous et chantiers d'exemple autour d'aujourd'hui.
+     * Le devis accepté reste « à planifier » pour montrer la liste.
+     */
+    public static function installerPlanning(User $auteur): int
+    {
+        if (RendezVous::exists()) {
+            return 0;
+        }
+
+        $client = fn (string $nom) => Client::where('nom', $nom)->first();
+        $commercial = User::where('role', User::ROLE_COMMERCIAL)->first();
+        $exemples = [
+            ['rdv', 'Visite pour devis : fuite', 'Leroy', today()->setTime(14, 0), today()->setTime(15, 0), false, $auteur->id, null],
+            ['rdv', 'Mesures pour les gouttières', 'Durand', today()->addDay()->setTime(10, 0), today()->addDay()->setTime(11, 0), false, $commercial?->id, 1],
+            ['chantier', 'Abergement de cheminée', 'Bérard', today()->addWeek()->startOfWeek()->addDay(), today()->addWeek()->startOfWeek()->addDays(2)->setTime(23, 59, 59), true, $auteur->id, 2],
+            ['chantier', 'Recherche de fuite et réparation', 'Garnier', today()->subDays(46), today()->subDays(46)->setTime(23, 59, 59), true, $auteur->id, null],
+            ['rdv', 'Entretien annuel de la toiture', 'Moreau', today()->addDays(9)->setTime(8, 30), today()->addDays(9)->setTime(10, 0), false, $auteur->id, null],
+        ];
+
+        $total = 0;
+        foreach ($exemples as [$type, $titre, $nom, $debut, $fin, $journee, $userId, $rappel]) {
+            $c = $client($nom);
+            if (! $c) {
+                continue;
+            }
+            RendezVous::create([
+                'type' => $type, 'titre' => $titre, 'debut' => $debut, 'fin' => $fin, 'journee_entiere' => $journee,
+                'client_id' => $c->id, 'chantier_id' => $c->chantiers()->value('id'), 'user_id' => $userId,
+                'rappel_client_jours' => $rappel, 'fait' => $debut->isPast() && $journee, 'created_by' => $auteur->id,
+                'notes' => $type === 'chantier' ? 'Prévoir l\'échafaudage la veille (exemple).' : null,
+            ]);
             $total++;
         }
 

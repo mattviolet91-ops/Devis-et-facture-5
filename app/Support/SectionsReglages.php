@@ -173,7 +173,7 @@ class SectionsReglages
 
             'modeles' => [
                 'titre' => 'Modèles d\'emails',
-                'description' => 'Textes proposés pour l\'envoi des devis, factures et relances.',
+                'description' => 'Textes proposés pour l\'envoi des devis, factures, relances et rappels de rendez-vous.',
                 'icone' => 'devis',
                 'champs' => self::champsModeles(),
             ],
@@ -312,6 +312,10 @@ class SectionsReglages
             $champs[] = ['cle' => "emails.modeles.{$cle}.sujet", 'libelle' => "{$titre} : objet", 'type' => 'texte', 'obligatoire' => true, 'regles' => ['max:200']];
             $champs[] = ['cle' => "emails.modeles.{$cle}.corps", 'libelle' => "{$titre} : message", 'type' => 'textarea', 'obligatoire' => true, 'regles' => ['max:5000'], 'aide' => $variables];
         }
+
+        $champs[] = ['cle' => 'emails.modeles.rendez_vous.sujet', 'libelle' => 'Rappel de rendez-vous au client : objet', 'type' => 'texte', 'obligatoire' => true, 'regles' => ['max:200']];
+        $champs[] = ['cle' => 'emails.modeles.rendez_vous.corps', 'libelle' => 'Rappel de rendez-vous au client : message', 'type' => 'textarea', 'obligatoire' => true, 'regles' => ['max:5000'],
+            'aide' => 'Variables possibles : {salutation}, {date}, {horaire}, {objet}, {adresse}, {telephone}, {entreprise}.'];
 
         return $champs;
     }

@@ -34,6 +34,7 @@ use App\Http\Controllers\PlanningController;
 use App\Http\Controllers\PrestationController;
 use App\Http\Controllers\RapportController;
 use App\Http\Controllers\ReglagesController;
+use App\Http\Controllers\SauvegardesController;
 use App\Http\Controllers\SignatureSurPlaceController;
 use App\Http\Controllers\StatistiquesController;
 use App\Http\Controllers\StatistiquesSiteController;
@@ -298,6 +299,9 @@ Route::middleware('auth')->group(function () {
         Route::delete('/reglages/textes-types/{index}', [TextesTypesController::class, 'destroy'])->whereNumber('index')->name('reglages.textes.destroy');
         Route::post('/reglages/emails/test', [ReglagesController::class, 'testerEmail'])->middleware('throttle:5,1')->name('reglages.emails.test');
         Route::get('/reglages/assurance/attestation', [FichiersController::class, 'attestation'])->name('reglages.attestation');
+        Route::get('/reglages/sauvegardes', [SauvegardesController::class, 'index'])->name('reglages.sauvegardes');
+        Route::post('/reglages/sauvegardes', [SauvegardesController::class, 'maintenant'])->middleware('throttle:3,1')->name('reglages.sauvegardes.maintenant');
+        Route::get('/reglages/sauvegardes/{nom}', [SauvegardesController::class, 'telecharger'])->where('nom', '[a-z0-9.-]+')->name('reglages.sauvegardes.telecharger');
         Route::get('/reglages/acces-claude', [ClesApiController::class, 'index'])->name('reglages.claude');
         Route::post('/reglages/acces-claude', [ClesApiController::class, 'store'])->middleware('throttle:10,1')->name('reglages.claude.creer');
         Route::post('/reglages/acces-claude/{cle}/revoquer', [ClesApiController::class, 'revoquer'])->whereNumber('cle')->name('reglages.claude.revoquer');

@@ -103,7 +103,7 @@ class GuideTest extends TestCase
         AbonnementPush::create(['user_id' => $user->id, 'endpoint' => 'https://push.exemple.test/1', 'cle_p256dh' => 'x', 'cle_auth' => 'y']);
         $this->assertFalse(BienDemarrer::complet($user), 'Il manque la sauvegarde du mois.');
 
-        Storage::disk('local')->put('sauvegardes/base-'.now()->format('Y-m-d-Hi').'.sql.gz', 'x');
+        Storage::disk('local')->put('sauvegardes/base-'.now()->format('Y-m-d-His').'.json.gz', 'x');
         $this->assertTrue(BienDemarrer::complet($user));
         $this->get(route('accueil'))->assertDontSee('quelques réglages restent à faire');
     }

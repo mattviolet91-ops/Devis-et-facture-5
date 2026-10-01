@@ -30,7 +30,7 @@ class BienDemarrer
             ['texte' => 'Au moins 5 prestations dans le catalogue', 'lien' => route('catalogue.index'), 'fait' => Prestation::count() >= 5],
             ['texte' => 'Envoi des emails réglé (Gmail)', 'lien' => route('reglages.edit', 'emails'), 'fait' => app(ConfigurationEmail::class)->estConfiguree()],
             ['texte' => 'Notifications activées sur ce téléphone', 'lien' => route('plus'), 'fait' => AbonnementPush::where('user_id', $user->id)->exists()],
-            ['texte' => 'Sauvegarde faite ce mois-ci', 'lien' => route('reglages'), 'fait' => (bool) app(Sauvegardes::class)->derniere()?->isSameMonth(now())],
+            ['texte' => 'Sauvegarde faite ce mois-ci', 'lien' => route('reglages.sauvegardes'), 'fait' => (bool) app(Sauvegardes::class)->derniere()?->isSameMonth(now())],
         ];
     }
 

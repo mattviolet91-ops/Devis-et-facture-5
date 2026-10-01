@@ -263,6 +263,8 @@ for (const theme of ['light', 'dark']) {
 
     await page.goto(`${base}/guide?r=photos#photos`);
     await capture('guide');
+    await page.goto(`${base}/reglages/sauvegardes`);
+    await capture('sauvegardes');
     await page.goto(`${base}/reglages/acces-claude`);
     await capture('acces-claude');
     await page.goto(`${base}/comptes`);

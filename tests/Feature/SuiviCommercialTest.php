@@ -130,6 +130,9 @@ class SuiviCommercialTest extends TestCase
         $this->get('/demande')->assertNotFound();
         app(Reglages::class)->set('suivi.formulaire_actif', true);
 
+        app(Reglages::class)->oublier('setup.completed_at');
+        $this->get('/demande')->assertStatus(503);
+        app(Reglages::class)->set('setup.completed_at', now()->toIso8601String());
         $this->get('/demande')->assertOk()->assertSee('Demander un devis')->assertSee('name="site_web"', false);
 
         $horodatage = Crypt::encryptString((string) now()->subSeconds(30)->timestamp);

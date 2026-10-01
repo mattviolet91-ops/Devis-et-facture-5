@@ -12,3 +12,4 @@ Schedule::command('app:meteo')->hourlyAt(17)->withoutOverlapping();
 Schedule::command('app:relancer-devis')->dailyAt('09:20')->withoutOverlapping();
 Schedule::command('app:lire-emails')->everyFiveMinutes()->withoutOverlapping();
 Schedule::command('app:stats-site')->dailyAt('03:40')->withoutOverlapping();
+Schedule::command('app:sauvegarder')->dailyAt('02:30')->withoutOverlapping();

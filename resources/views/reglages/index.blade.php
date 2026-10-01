@@ -39,8 +39,10 @@
         </ul>
     </nav>
 
+    @php($derniere = app(\App\Services\Sauvegardes::class)->derniere('base'))
     <div class="carte">
         <h2>Sauvegardes</h2>
-        <p class="texte-doux">Les sauvegardes automatiques (base chaque jour, fichiers chaque mois) arrivent dans une prochaine étape.</p>
+        <p class="texte-doux">{{ $derniere ? 'Dernière sauvegarde : '.$derniere->timezone(config('app.timezone'))->format('d/m/Y à H:i').'.' : 'Aucune sauvegarde pour le moment.' }}</p>
+        <a class="bouton bouton-secondaire" href="{{ route('reglages.sauvegardes') }}">Voir les sauvegardes</a>
     </div>
 @endsection

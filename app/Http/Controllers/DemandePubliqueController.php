@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Demande;
 use App\Services\LectureDemandes;
 use App\Services\Photos;
+use App\Support\Configuration;
 use App\Support\Telephone;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -23,14 +24,14 @@ class DemandePubliqueController extends Controller
 
     public function create(): View
     {
-        abort_unless(reglage('suivi.formulaire_actif'), 404);
+        $this->verifierOuvert();
 
         return view('demande.formulaire', ['horodatage' => Crypt::encryptString((string) now()->timestamp)]);
     }
 
     public function store(Request $request, Photos $photos): RedirectResponse
     {
-        abort_unless(reglage('suivi.formulaire_actif'), 404);
+        $this->verifierOuvert();
 
         // Champ piège : invisible pour une personne, rempli par les robots.
         if ($request->filled('site_web') || ! $this->delaiRespecte((string) $request->input('horodatage'))) {
@@ -89,6 +90,17 @@ class DemandePubliqueController extends Controller
     public function merci(): View
     {
         return view('demande.merci');
+    }
+
+    /**
+     * Formulaire activé, et configuration de l'entreprise terminée (comme les liens clients).
+     */
+    private function verifierOuvert(): void
+    {
+        abort_unless(reglage('suivi.formulaire_actif'), 404);
+        if (! Configuration::accesClientsActif()) {
+            abort(response()->view('client.indisponible', [], 503));
+        }
     }
 
     private function delaiRespecte(string $horodatage): bool

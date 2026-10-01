@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Chantier;
 use App\Models\Client;
 use App\Models\Devis;
+use App\Models\Photo;
 use App\Models\RendezVous;
 use App\Models\User;
 use App\Services\Meteo;
@@ -106,7 +107,11 @@ class PlanningController extends Controller
     {
         $rdv->load(['client', 'chantier', 'devis', 'user']);
 
-        return view('planning.show', ['rdv' => $rdv, 'previsions' => $meteo->pour($rdv)]);
+        return view('planning.show', [
+            'rdv' => $rdv,
+            'previsions' => $meteo->pour($rdv),
+            'photos' => Photo::where('rendez_vous_id', $rdv->id)->orderBy('id')->get(),
+        ]);
     }
 
     public function edit(RendezVous $rdv): View

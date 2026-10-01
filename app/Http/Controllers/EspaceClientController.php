@@ -5,16 +5,21 @@ namespace App\Http\Controllers;
 use App\Models\Devis;
 use App\Models\Facture;
 use App\Models\LienClient;
+use App\Models\Photo;
+use App\Models\Rapport;
 use App\Services\PdfDevis;
 use App\Services\PdfFacture;
+use App\Services\PdfRapport;
 use App\Services\SignatureDevis;
 use App\Support\Configuration;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
  * Pages destinées aux clients, ouvertes par un lien personnel (sans compte).
@@ -38,17 +43,25 @@ class EspaceClientController extends Controller
                 'lien' => $lien,
                 'facture' => $document->load(['client', 'lignes']),
             ]),
+            $document instanceof Rapport => view('client.rapport', [
+                'lien' => $lien,
+                'rapport' => $document->load('client'),
+                'photos' => $document->lesPhotos(),
+            ]),
             default => abort(404),
         };
     }
 
-    public function pdf(string $jeton, PdfDevis $pdf, PdfFacture $pdfFacture): Response
+    public function pdf(string $jeton, PdfDevis $pdf, PdfFacture $pdfFacture, PdfRapport $pdfRapport): Response
     {
         [, $document] = $this->ouvrir($jeton);
-        abort_unless($document instanceof Devis || $document instanceof Facture, 404);
 
-        $contenu = $document instanceof Devis ? $pdf->contenu($document) : $pdfFacture->contenu($document);
-        $nom = $document instanceof Devis ? 'devis-'.$document->reference() : $document->libelleType().'-'.$document->reference();
+        [$contenu, $nom] = match (true) {
+            $document instanceof Devis => [$pdf->contenu($document), 'devis-'.$document->reference()],
+            $document instanceof Facture => [$pdfFacture->contenu($document), $document->libelleType().'-'.$document->reference()],
+            $document instanceof Rapport => [$pdfRapport->generer($document), 'rapport-intervention-'.$document->date_intervention->format('Y-m-d')],
+            default => abort(404),
+        };
 
         return response($contenu, 200, [
             'Content-Type' => 'application/pdf',
@@ -56,6 +69,24 @@ class EspaceClientController extends Controller
             'Cache-Control' => 'private, no-store',
             'X-Robots-Tag' => 'noindex',
         ]);
+    }
+
+    /**
+     * Photo d'un rapport (seulement les photos choisies dans ce rapport).
+     */
+    public function photo(string $jeton, int $photo): StreamedResponse
+    {
+        [, $document] = $this->ouvrir($jeton);
+        abort_unless($document instanceof Rapport && in_array($photo, array_map('intval', (array) $document->photos), true), 404);
+
+        $fichier = Photo::where('client_id', $document->client_id)->findOrFail($photo);
+        abort_unless(Storage::disk('local')->exists($fichier->chemin), 404);
+
+        return Storage::disk('local')->response($fichier->chemin, 'photo.jpg', [
+            'Content-Type' => 'image/jpeg',
+            'X-Content-Type-Options' => 'nosniff',
+            'Cache-Control' => 'private, max-age=3600',
+        ], 'inline');
     }
 
     public function signer(Request $request, string $jeton): RedirectResponse

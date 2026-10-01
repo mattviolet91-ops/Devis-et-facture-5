@@ -571,3 +571,13 @@ details.carte[open] summary { margin-bottom: 12px; }
 .pastille { display: block; border-radius: 4px; padding: 1px 3px; background: var(--info-fond); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .pastille-chantier { background: var(--succes-fond); }
 .pastille-fait { text-decoration: line-through; opacity: 0.7; }
+
+/* Photos */
+.galerie { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.galerie img { width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 8px; display: block; background: var(--bordure); }
+.galerie summary { cursor: pointer; font-size: 0.85rem; padding: 4px 0; overflow-wrap: anywhere; }
+.galerie label.case { margin: 6px 0; }
+.choix-photos { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.choix-photos label { display: block; position: relative; }
+.choix-photos img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 6px; display: block; }
+.choix-photos input { position: absolute; top: 6px; left: 6px; width: 22px; height: 22px; }

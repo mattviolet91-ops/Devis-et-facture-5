@@ -104,6 +104,7 @@ class Demo extends Command
             DonneesDemo::installerDevis($gerant);
             DonneesDemo::installerFactures($gerant);
             DonneesDemo::installerPlanning($gerant);
+            DonneesDemo::installerPhotos($gerant);
             Prestation::where('nom', 'Échafaudage')->update(['description' => 'Montage, location et démontage (prix d\'exemple).']);
             $appareil = Appareil::firstOrCreate(
                 ['user_id' => $gerant->id, 'empreinte' => hash('sha256', 'demo-tablette')],

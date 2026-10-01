@@ -8,6 +8,7 @@ use App\Models\Devis;
 use App\Models\EmailEnvoye;
 use App\Models\Facture;
 use App\Models\LienClient;
+use App\Models\Rapport;
 use App\Models\RendezVous;
 use App\Support\Montant;
 use Illuminate\Database\Eloquent\Model;
@@ -41,7 +42,11 @@ class EnvoiEmail
             '{numero}' => (string) ($document->numero ?? ''),
             '{montant}' => Montant::formater((int) $document->total_ttc),
             '{reste}' => $document instanceof Facture ? Montant::formater($document->resteAPayer()) : Montant::formater((int) $document->total_ttc),
-            '{echeance}' => $document instanceof Facture ? (string) $document->date_echeance?->format('d/m/Y') : (string) $document->dateValidite()?->format('d/m/Y'),
+            '{echeance}' => match (true) {
+                $document instanceof Facture => (string) $document->date_echeance?->format('d/m/Y'),
+                $document instanceof Devis => (string) $document->dateValidite()?->format('d/m/Y'),
+                default => '',
+            },
             '{lien}' => $lien,
             '{entreprise}' => (string) reglage('identite.nom_commercial'),
             '{telephone}' => (string) reglage('identite.telephone'),
@@ -134,6 +139,7 @@ class EnvoiEmail
     {
         return match (true) {
             $document instanceof Devis => [app(PdfDevis::class)->contenu($document), 'devis-'.str_replace(' ', '-', $document->reference()).'.pdf'],
+            $document instanceof Rapport => [app(PdfRapport::class)->generer($document), 'rapport-intervention-'.$document->date_intervention->format('Y-m-d').'.pdf'],
             $document instanceof Facture => [app(PdfFacture::class)->contenu($document), mb_strtolower(str_replace([' ', "'"], '-', $document->libelleType())).'-'.str_replace(' ', '-', $document->reference()).'.pdf'],
             default => [null, null],
         };

@@ -6,17 +6,30 @@ use App\Console\Commands\Demo;
 use App\Models\Chantier;
 use App\Models\Client;
 use App\Models\Devis;
+use App\Models\Photo;
+use App\Models\Rapport;
+use App\Models\RendezVous;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class DemoTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+        Storage::fake('local');
+    }
+
     public function test_la_demo_installe_des_donnees_fictives(): void
     {
         $this->artisan('app:demo')->expectsOutputToContain('Données de démonstration installées')->assertSuccessful();
+        $this->assertSame(3, Photo::count());
+        $this->assertSame(1, Rapport::count());
+        $this->assertSame(5, RendezVous::count());
 
         $this->assertSame('Couverture Démo', reglage('identite.nom_commercial'));
         $this->assertTrue(User::where('email', 'demo@exemple.test')->first()->estGerant());

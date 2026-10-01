@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Devis;
 use App\Models\EmailEnvoye;
 use App\Models\Facture;
+use App\Models\Rapport;
 use App\Services\ConfigurationEmail;
 use App\Services\EnvoiEmail;
 use App\Services\GestionDevis;
@@ -73,7 +74,15 @@ class EnvoiController extends Controller
             $document->client->update(['email' => $donnees['destinataire']]);
         }
 
-        $route = $document instanceof Devis ? route('devis.show', $document) : route('factures.show', $document);
+        if ($document instanceof Rapport && $email->statut === 'envoye') {
+            $document->forceFill(['envoye_at' => now()])->save();
+        }
+
+        $route = match (true) {
+            $document instanceof Devis => route('devis.show', $document),
+            $document instanceof Rapport => route('rapports.show', $document),
+            default => route('factures.show', $document),
+        };
 
         return $email->statut === 'envoye'
             ? redirect()->to($route)->with('statut', 'Email envoyé à '.$donnees['destinataire'].'.')
@@ -85,6 +94,7 @@ class EnvoiController extends Controller
         return match ($type) {
             'devis' => Devis::with('client')->findOrFail($id),
             'facture' => $request->user()->estGerant() ? Facture::with('client')->findOrFail($id) : abort(403),
+            'rapport' => Rapport::with('client')->findOrFail($id),
             default => abort(404),
         };
     }
@@ -96,6 +106,10 @@ class EnvoiController extends Controller
     {
         if ($document instanceof Facture) {
             return $document->estEnRetard() ? ['relance', 'facture'] : ['facture', 'relance'];
+        }
+
+        if ($document instanceof Rapport) {
+            return ['rapport'];
         }
 
         return ['devis'];

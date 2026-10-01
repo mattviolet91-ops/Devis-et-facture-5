@@ -72,6 +72,19 @@
     </div>
 
     @if ($rdv->client)
+        @include('photos._ajout', ['client' => $rdv->client, 'chantiers' => collect(), 'rdv' => $rdv])
+        @if ($photos->isNotEmpty())
+            <section class="carte">
+                <h2>Photos de ce passage ({{ $photos->count() }})</h2>
+                <ul class="galerie">
+                    @foreach ($photos as $photo)
+                        <li><a href="{{ route('photos.show', $photo) }}" target="_blank" rel="noopener"><img src="{{ route('photos.miniature', $photo) }}" alt="{{ $photo->texteAlternatif() }}" loading="lazy"></a><small>{{ $photo->libelleMoment() }}</small></li>
+                    @endforeach
+                </ul>
+            </section>
+        @endif
+        <a class="bouton bouton-secondaire bouton-large" href="{{ route('rapports.create', ['rdv' => $rdv->id]) }}">Faire le rapport d'intervention</a>
+
         <form method="post" action="{{ route('planning.provenance', $rdv) }}" class="carte">
             @csrf
             <h2>Comment ce client nous a connus</h2>

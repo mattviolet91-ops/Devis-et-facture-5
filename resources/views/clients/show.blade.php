@@ -101,6 +101,17 @@
         </ul>
     </section>
 
+    <section class="carte" id="photos" aria-labelledby="titre-photos">
+        <h2 id="titre-photos">Photos et rapports</h2>
+        <ul class="liste">
+            <li><a class="liste-lien" href="{{ route('photos.index', $client) }}"><span class="libelle">Photos du chantier ({{ $client->photos_count }})</span><x-icone nom="fleche" /></a></li>
+            @foreach ($client->rapports as $rapport)
+                <li><a class="liste-lien" href="{{ route('rapports.show', $rapport) }}"><span class="libelle">{{ $rapport->titre }}<small class="bloc texte-doux">Rapport du {{ $rapport->date_intervention->format('d/m/Y') }}{{ $rapport->envoye_at ? ' · envoyé' : '' }}</small></span><x-icone nom="fleche" /></a></li>
+            @endforeach
+        </ul>
+        <a class="bouton bouton-secondaire" href="{{ route('rapports.create', ['client' => $client->id]) }}">Nouveau rapport d'intervention</a>
+    </section>
+
     <section class="carte" id="pieces" aria-labelledby="titre-pieces">
         <h2 id="titre-pieces">Pièces jointes</h2>
         <ul class="liste">

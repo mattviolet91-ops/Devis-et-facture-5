@@ -1,7 +1,11 @@
 @extends('layouts.app')
 
 @section('titre', 'Envoyer par email')
-@section('parent', $document instanceof \App\Models\Devis ? route('devis.show', $document) : route('factures.show', $document))
+@section('parent', match (true) {
+    $document instanceof \App\Models\Devis => route('devis.show', $document),
+    $document instanceof \App\Models\Rapport => route('rapports.show', $document),
+    default => route('factures.show', $document),
+})
 
 @push('scripts')
     <script src="{{ asset('js/envoi.js') }}?v={{ filemtime(public_path('js/envoi.js')) }}" defer></script>
@@ -30,7 +34,7 @@
     <form method="post" action="{{ route('envoi.store', [$type, $document->getKey()]) }}" class="carte" id="formulaire-envoi" novalidate
           data-textes="{{ json_encode($textes, JSON_UNESCAPED_UNICODE) }}">
         @csrf
-        <p>{{ $document instanceof \App\Models\Devis ? 'Devis' : $document->libelleType() }} <strong>{{ $document->reference() }}</strong> · {{ $document->client->nomComplet() }}</p>
+        <p>{{ match (true) { $document instanceof \App\Models\Devis => 'Devis', $document instanceof \App\Models\Rapport => 'Rapport d\'intervention', default => $document->libelleType() } }} <strong>{{ $document->reference() }}</strong> · {{ $document->client->nomComplet() }}</p>
         <x-champ nom="destinataire" libelle="Email du client" type="email" :valeur="$document->client->email" inputmode="email" />
         @if (count($modeles) > 1)
             <x-champ-liste nom="modele" libelle="Modèle" :options="collect($modeles)->mapWithKeys(fn ($m) => [$m => ['devis' => 'Envoi du devis', 'facture' => 'Envoi de la facture', 'relance' => 'Relance'][$m]])->all()" :valeur="$modele" :vide="false" data-choix-modele />

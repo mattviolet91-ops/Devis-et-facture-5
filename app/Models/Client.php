@@ -92,6 +92,16 @@ class Client extends Model
         return $this->hasMany(NoteClient::class)->latest()->latest('id');
     }
 
+    public function photos(): HasMany
+    {
+        return $this->hasMany(Photo::class)->latest('id');
+    }
+
+    public function rapports(): HasMany
+    {
+        return $this->hasMany(Rapport::class)->latest('date_intervention');
+    }
+
     public function piecesJointes(): MorphMany
     {
         return $this->morphMany(PieceJointe::class, 'attachable')->latest();

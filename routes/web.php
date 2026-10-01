@@ -21,9 +21,11 @@ use App\Http\Controllers\NotificationsTelephoneController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\PaiementController;
 use App\Http\Controllers\PaiementEnLigneController;
+use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\PieceJointeController;
 use App\Http\Controllers\PlanningController;
 use App\Http\Controllers\PrestationController;
+use App\Http\Controllers\RapportController;
 use App\Http\Controllers\ReglagesController;
 use App\Http\Controllers\SignatureSurPlaceController;
 use App\Http\Controllers\TextesTypesController;
@@ -53,6 +55,7 @@ Route::withoutMiddleware([
 Route::prefix('/c/{jeton}')->middleware('throttle:60,1')->name('client.')->group(function () {
     Route::get('/', [EspaceClientController::class, 'show'])->name('document');
     Route::get('/pdf', [EspaceClientController::class, 'pdf'])->name('pdf');
+    Route::get('/photo/{photo}', [EspaceClientController::class, 'photo'])->whereNumber('photo')->name('photo');
     Route::post('/signer', [EspaceClientController::class, 'signer'])->middleware('throttle:10,1')->name('signer');
     Route::post('/refuser', [EspaceClientController::class, 'refuser'])->middleware('throttle:10,1')->name('refuser');
     Route::post('/modification', [EspaceClientController::class, 'modification'])->middleware('throttle:10,1')->name('modification');
@@ -150,8 +153,8 @@ Route::middleware('auth')->group(function () {
     });
 
     // Envoi par email (devis : tous ; factures : gérant).
-    Route::get('/envoyer/{type}/{id}', [EnvoiController::class, 'create'])->whereIn('type', ['devis', 'facture'])->whereNumber('id')->name('envoi.create');
-    Route::post('/envoyer/{type}/{id}', [EnvoiController::class, 'store'])->whereIn('type', ['devis', 'facture'])->whereNumber('id')->middleware('throttle:20,1')->name('envoi.store');
+    Route::get('/envoyer/{type}/{id}', [EnvoiController::class, 'create'])->whereIn('type', ['devis', 'facture', 'rapport'])->whereNumber('id')->name('envoi.create');
+    Route::post('/envoyer/{type}/{id}', [EnvoiController::class, 'store'])->whereIn('type', ['devis', 'facture', 'rapport'])->whereNumber('id')->middleware('throttle:20,1')->name('envoi.store');
 
     // Clients et chantiers (gérant et commercial).
     Route::get('/clients/import', [ImportClientsController::class, 'create'])->name('clients.import');
@@ -174,6 +177,25 @@ Route::middleware('auth')->group(function () {
     Route::post('/clients/{client}/fichiers', [PieceJointeController::class, 'store'])->middleware('throttle:30,1')->name('pieces.store');
     Route::get('/fichiers/{piece}', [PieceJointeController::class, 'show'])->whereNumber('piece')->name('pieces.show');
     Route::delete('/fichiers/{piece}', [PieceJointeController::class, 'destroy'])->whereNumber('piece')->name('pieces.destroy');
+
+    // Photos de chantier et rapports d'intervention.
+    Route::get('/clients/{client}/photos', [PhotoController::class, 'index'])->whereNumber('client')->name('photos.index');
+    Route::post('/clients/{client}/photos', [PhotoController::class, 'store'])->whereNumber('client')->middleware('throttle:30,1')->name('photos.store');
+    Route::prefix('/photos/{photo}')->whereNumber('photo')->group(function () {
+        Route::get('/', [PhotoController::class, 'show'])->name('photos.show');
+        Route::get('/miniature', [PhotoController::class, 'miniature'])->name('photos.miniature');
+        Route::put('/', [PhotoController::class, 'update'])->name('photos.update');
+        Route::delete('/', [PhotoController::class, 'destroy'])->name('photos.destroy');
+    });
+    Route::get('/rapports/nouveau', [RapportController::class, 'create'])->name('rapports.create');
+    Route::post('/rapports', [RapportController::class, 'store'])->name('rapports.store');
+    Route::prefix('/rapports/{rapport}')->whereNumber('rapport')->group(function () {
+        Route::get('/', [RapportController::class, 'show'])->name('rapports.show');
+        Route::get('/modifier', [RapportController::class, 'edit'])->name('rapports.edit');
+        Route::put('/', [RapportController::class, 'update'])->name('rapports.update');
+        Route::delete('/', [RapportController::class, 'destroy'])->name('rapports.destroy');
+        Route::get('/pdf', [RapportController::class, 'pdf'])->name('rapports.pdf');
+    });
 
     Route::middleware('gerant')->prefix('configuration')->name('configuration')->group(function () {
         Route::get('/', [ConfigurationController::class, 'index']);

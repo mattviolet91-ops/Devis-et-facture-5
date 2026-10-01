@@ -7,6 +7,7 @@ use App\Models\Client;
 use App\Models\Devis;
 use App\Models\Facture;
 use App\Models\Prestation;
+use App\Models\Rapport;
 use App\Models\RendezVous;
 use App\Services\ConfigurationEmail;
 use App\Support\Corbeille;
@@ -34,6 +35,7 @@ class AppServiceProvider extends ServiceProvider
         // Seuls les brouillons de facture peuvent aller à la corbeille (une facture émise est conservée).
         Corbeille::enregistrer('facture', Facture::class, 'Facture (brouillon)');
         Corbeille::enregistrer('prestation', Prestation::class, 'Prestation du catalogue');
+        Corbeille::enregistrer('rapport', Rapport::class, 'Rapport d\'intervention');
         Corbeille::enregistrer('rendez_vous', RendezVous::class, 'Rendez-vous ou chantier');
 
         // Compte Gmail des Réglages (mot de passe d'application chiffré en base).

@@ -5,12 +5,15 @@ namespace App\Support;
 use App\Models\Client;
 use App\Models\Devis;
 use App\Models\Facture;
+use App\Models\Photo;
+use App\Models\Rapport;
 use App\Models\RendezVous;
 use App\Models\User;
 use App\Services\DevisExpress;
 use App\Services\Encaissements;
 use App\Services\GestionDevis;
 use App\Services\GestionFactures;
+use App\Services\Photos;
 use Illuminate\Support\Carbon;
 
 /**
@@ -228,5 +231,74 @@ class DonneesDemo
         }
 
         return $total;
+    }
+
+    /**
+     * Photos dessinées (aucune vraie maison) et un rapport d'intervention d'exemple.
+     */
+    public static function installerPhotos(User $auteur): int
+    {
+        if (Photo::exists()) {
+            return 0;
+        }
+
+        $service = app(Photos::class);
+        $total = 0;
+        $exemples = [
+            ['Garnier', 'avant', 'Tuiles cassées côté jardin (exemple)', true],
+            ['Garnier', 'apres', 'Tuiles remplacées (exemple)', true],
+            ['Martin', 'avant', 'Mousse sur la toiture (exemple)', true],
+        ];
+        foreach ($exemples as [$nom, $moment, $legende, $documents]) {
+            $client = Client::where('nom', $nom)->first();
+            if (! $client) {
+                continue;
+            }
+            $image = self::dessinerToit($moment);
+            $service->enregistrerImage($image, [
+                'client_id' => $client->id, 'chantier_id' => $client->chantiers()->value('id'),
+                'rendez_vous_id' => RendezVous::where('client_id', $client->id)->value('id'),
+                'moment' => $moment, 'legende' => $legende, 'dans_documents' => $documents, 'user_id' => $auteur->id,
+            ]);
+            imagedestroy($image);
+            $total++;
+        }
+
+        $client = Client::where('nom', 'Garnier')->first();
+        if ($client) {
+            Rapport::create([
+                'client_id' => $client->id, 'chantier_id' => $client->chantiers()->value('id'),
+                'rendez_vous_id' => RendezVous::where('client_id', $client->id)->value('id'),
+                'date_intervention' => today()->subDays(46), 'titre' => 'Recherche de fuite et réparation',
+                'travaux' => "Recherche de la fuite au-dessus de la chambre.\nRemplacement de 8 tuiles cassées.",
+                'constats' => 'Plusieurs tuiles fendues par le gel. Liteaux en bon état (exemple).',
+                'conseils' => 'Prévoir un démoussage d\'ici 2 ans (exemple).',
+                'photos' => Photo::where('client_id', $client->id)->pluck('id')->all(),
+                'created_by' => $auteur->id,
+            ]);
+        }
+
+        return $total;
+    }
+
+    /**
+     * Image simple : ciel, toit et mention « EXEMPLE ».
+     */
+    private static function dessinerToit(string $moment): \GdImage
+    {
+        $image = imagecreatetruecolor(1200, 900);
+        imagefill($image, 0, 0, imagecolorallocate($image, 168, 205, 235));
+        imagefilledrectangle($image, 0, 700, 1200, 900, imagecolorallocate($image, 110, 160, 90));
+        imagefilledrectangle($image, 250, 450, 950, 760, imagecolorallocate($image, 230, 220, 200));
+        $tuiles = $moment === 'avant' ? imagecolorallocate($image, 120, 110, 80) : imagecolorallocate($image, 180, 70, 45);
+        imagefilledpolygon($image, [200, 470, 600, 180, 1000, 470], $tuiles);
+        $lignes = imagecolorallocate($image, 90, 50, 35);
+        for ($y = 230; $y < 470; $y += 30) {
+            imageline($image, 600 - (int) (($y - 180) * 400 / 290), $y, 600 + (int) (($y - 180) * 400 / 290), $y, $lignes);
+        }
+        $noir = imagecolorallocate($image, 30, 30, 30);
+        imagestring($image, 5, 40, 40, 'EXEMPLE - '.mb_strtoupper(['avant' => 'avant', 'pendant' => 'pendant', 'apres' => 'apres'][$moment]), $noir);
+
+        return $image;
     }
 }

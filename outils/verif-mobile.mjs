@@ -157,7 +157,11 @@ for (const theme of ['light', 'dark']) {
     await page.waitForSelector('#resultats-catalogue button');
     await capture('devis-catalogue');
     await page.click('#resultats-catalogue button >> nth=0');
-    verifier((await page.locator('#lignes > li').last().locator('[data-champ="designation"]').inputValue()).startsWith('Faîti'), `[${theme}] ajout depuis le catalogue`);
+    const ajoutee = await page.waitForFunction(() => {
+        const champs = document.querySelectorAll('#lignes > li [data-champ="designation"]');
+        return champs.length && champs[champs.length - 1].value.startsWith('Faîti');
+    }, null, { timeout: 3000 }).then(() => true, () => false);
+    verifier(ajoutee, `[${theme}] ajout depuis le catalogue`);
     await page.click('button[data-ouvrir="dialogue-toiture"]');
     await page.fill('#toiture-sol', '100');
     await page.fill('#toiture-pente', '45');
@@ -219,6 +223,18 @@ for (const theme of ['light', 'dark']) {
     await capture('planning-formulaire');
     await page.goto(`${base}/planning/a-planifier`);
     await capture('planning-a-planifier');
+
+    // Photos et rapports (client « Garnier » de la démonstration).
+    await page.goto(`${base}/clients?q=Garnier`);
+    await page.click('ul.liste a >> nth=0');
+    await page.waitForURL(/\/clients\/\d+$/);
+    await page.click('text=Photos du chantier');
+    await capture('photos');
+    await page.goBack();
+    await page.click('#photos ul.liste li:nth-child(2) a');
+    await capture('rapport');
+    await page.click('text=Modifier');
+    await capture('rapport-formulaire');
 
     await page.goto(`${base}/page-inexistante`);
     await capture('erreur-404');

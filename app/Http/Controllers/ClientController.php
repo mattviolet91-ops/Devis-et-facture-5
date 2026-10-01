@@ -49,7 +49,7 @@ class ClientController extends Controller
 
     public function show(Client $client): View
     {
-        $client->load(['chantiers', 'notes.user', 'piecesJointes']);
+        $client->load(['chantiers', 'notes.user', 'piecesJointes', 'rapports'])->loadCount('photos');
 
         return view('clients.show', ['client' => $client]);
     }

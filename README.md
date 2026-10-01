@@ -18,9 +18,18 @@ cp .env.example .env
 php artisan key:generate
 touch database/database.sqlite
 php artisan migrate
-php artisan app:creer-gerant   # demande l'email et le mot de passe (non affiché)
+php artisan app:demo           # démonstration : entreprise et comptes fictifs
 php artisan serve
 ```
+
+Ce dépôt sert à la **démonstration** : `php artisan app:demo` installe une entreprise
+fictive (« Couverture Démo ») et deux comptes (`demo@exemple.test` gérant,
+`commercial@exemple.test` commercial) avec des mots de passe aléatoires affichés une
+seule fois. Un bandeau « Démonstration » apparaît sur toutes les pages. La commande
+refuse de tourner si `APP_ENV=production`.
+
+Pour une vraie entreprise : ne pas lancer `app:demo`, créer le gérant avec
+`php artisan app:creer-gerant` (mot de passe demandé sans être affiché).
 
 ## Tâches planifiées
 
@@ -47,3 +56,4 @@ de passe `app_test`), créée seulement sur le poste de développement ou dans G
 - [x] Étape 1 — Socle : connexion, mot de passe oublié, limitation des essais, alerte nouvel
   appareil, mise en page mobile, thème clair/sombre, grands boutons, pages d'erreur,
   application installable, journal, corbeille, commande de création du gérant.
+- [x] Données de démonstration fictives (`app:demo`).

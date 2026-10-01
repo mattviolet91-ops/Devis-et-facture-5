@@ -180,6 +180,15 @@ a { color: var(--couleur-principale); }
 .message-erreur { background: var(--danger-fond); color: var(--texte); border-color: var(--danger); }
 .message-info { background: var(--info-fond); color: var(--texte); border-color: var(--couleur-principale); }
 
+.bandeau-demo {
+    margin: 0 0 16px;
+    padding: 8px 12px;
+    border-radius: var(--rayon);
+    border: 2px dashed var(--couleur-accent);
+    font-weight: 600;
+    text-align: center;
+}
+
 /* ---------- Formulaires ---------- */
 .champ { margin-bottom: 16px; }
 .champ label, .etiquette { display: block; font-weight: 600; margin-bottom: 6px; }

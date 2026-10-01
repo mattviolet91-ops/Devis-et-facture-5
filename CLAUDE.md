@@ -6,6 +6,7 @@
   Les valeurs par défaut de `config/entreprise.php` restent VIDES (un test le vérifie).
 - Le nom du dirigeant n'apparaît jamais (ni documents, ni valeurs par défaut, ni données de test) : seul le nom commercial.
 - Base 100 % neuve par entreprise : pas de base partagée, pas d'import d'une autre entreprise, aucune donnée de démonstration en production (`DatabaseSeeder` reste vide).
+  Ce dépôt sert à la démonstration : les données fictives passent UNIQUEMENT par `php artisan app:demo` (refusée en production), à compléter à chaque étape (clients, devis… fictifs, domaine `.test`).
 - Aucun mot de passe ni clé en clair dans le code, les journaux ou la conversation. Secrets chiffrés en base.
 - Mobile d'abord (390 px), clair et sombre, accessible (contrastes, focus visible, libellés).
 - CSP stricte `script-src 'self'` : aucun `<script>` inline, aucun `onclick=`, aucun `style=` (testé dans `SecuriteTest`).

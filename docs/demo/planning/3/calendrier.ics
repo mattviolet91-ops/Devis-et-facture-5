@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Application artisan//Planning//FR
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:rdv-3@127.0.0.1
+DTSTAMP:20261001T232157Z
+DTSTART;VALUE=DATE:20261006
+DTEND;VALUE=DATE:20261008
+SUMMARY:Abergement de cheminée – M. et Mme Hélène et Éric Bérard
+LOCATION:3 chemin du Moulin\, 00200 Saint-Exemple
+DESCRIPTION:Téléphone : 0600000002\nPrévoir l'échafaudage la veille (e
+ xemple).
+END:VEVENT
+END:VCALENDAR

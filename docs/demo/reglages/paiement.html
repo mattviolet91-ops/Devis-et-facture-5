@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#1f4e79">
+<meta name="robots" content="noindex, nofollow">
+<meta name="csrf-token" content="pZ96WMKh7GU60zGSeT2f7h873LXzRcbT86V3SOxE">
+<title>Paiement en ligne · Couverture Démo</title>
+<link rel="icon" href="../icons/icone.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/icone-180.png">
+<link rel="stylesheet" href="../css/app.css__v-1790896550.css">
+<link rel="stylesheet" href="../theme.css__v-df7b6cb3.css">
+<script src="../js/theme-init.js__v-1790880993.js"></script>
+<script src="../js/app.js__v-1790894271.js" defer></script>
+</head>
+<body>
+    <a class="lien-evitement" href="#contenu">Aller au contenu</a>
+
+    <header class="entete">
+                    <a href="../reglages.html" class="retour" data-retour>‹ Retour</a>
+                <h1>Paiement en ligne</h1>
+                    <a class="bouton-aide" href="../guide__r-reglages.html" aria-label="Aide sur cette page">?</a>
+            </header>
+
+    <main id="contenu" class="contenu" tabindex="-1">
+                    <p class="bandeau-demo">Démonstration : toutes les données sont fictives.</p>
+        
+        
+                
+            
+    
+    <form method="post" action="paiement.html" enctype="multipart/form-data" class="carte" novalidate>
+        <input type="hidden" name="_token" value="pZ96WMKh7GU60zGSeT2f7h873LXzRcbT86V3SOxE" autocomplete="off">        <input type="hidden" name="_method" value="put">
+                    <div class="champ">
+        <label for="champ-mypos__mode">
+            Paiement par carte
+             <span class="obligatoire">(obligatoire)</span>         </label>
+
+                                                    <select id="champ-mypos__mode" name="mypos__mode"  >
+                                                                <option value="desactive" selected>Désactivé</option>
+                                            <option value="test" >Mode test (aucun argent réel, invisible pour les clients)</option>
+                                            <option value="production" >Activé pour les clients</option>
+                                    </select>
+                
+                    </div>
+                    <div class="champ">
+        <label for="champ-mypos__pack">
+            Pack de configuration myPOS
+                    </label>
+
+                                        <div class="mot-de-passe">
+                    <input type="password" id="champ-mypos__pack" name="mypos__pack" autocomplete="new-password" value=""
+                        placeholder=""
+                         aria-describedby="champ-mypos__pack-aide"  >
+                    <button type="button" class="bouton-afficher" data-afficher-mot-de-passe aria-controls="champ-mypos__pack" aria-pressed="false" hidden>Afficher</button>
+                </div>
+                                
+                    <p class="aide" id="champ-mypos__pack-aide">À copier depuis votre compte myPOS (paramètres de la boutique en ligne). Il est enregistré chiffré et ne sera plus jamais affiché.</p>
+                    </div>
+        
+        <button type="submit" class="bouton bouton-large">Enregistrer</button>
+    </form>
+
+        </main>
+
+    <nav class="barre-bas" aria-label="Menu principal">
+            <a href="../accueil.html"
+           class=""
+           >
+                            <svg class="icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>
+                        <span>Accueil</span>
+        </a>
+            <a href="../clients.html"
+           class=""
+           >
+                            <svg class="icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 11a4 4 0 1 0-8 0 4 4 0 0 0 8 0zM4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+                        <span>Clients</span>
+        </a>
+            <a href="../nouveau.html"
+           class="nouveau"
+           >
+                            <span class="rond"><svg class="icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 5v14M5 12h14"/></svg>
+</span>
+                        <span>Nouveau</span>
+        </a>
+            <a href="../devis.html"
+           class=""
+           >
+                            <svg class="icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h7"/></svg>
+                        <span>Devis</span>
+        </a>
+            <a href="../plus.html"
+           class=""
+            aria-current="page" >
+                            <svg class="icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+                        <span>Plus</span>
+        </a>
+    </nav>
+<script src="../demo-statique/demo-statique.js" defer></script>
+</body>
+</html>

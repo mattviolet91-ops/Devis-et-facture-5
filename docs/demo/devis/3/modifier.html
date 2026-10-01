@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#1f4e79">
+<meta name="robots" content="noindex, nofollow">
+<meta name="csrf-token" content="pZ96WMKh7GU60zGSeT2f7h873LXzRcbT86V3SOxE">
+<title>Brouillon n° 3 · Couverture Démo</title>
+<link rel="icon" href="../../icons/icone.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../icons/icone-180.png">
+<link rel="stylesheet" href="../../css/app.css__v-1790896550.css">
+<link rel="stylesheet" href="../../theme.css__v-df7b6cb3.css">
+<script src="../../js/theme-init.js__v-1790880993.js"></script>
+<script src="../../js/app.js__v-1790894271.js" defer></script>
+    <script src="../../js/devis.js__v-1790888806.js" defer></script>
+</head>
+<body>
+    <a class="lien-evitement" href="#contenu">Aller au contenu</a>
+
+    <header class="entete">
+                    <a href="../3.html" class="retour" data-retour>‹ Retour</a>
+                <h1>Brouillon n° 3</h1>
+                    <a class="bouton-aide" href="../../guide__r-devis.html" aria-label="Aide sur cette page">?</a>
+            </header>
+
+    <main id="contenu" class="contenu" tabindex="-1">
+                    <p class="bandeau-demo">Démonstration : toutes les données sont fictives.</p>
+        
+        
+                
+            <p class="texte-doux">Client : <a href="../../clients/4.html">M. Jérôme Durand</a> · <span class="badge">Brouillon</span></p>
+
+    
+    <form method="post" action="../3.html" id="editeur-devis" novalidate
+          data-franchise="1" data-taux-defaut="0"
+          data-recherche="#" data-demo-absent>
+        <input type="hidden" name="_token" value="pZ96WMKh7GU60zGSeT2f7h873LXzRcbT86V3SOxE" autocomplete="off">        <input type="hidden" name="_method" value="put">
+        <details class="carte" >
+            <summary><strong>Informations du devis</strong></summary>
+            <div class="champ">
+    <label for="objet">Objet</label>
+    <input type="text" id="objet" name="objet" value="Remplacement des gouttières"
+           
+            aria-describedby="objet-aide"            >
+            <p class="aide" id="objet-aide">Par exemple : Réfection de la toiture côté nord.</p>
+        </div>
+                            <div class="champ">
+    <label for="chantier_id">Adresse des travaux</label>
+    <select id="chantier_id" name="chantier_id" 
+                >
+                    <option value="">Adresse du client</option>
+                            <option value="21 avenue de la Gare, 00100 Ville-Démo" >21 avenue de la Gare, 00100 Ville-Démo</option>
+            </select>
+        </div>
+                        <div class="grille-2">
+                <div class="champ">
+    <label for="validite_jours">Validité (jours)</label>
+    <input type="number" id="validite_jours" name="validite_jours" value="30"
+           inputmode="numeric" min="1"
+                      >
+        </div>
+                <div class="champ">
+    <label for="acompte_pourcentage">Acompte (%)</label>
+    <input type="number" id="acompte_pourcentage" name="acompte_pourcentage" value="30"
+           inputmode="numeric" min="0" max="100"
+                      >
+        </div>
+                <div class="champ">
+    <label for="date_debut_travaux">Début des travaux</label>
+    <input type="date" id="date_debut_travaux" name="date_debut_travaux" value=""
+           
+                      >
+        </div>
+                <div class="champ">
+    <label for="duree_travaux">Durée des travaux</label>
+    <input type="text" id="duree_travaux" name="duree_travaux" value=""
+           
+            aria-describedby="duree_travaux-aide"            >
+            <p class="aide" id="duree_travaux-aide">Exemple : 3 jours</p>
+        </div>
+            </div>
+            <div class="champ">
+    <label for="dechets_estimation">Estimation des déchets</label>
+    <textarea id="dechets_estimation" name="dechets_estimation" rows="2" 
+         aria-describedby="dechets_estimation-aide"         >Environ 1 m³ de déchets de chantier, évacués en déchetterie professionnelle (exemple).</textarea>
+            <p class="aide" id="dechets_estimation-aide">Quantité estimée et nature (exemple : environ 2 m³ de tuiles et gravats, évacués en déchetterie professionnelle).</p>
+        </div>
+            <div class="champ">
+    <label for="conditions">Conditions particulières</label>
+    <textarea id="conditions" name="conditions" rows="2" 
+                ></textarea>
+        </div>
+            <input type="hidden" name="hors_etablissement" value="0">
+            <label class="case"><input type="checkbox" name="hors_etablissement" value="1" ><span>Signé chez le client ou à distance (droit de rétractation de 14 jours)</span></label>
+            <input type="hidden" name="urgence" value="0">
+            <label class="case"><input type="checkbox" name="urgence" value="1" ><span>Réparation urgente demandée par le client</span></label>
+        </details>
+
+        <ol class="lignes-devis" id="lignes" aria-label="Lignes du devis">
+                            <li class="ligne-devis" data-type="ligne">
+    <input type="hidden" name="lignes[0][type]" value="ligne">
+    <input type="hidden" name="lignes[0][prestation_id]" value="10" data-champ="prestation_id">
+
+    <div class="ligne-entete">
+        <span class="ligne-type">Ligne</span>
+        <span class="ligne-boutons">
+            <button type="button" class="bouton-icone" data-action="#" data-demo-formulaire aria-label="Monter">↑</button>
+            <button type="button" class="bouton-icone" data-action="#" data-demo-formulaire aria-label="Descendre">↓</button>
+            <button type="button" class="bouton-icone texte-danger" data-action="#" data-demo-formulaire aria-label="Supprimer la ligne">✕</button>
+        </span>
+    </div>
+
+            <div class="champ champ-compact">
+            <label for="l0-designation">Désignation</label>
+            <input type="text" id="l0-designation" name="lignes[0][designation]" value="Gouttière zinc" data-champ="designation" autocomplete="off">
+        </div>
+    
+            <div class="champ champ-compact">
+            <label for="l0-description">Détail (facultatif)</label>
+            <textarea id="l0-description" name="lignes[0][description]" rows="1" data-champ="description"></textarea>
+        </div>
+        <div class="grille-ligne">
+            <div class="champ champ-compact">
+                <label for="l0-quantite">Quantité</label>
+                <input type="text" id="l0-quantite" name="lignes[0][quantite]" value="18" inputmode="decimal" data-champ="quantite" autocomplete="off">
+            </div>
+            <div class="champ champ-compact">
+                <label for="l0-unite">Unité</label>
+                <select id="l0-unite" name="lignes[0][unite]" data-champ="unite">
+                                            <option value="u" >u</option>
+                                            <option value="m²" >m²</option>
+                                            <option value="ml" selected>ml</option>
+                                            <option value="m³" >m³</option>
+                                            <option value="h" >h</option>
+                                            <option value="jour" >jour</option>
+                                            <option value="forfait" >forfait</option>
+                                            <option value="kg" >kg</option>
+                                            <option value="t" >t</option>
+                                    </select>
+            </div>
+            <div class="champ champ-compact">
+                <label for="l0-prix">Prix unit. HT</label>
+                <input type="text" id="l0-prix" name="lignes[0][prix]" value="65,00" inputmode="decimal" data-champ="prix" autocomplete="off">
+            </div>
+                    </div>
+        <div class="ligne-pied">
+                            <label class="case case-compacte">
+                    <input type="checkbox" name="lignes[0][option]" value="1" data-champ="option" >
+                    <span>En option</span>
+                </label>
+                        <output class="ligne-total" data-total>1 170,00 €</output>
+        </div>
+    </li>
+                            <li class="ligne-devis" data-type="ligne">
+    <input type="hidden" name="lignes[1][type]" value="ligne">
+    <input type="hidden" name="lignes[1][prestation_id]" value="11" data-champ="prestation_id">
+
+    <div class="ligne-entete">
+        <span class="ligne-type">Ligne</span>
+        <span class="ligne-boutons">
+            <button type="button" class="bouton-icone" data-action="#" data-demo-formulaire aria-label="Monter">↑</button>
+            <button type="button" class="bouton-icone" data-action="#" data-demo-formulaire aria-label="Descendre">↓</button>
+            <button type="button" class="bouton-icone texte-danger" data-action="#" data-demo-formulaire aria-label="Supprimer la ligne">✕</button>
+        </span>
+    </div>
+
+            <div class="champ champ-compact">
+            <label for="l1-designation">Désignation</label>
+            <input type="text" id="l1-designation" name="lignes[1][designation]" value="Descente d&#039;eau pluviale" data-champ="designation" autocomplete="off">
+        </div>
+    
+            <div class="champ champ-compact">
+            <label for="l1-description">Détail (facultatif)</label>
+            <textarea id="l1-description" name="lignes[1][description]" rows="1" data-champ="description"></textarea>
+        </div>
+        <div class="grille-ligne">
+            <div class="champ champ-compact">
+                <label for="l1-quantite">Quantité</label>
+                <input type="text" id="l1-quantite" name="lignes[1][quantite]" value="6" inputmode="decimal" data-champ="quantite" autocomplete="off">
+            </div>
+            <div class="champ champ-compact">
+                <label for="l1-unite">Unité</label>
+                <select id="l1-unite" name="lignes[1][unite]" data-champ="unite">
+                                            <option value="u" >u</option>
+                                            <option value="m²" >m²</option>
+                                            <option value="ml" selected>ml</option>
+                                            <option value="m³" >m³</option>
+                                            <option value="h" >h</option>
+                                            <option value="jour" >jour</option>
+                                            <option value="forfait" >forfait</option>
+                                            <option value="kg" >kg</option>
+                                            <option value="t" >t</option>
+                                    </select>
+            </div>
+            <div class="champ champ-compact">
+                <label for="l1-prix">Prix unit. HT</label>
+                <input type="text" id="l1-prix" name="lignes[1][prix]" value="50,00" inputmode="decimal" data-champ="prix" autocomplete="off">
+            </div>
+                    </div>
+        <div class="ligne-pied">
+                            <label class="case case-compacte">
+                    <input type="checkbox" name="lignes[1][option]" value="1" data-champ="option" >
+                    <span>En option</span>
+                </label>
+                        <output class="ligne-total" data-total>300,00 €</output>
+        </div>
+    </li>
+                    </ol>
+        <p class="texte-doux vide-lignes" id="aucune-ligne"  hidden >Aucune ligne : ajoutez-en une, ou cherchez dans le catalogue.</p>
+
+        <div class="ajouts" data-si-js hidden>
+            <button type="button" class="bouton" data-ajouter="ligne">+ Ligne</button>
+            <button type="button" class="bouton bouton-secondaire" data-ouvrir="dialogue-catalogue">Catalogue</button>
+            <button type="button" class="bouton bouton-secondaire" data-ajouter="section">+ Section</button>
+            <button type="button" class="bouton bouton-secondaire" data-ajouter="texte">+ Texte</button>
+                            <button type="button" class="bouton bouton-secondaire" data-ouvrir="dialogue-toiture">Calcul toiture</button>
+                    </div>
+
+        <div class="carte">
+            <div class="grille-2">
+                <div class="champ">
+    <label for="remise_type">Remise</label>
+    <select id="remise_type" name="remise_type" 
+                >
+                    <option value="">Aucune</option>
+                            <option value="pourcentage" >En %</option>
+                    <option value="montant" >En euros</option>
+            </select>
+        </div>
+                <div class="champ">
+    <label for="remise">Valeur de la remise</label>
+    <input type="text" id="remise" name="remise" value=""
+           inputmode="decimal"
+                      >
+        </div>
+            </div>
+            <dl class="totaux" aria-live="polite">
+                <dt>Total HT</dt><dd data-total-ht>1 470,00 €</dd>
+                <dt>Remise</dt><dd data-total-remise>0,00 €</dd>
+                                    <dt class="ligne-mention">TVA non applicable, art. 293 B du CGI</dt>
+                                <dt class="total-final">Total à payer</dt><dd class="total-final" data-total-ttc>1 470,00 €</dd>
+                <dt>Options (non comprises)</dt><dd data-total-options>0,00 €</dd>
+            </dl>
+        </div>
+
+        <div class="barre-actions">
+            <button type="submit" class="bouton bouton-large">Enregistrer</button>
+        </div>
+    </form>
+
+    
+            <template id="modele-ligne">
+            <li class="ligne-devis" data-type="ligne">
+    <input type="hidden" name="lignes[__I__][type]" value="ligne">
+    <input type="hidden" name="lignes[__I__][prestation_id]" value="" data-champ="prestation_id">
+
+    <div class="ligne-entete">
+        <span class="ligne-type">Ligne</span>
+        <span class="ligne-boutons">
+            <button type="button" class="bouton-icone" data-action="#" data-demo-formulaire aria-label="Monter">↑</button>
+            <button type="button" class="bouton-icone" data-action="#" data-demo-formulaire aria-label="Descendre">↓</button>
+            <button type="button" class="bouton-icone texte-danger" data-action="#" data-demo-formulaire aria-label="Supprimer la ligne">✕</button>
+        </span>
+    </div>
+
+            <div class="champ champ-compact">
+            <label for="l__I__-designation">Désignation</label>
+            <input type="text" id="l__I__-designation" name="lignes[__I__][designation]" value="" data-champ="designation" autocomplete="off">
+        </div>
+    
+            <div class="champ champ-compact">
+            <label for="l__I__-description">Détail (facultatif)</label>
+            <textarea id="l__I__-description" name="lignes[__I__][description]" rows="1" data-champ="description"></textarea>
+        </div>
+        <div class="grille-ligne">
+            <div class="champ champ-compact">
+                <label for="l__I__-quantite">Quantité</label>
+                <input type="text" id="l__I__-quantite" name="lignes[__I__][quantite]" value="1" inputmode="decimal" data-champ="quantite" autocomplete="off">
+            </div>
+            <div class="champ champ-compact">
+                <label for="l__I__-unite">Unité</label>
+                <select id="l__I__-unite" name="lignes[__I__][unite]" data-champ="unite">
+                                            <option value="u" selected>u</option>
+                                            <option value="m²" >m²</option>
+                                            <option value="ml" >ml</option>
+                                            <option value="m³" >m³</option>
+                                            <option value="h" >h</option>
+                                            <option value="jour" >jour</option>
+                                            <option value="forfait" >forfait</option>
+                                            <option value="kg" >kg</option>
+                                            <option value="t" >t</option>
+                                    </select>
+            </div>
+            <div class="champ champ-compact">
+                <label for="l__I__-prix">Prix unit. HT</label>
+                <input type="text" id="l__I__-prix" name="lignes[__I__][prix]" value="" inputmode="decimal" data-champ="prix" autocomplete="off">
+            </div>
+                    </div>
+        <div class="ligne-pied">
+                            <label class="case case-compacte">
+                    <input type="checkbox" name="lignes[__I__][option]" value="1" data-champ="option" >
+                    <span>En option</span>
+                </label>
+                        <output class="ligne-total" data-total></output>
+        </div>
+    </li>
+        </template>
+            <template id="modele-section">
+            <li class="ligne-devis" data-type="section">
+    <input type="hidden" name="lignes[__I__][type]" value="section">
+    <input type="hidden" name="lignes[__I__][prestation_id]" value="" data-champ="prestation_id">
+
+    <div class="ligne-entete">
+        <span class="ligne-type">Section</span>
+        <span class="ligne-boutons">
+            <button type="button" class="bouton-icone" data-action="#" data-demo-formulaire aria-label="Monter">↑</button>
+            <button type="button" class="bouton-icone" data-action="#" data-demo-formulaire aria-label="Descendre">↓</button>
+            <button type="button" class="bouton-icone texte-danger" data-action="#" data-demo-formulaire aria-label="Supprimer la ligne">✕</button>
+        </span>
+    </div>
+
+            <div class="champ champ-compact">
+            <label for="l__I__-designation">Titre de la section</label>
+            <input type="text" id="l__I__-designation" name="lignes[__I__][designation]" value="" data-champ="designation" autocomplete="off">
+        </div>
+    
+    </li>
+        </template>
+            <template id="modele-texte">
+            <li class="ligne-devis" data-type="texte">
+    <input type="hidden" name="lignes[__I__][type]" value="texte">
+    <input type="hidden" name="lignes[__I__][prestation_id]" value="" data-champ="prestation_id">
+
+    <div class="ligne-entete">
+        <span class="ligne-type">Texte</span>
+        <span class="ligne-boutons">
+            <button type="button" class="bouton-icone" data-action="#" data-demo-formulaire aria-label="Monter">↑</button>
+            <button type="button" class="bouton-icone" data-action="#" data-demo-formulaire aria-label="Descendre">↓</button>
+            <button type="button" class="bouton-icone texte-danger" data-action="#" data-demo-formulaire aria-label="Supprimer la ligne">✕</button>
+        </span>
+    </div>
+
+            <label class="visuellement-cache" for="l__I__-designation">Texte</label>
+        <textarea id="l__I__-designation" name="lignes[__I__][designation]" rows="2" placeholder="Texte libre (remarque, condition…)"></textarea>
+    
+    </li>
+        </template>
+    
+    <dialog id="dialogue-catalogue" class="dialogue" aria-labelledby="titre-catalogue">
+        <h2 id="titre-catalogue">Ajouter depuis le catalogue</h2>
+        <label for="recherche-catalogue" class="visuellement-cache">Chercher une prestation</label>
+        <input type="search" id="recherche-catalogue" placeholder="Démoussage, gouttière…" autocomplete="off">
+        <ul class="liste" id="resultats-catalogue" aria-live="polite"></ul>
+        <button type="button" class="bouton bouton-secondaire bouton-large" data-fermer>Fermer</button>
+    </dialog>
+
+            <dialog id="dialogue-toiture" class="dialogue" aria-labelledby="titre-toiture">
+            <h2 id="titre-toiture">Surface de toiture</h2>
+            <p class="aide">La surface réelle du toit (rampant) est plus grande que la surface au sol.</p>
+            <div class="champ"><label for="toiture-sol">Surface au sol (m²)</label><input type="text" id="toiture-sol" inputmode="decimal"></div>
+            <div class="grille-2">
+                <div class="champ"><label for="toiture-pente">Pente</label><input type="text" id="toiture-pente" inputmode="decimal"></div>
+                <div class="champ"><label for="toiture-unite">En</label>
+                    <select id="toiture-unite"><option value="degres">degrés (°)</option><option value="pourcentage">pourcentage (%)</option></select>
+                </div>
+            </div>
+            <p class="resultat-toiture" id="toiture-resultat" aria-live="polite"></p>
+            <button type="button" class="bouton bouton-large" id="toiture-utiliser" disabled>Ajouter une ligne avec cette surface</button>
+            <button type="button" class="bouton bouton-secondaire bouton-large" data-fermer>Fermer</button>
+        </dialog>
+        </main>
+
+    <nav class="barre-bas" aria-label="Menu principal">
+            <a href="../../accueil.html"
+           class=""
+           >
+                            <svg class="icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>
+                        <span>Accueil</span>
+        </a>
+            <a href="../../clients.html"
+           class=""
+           >
+                            <svg class="icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 11a4 4 0 1 0-8 0 4 4 0 0 0 8 0zM4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+                        <span>Clients</span>
+        </a>
+            <a href="../../nouveau.html"
+           class="nouveau"
+           >
+                            <span class="rond"><svg class="icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 5v14M5 12h14"/></svg>
+</span>
+                        <span>Nouveau</span>
+        </a>
+            <a href="../../devis.html"
+           class=""
+            aria-current="page" >
+                            <svg class="icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h7"/></svg>
+                        <span>Devis</span>
+        </a>
+            <a href="../../plus.html"
+           class=""
+           >
+                            <svg class="icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+                        <span>Plus</span>
+        </a>
+    </nav>
+<script src="../../demo-statique/demo-statique.js" defer></script>
+</body>
+</html>

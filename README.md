@@ -1,5 +1,17 @@
 # Gestion pour artisan du bâtiment
 
+## ▶ Voir l'application
+
+- **Démo à regarder, sans rien installer** (données fictives, sur téléphone ou ordinateur) :
+  **https://mattviolet91-ops.github.io/Devis-et-facture-5/docs/demo/**
+  On peut tout parcourir : accueil, clients, devis, factures, planning, photos, statistiques,
+  guide, et les pages que voit le client. Les boutons qui enregistrent ne font rien.
+- **Essayer pour de vrai, directement sur GitHub** (compte GitHub gratuit) :
+  [Ouvrir dans GitHub Codespaces](https://codespaces.new/mattviolet91-ops/Devis-et-facture-5?quickstart=1).
+  L'application démarre toute seule avec une entreprise fictive ; le terminal affiche les
+  comptes de démonstration (gérant et commercial). Le premier lancement prend quelques minutes.
+
+
 Application web (mobile d'abord) pour une petite entreprise artisanale du bâtiment :
 clients, devis, factures, paiements, planning, photos.
 
@@ -49,6 +61,8 @@ NODE_PATH=$(npm root -g) node outils/verif-mobile.mjs http://127.0.0.1:8000 emai
 NODE_PATH=$(npm root -g) node outils/verif-configuration.mjs http://127.0.0.1:8000 email motdepasse captures  # base neuve
 NODE_PATH=$(npm root -g) node outils/verif-hors-connexion.mjs http://127.0.0.1:8000 email motdepasse
 NODE_PATH=$(npm root -g) node outils/captures-guide.mjs http://127.0.0.1:8000 email motdepasse   # démonstration seulement
+outils/generer-demo-statique.sh                                  # refait la démo à regarder (docs/demo)
+NODE_PATH=$(npm root -g) node outils/verif-demo-statique.mjs http://127.0.0.1:8200/docs/demo/   # avec python3 -m http.server 8200
 ```
 
 `phpunit.mariadb.xml` utilise une base **de test** locale `app_test` (utilisateur et mot

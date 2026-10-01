@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#1f4e79">
+<meta name="robots" content="noindex, nofollow">
+<meta name="csrf-token" content="pZ96WMKh7GU60zGSeT2f7h873LXzRcbT86V3SOxE">
+<title>Documents · Couverture Démo</title>
+<link rel="icon" href="../icons/icone.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/icone-180.png">
+<link rel="stylesheet" href="../css/app.css__v-1790896550.css">
+<link rel="stylesheet" href="../theme.css__v-df7b6cb3.css">
+<script src="../js/theme-init.js__v-1790880993.js"></script>
+<script src="../js/app.js__v-1790894271.js" defer></script>
+</head>
+<body>
+    <a class="lien-evitement" href="#contenu">Aller au contenu</a>
+
+    <header class="entete">
+                    <a href="../reglages.html" class="retour" data-retour>‹ Retour</a>
+                <h1>Documents</h1>
+                    <a class="bouton-aide" href="../guide__r-reglages.html" aria-label="Aide sur cette page">?</a>
+            </header>
+
+    <main id="contenu" class="contenu" tabindex="-1">
+                    <p class="bandeau-demo">Démonstration : toutes les données sont fictives.</p>
+        
+        
+                
+            
+    
+    <form method="post" action="documents.html" enctype="multipart/form-data" class="carte" novalidate>
+        <input type="hidden" name="_token" value="pZ96WMKh7GU60zGSeT2f7h873LXzRcbT86V3SOxE" autocomplete="off">        <input type="hidden" name="_method" value="put">
+                    <div class="champ">
+        <label for="champ-documents__validite_devis_jours">
+            Validité des devis
+             <span class="obligatoire">(obligatoire)</span>         </label>
+
+                                        <div class="avec-suffixe">
+                    <input type="number" id="champ-documents__validite_devis_jours" name="documents__validite_devis_jours" value="30"
+                         inputmode="numeric" step="1"                                                                                                  >
+                                            <span class="suffixe">jours</span>
+                                    </div>
+        
+                    </div>
+                    <div class="champ">
+        <label for="champ-documents__delai_paiement_jours">
+            Délai de paiement des factures
+             <span class="obligatoire">(obligatoire)</span>         </label>
+
+                                        <div class="avec-suffixe">
+                    <input type="number" id="champ-documents__delai_paiement_jours" name="documents__delai_paiement_jours" value="30"
+                         inputmode="numeric" step="1"                                                                                                  aria-describedby="champ-documents__delai_paiement_jours-aide"  >
+                                            <span class="suffixe">jours</span>
+                                    </div>
+        
+                    <p class="aide" id="champ-documents__delai_paiement_jours-aide">Entre professionnels, la loi limite le délai à 60 jours.</p>
+                    </div>
+                    <div class="champ">
+        <label for="champ-documents__acompte_pourcentage">
+            Acompte demandé
+             <span class="obligatoire">(obligatoire)</span>         </label>
+
+                                        <div class="avec-suffixe">
+                    <input type="number" id="champ-documents__acompte_pourcentage" name="documents__acompte_pourcentage" value="30"
+                         inputmode="numeric" step="1"                                                                                                  >
+                                            <span class="suffixe">%</span>
+                                    </div>
+        
+                    </div>
+                    <div class="champ">
+        <label for="champ-documents__iban">
+            IBAN
+                    </label>
+
+                                        <div class="">
+                    <input type="text" id="champ-documents__iban" name="documents__iban" value="FR76 3000 6000 0112 3456 7890 189"
+                                                                                                                         aria-describedby="champ-documents__iban-aide"  >
+                                    </div>
+        
+                    <p class="aide" id="champ-documents__iban-aide">Pour les virements, imprimé sur vos factures.</p>
+                    </div>
+                    <div class="champ">
+        <label for="champ-documents__bic">
+            BIC
+                    </label>
+
+                                        <div class="">
+                    <input type="text" id="champ-documents__bic" name="documents__bic" value="AGRIFRPP"
+                                                                                                                         >
+                                    </div>
+        
+                    </div>
+                    <div class="champ">
+        <label for="champ-documents__mention_dechets">
+            Mention sur les déchets
+                    </label>
+
+                        <textarea id="champ-documents__mention_dechets" name="documents__mention_dechets" rows="4"
+                     aria-describedby="champ-documents__mention_dechets-aide"  >Gestion des déchets du chantier : les déchets sont triés sur place puis évacués vers une installation de collecte adaptée (déchetterie professionnelle ou point de reprise). La quantité estimée et le coût de leur évacuation figurent dans le détail du devis.</textarea>
+                
+                    <p class="aide" id="champ-documents__mention_dechets-aide">Obligatoire sur les devis de travaux : tri, collecte et coût d&#039;évacuation des déchets.</p>
+                    </div>
+                    <div class="champ">
+        <label for="champ-documents__cgv">
+            Conditions générales de vente (CGV)
+                    </label>
+
+                        <textarea id="champ-documents__cgv" name="documents__cgv" rows="14"
+                     aria-describedby="champ-documents__cgv-aide"  >CONDITIONS GÉNÉRALES DE VENTE ET D&#039;EXÉCUTION DES TRAVAUX
+
+Texte de départ à relire et à adapter. Faites-le valider par un professionnel du droit avant de l&#039;utiliser.
+
+Article 1 — Objet
+Les présentes conditions s&#039;appliquent à tous les travaux réalisés par l&#039;Entreprise. Elles complètent le devis accepté par le client. En cas de contradiction, le devis l&#039;emporte.
+
+Article 2 — Devis et commande
+Le devis est gratuit, sauf mention contraire. Il est valable pendant la durée qui y est indiquée. La commande est ferme à la signature du devis portant la mention « Bon pour accord », accompagnée, le cas échéant, du versement de l&#039;acompte prévu.
+Toute modification ou tout travail supplémentaire fera l&#039;objet d&#039;un avenant ou d&#039;un nouveau devis signé par le client.
+
+Article 3 — Droit de rétractation (clients particuliers)
+Lorsque le contrat est conclu hors établissement (au domicile du client par exemple) ou à distance, le client particulier dispose d&#039;un délai de 14 jours à compter de la signature pour se rétracter, sans avoir à se justifier, au moyen du formulaire de rétractation joint au devis ou de toute déclaration dénuée d&#039;ambiguïté.
+Aucun paiement ne peut être exigé avant l&#039;expiration d&#039;un délai de 7 jours à compter de la conclusion d&#039;un contrat hors établissement.
+Si le client demande expressément que les travaux commencent avant la fin du délai de rétractation, il paie la part des travaux réalisés jusqu&#039;à sa rétractation. Le droit de rétractation ne s&#039;applique pas aux travaux d&#039;entretien ou de réparation à réaliser en urgence au domicile du client et expressément sollicités par lui, dans la limite des pièces et travaux strictement nécessaires pour répondre à l&#039;urgence.
+
+Article 4 — Prix
+Les prix sont ceux du devis. Ils comprennent la fourniture et la main-d&#039;œuvre décrites. Les travaux non prévus au devis feront l&#039;objet d&#039;un accord préalable écrit.
+
+Article 5 — Délais et conditions d&#039;exécution
+Les dates d&#039;intervention sont données à titre indicatif. Elles peuvent être reportées en cas d&#039;intempéries (pluie, vent fort, gel), de force majeure, ou si le chantier n&#039;est pas accessible. Le client en est informé dans les meilleurs délais.
+Le client garantit l&#039;accès au chantier, l&#039;alimentation en eau et en électricité si nécessaire, et l&#039;obtention des autorisations administratives qui lui incombent.
+
+Article 6 — Réception des travaux
+La réception est l&#039;acte par lequel le client accepte les travaux, avec ou sans réserves. Elle fait l&#039;objet d&#039;un procès-verbal signé par les deux parties. Elle marque le point de départ des garanties légales.
+
+Article 7 — Garanties
+Les travaux bénéficient des garanties légales : garantie de parfait achèvement (1 an à compter de la réception), garantie de bon fonctionnement des éléments d&#039;équipement dissociables (2 ans) et garantie décennale (10 ans) pour les dommages qui compromettent la solidité de l&#039;ouvrage ou le rendent impropre à sa destination. Les références de l&#039;assurance décennale de l&#039;Entreprise figurent sur le devis.
+
+Article 8 — Paiement
+Les factures sont payables selon les conditions indiquées sur le devis et la facture. Aucun escompte n&#039;est accordé pour paiement anticipé.
+En cas de retard de paiement, des pénalités sont dues au taux d&#039;intérêt appliqué par la Banque centrale européenne à son opération de refinancement la plus récente, majoré de 10 points. Pour les clients professionnels, une indemnité forfaitaire pour frais de recouvrement de 40 euros est due en plus (article L. 441-10 du Code de commerce).
+
+Article 9 — Réserve de propriété
+Les matériaux et fournitures restent la propriété de l&#039;Entreprise jusqu&#039;au paiement complet du prix.
+
+Article 10 — Déchets
+Les déchets de chantier sont gérés comme indiqué sur le devis (tri, collecte, évacuation vers une installation adaptée).
+
+Article 11 — Médiation de la consommation
+En cas de litige, le client particulier peut recourir gratuitement au médiateur de la consommation dont les coordonnées figurent sur le devis, après avoir tenté de résoudre le litige directement auprès de l&#039;Entreprise par une réclamation écrite.
+
+Article 12 — Données personnelles
+Les données du client sont utilisées uniquement pour la gestion de sa demande, de ses devis, factures et travaux. Elles sont conservées pendant la durée légale de conservation des documents comptables. Le client peut demander l&#039;accès, la rectification ou la suppression de ses données en contactant l&#039;Entreprise.
+
+Article 13 — Droit applicable
+Les présentes conditions sont soumises au droit français.
+
+Article complémentaire — Travaux de toiture
+Les interventions en toiture dépendent des conditions météorologiques. Le client autorise l&#039;installation des protections et de l&#039;échafaudage nécessaires. Les éléments de couverture découverts en mauvais état non visibles lors de la visite (voliges, chevrons…) feront l&#039;objet d&#039;un devis complémentaire.</textarea>
+                
+                    <p class="aide" id="champ-documents__cgv-aide">Ajoutées en annexe de vos devis.</p>
+                    </div>
+                    <div class="champ">
+        <input type="hidden" name="documents__page_couverture" value="0">
+        <label class="case">
+            <input type="checkbox" id="champ-documents__page_couverture" name="documents__page_couverture" value="1"  >
+            <span>Ajouter une page de couverture aux devis</span>
+        </label>
+
+                    </div>
+        
+        <button type="submit" class="bouton bouton-large">Enregistrer</button>
+    </form>
+
+        </main>
+
+    <nav class="barre-bas" aria-label="Menu principal">
+            <a href="../accueil.html"
+           class=""
+           >
+                            <svg class="icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>
+                        <span>Accueil</span>
+        </a>
+            <a href="../clients.html"
+           class=""
+           >
+                            <svg class="icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 11a4 4 0 1 0-8 0 4 4 0 0 0 8 0zM4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+                        <span>Clients</span>
+        </a>
+            <a href="../nouveau.html"
+           class="nouveau"
+           >
+                            <span class="rond"><svg class="icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 5v14M5 12h14"/></svg>
+</span>
+                        <span>Nouveau</span>
+        </a>
+            <a href="../devis.html"
+           class=""
+           >
+                            <svg class="icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h7"/></svg>
+                        <span>Devis</span>
+        </a>
+            <a href="../plus.html"
+           class=""
+            aria-current="page" >
+                            <svg class="icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+                        <span>Plus</span>
+        </a>
+    </nav>
+<script src="../demo-statique/demo-statique.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#1f4e79">
+<meta name="robots" content="noindex, nofollow">
+<meta name="csrf-token" content="pZ96WMKh7GU60zGSeT2f7h873LXzRcbT86V3SOxE">
+<title>Modèles d&#039;emails · Couverture Démo</title>
+<link rel="icon" href="../icons/icone.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/icone-180.png">
+<link rel="stylesheet" href="../css/app.css__v-1790896550.css">
+<link rel="stylesheet" href="../theme.css__v-df7b6cb3.css">
+<script src="../js/theme-init.js__v-1790880993.js"></script>
+<script src="../js/app.js__v-1790894271.js" defer></script>
+</head>
+<body>
+    <a class="lien-evitement" href="#contenu">Aller au contenu</a>
+
+    <header class="entete">
+                    <a href="../reglages.html" class="retour" data-retour>‹ Retour</a>
+                <h1>Modèles d&#039;emails</h1>
+                    <a class="bouton-aide" href="../guide__r-reglages.html" aria-label="Aide sur cette page">?</a>
+            </header>
+
+    <main id="contenu" class="contenu" tabindex="-1">
+                    <p class="bandeau-demo">Démonstration : toutes les données sont fictives.</p>
+        
+        
+                
+            
+    
+    <form method="post" action="modeles.html" enctype="multipart/form-data" class="carte" novalidate>
+        <input type="hidden" name="_token" value="pZ96WMKh7GU60zGSeT2f7h873LXzRcbT86V3SOxE" autocomplete="off">        <input type="hidden" name="_method" value="put">
+                    <div class="champ">
+        <label for="champ-emails__modeles__devis__sujet">
+            Envoi d&#039;un devis : objet
+             <span class="obligatoire">(obligatoire)</span>         </label>
+
+                                        <div class="">
+                    <input type="text" id="champ-emails__modeles__devis__sujet" name="emails__modeles__devis__sujet" value="Votre devis {numero}"
+                                                                                                                         >
+                                    </div>
+        
+                    </div>
+                    <div class="champ">
+        <label for="champ-emails__modeles__devis__corps">
+            Envoi d&#039;un devis : message
+             <span class="obligatoire">(obligatoire)</span>         </label>
+
+                        <textarea id="champ-emails__modeles__devis__corps" name="emails__modeles__devis__corps" rows="4"
+                     aria-describedby="champ-emails__modeles__devis__corps-aide"  >{salutation},
+
+Veuillez trouver votre devis {numero} d&#039;un montant de {montant}.
+Vous pouvez le consulter et le signer en ligne : {lien}
+
+Nous restons à votre disposition pour toute question.
+
+Cordialement,
+{entreprise}</textarea>
+                
+                    <p class="aide" id="champ-emails__modeles__devis__corps-aide">Variables possibles : {salutation}, {numero}, {montant}, {echeance}, {lien}, {entreprise}.</p>
+                    </div>
+                    <div class="champ">
+        <label for="champ-emails__modeles__relance_devis__sujet">
+            Relance d&#039;un devis : objet
+             <span class="obligatoire">(obligatoire)</span>         </label>
+
+                                        <div class="">
+                    <input type="text" id="champ-emails__modeles__relance_devis__sujet" name="emails__modeles__relance_devis__sujet" value="Votre devis {numero}"
+                                                                                                                         >
+                                    </div>
+        
+                    </div>
+                    <div class="champ">
+        <label for="champ-emails__modeles__relance_devis__corps">
+            Relance d&#039;un devis : message
+             <span class="obligatoire">(obligatoire)</span>         </label>
+
+                        <textarea id="champ-emails__modeles__relance_devis__corps" name="emails__modeles__relance_devis__corps" rows="4"
+                     aria-describedby="champ-emails__modeles__relance_devis__corps-aide"  >{salutation},
+
+Nous revenons vers vous au sujet de notre devis {numero} d&#039;un montant de {montant}, valable jusqu&#039;au {echeance}.
+Vous pouvez le consulter et le signer en ligne : {lien}
+
+Avez-vous des questions ? Nous pouvons en parler au {telephone}.
+
+Cordialement,
+{entreprise}</textarea>
+                
+                    <p class="aide" id="champ-emails__modeles__relance_devis__corps-aide">Variables possibles : {salutation}, {numero}, {montant}, {echeance}, {lien}, {entreprise}.</p>
+                    </div>
+                    <div class="champ">
+        <label for="champ-emails__modeles__facture__sujet">
+            Envoi d&#039;une facture : objet
+             <span class="obligatoire">(obligatoire)</span>         </label>
+
+                                        <div class="">
+                    <input type="text" id="champ-emails__modeles__facture__sujet" name="emails__modeles__facture__sujet" value="Votre facture {numero}"
+                                                                                                                         >
+                                    </div>
+        
+                    </div>
+                    <div class="champ">
+        <label for="champ-emails__modeles__facture__corps">
+            Envoi d&#039;une facture : message
+             <span class="obligatoire">(obligatoire)</span>         </label>
+
+                        <textarea id="champ-emails__modeles__facture__corps" name="emails__modeles__facture__corps" rows="4"
+                     aria-describedby="champ-emails__modeles__facture__corps-aide"  >{salutation},
+
+Veuillez trouver votre facture {numero} d&#039;un montant de {montant}, à régler avant le {echeance}.
+Consulter et régler en ligne : {lien}
+
+Merci de votre confiance.
+
+Cordialement,
+{entreprise}</textarea>
+                
+                    <p class="aide" id="champ-emails__modeles__facture__corps-aide">Variables possibles : {salutation}, {numero}, {montant}, {echeance}, {lien}, {entreprise}.</p>
+                    </div>
+                    <div class="champ">
+        <label for="champ-emails__modeles__relance__sujet">
+            Relance d&#039;une facture : objet
+             <span class="obligatoire">(obligatoire)</span>         </label>
+
+                                        <div class="">
+                    <input type="text" id="champ-emails__modeles__relance__sujet" name="emails__modeles__relance__sujet" value="Rappel : facture {numero}"
+                                                                                                                         >
+                                    </div>
+        
+                    </div>
+                    <div class="champ">
+        <label for="champ-emails__modeles__relance__corps">
+            Relance d&#039;une facture : message
+             <span class="obligatoire">(obligatoire)</span>         </label>
+
+                        <textarea id="champ-emails__modeles__relance__corps" name="emails__modeles__relance__corps" rows="4"
+                     aria-describedby="champ-emails__modeles__relance__corps-aide"  >{salutation},
+
+Sauf erreur de notre part, la facture {numero} d&#039;un montant de {montant} arrivée à échéance le {echeance} reste à régler.
+Vous pouvez la régler en ligne : {lien}
+
+Si le règlement a déjà été fait, merci de ne pas tenir compte de ce message.
+
+Cordialement,
+{entreprise}</textarea>
+                
+                    <p class="aide" id="champ-emails__modeles__relance__corps-aide">Variables possibles : {salutation}, {numero}, {montant}, {echeance}, {lien}, {entreprise}.</p>
+                    </div>
+                    <div class="champ">
+        <label for="champ-emails__modeles__rapport__sujet">
+            Rapport d&#039;intervention : objet
+             <span class="obligatoire">(obligatoire)</span>         </label>
+
+                                        <div class="">
+                    <input type="text" id="champ-emails__modeles__rapport__sujet" name="emails__modeles__rapport__sujet" value="Rapport d&#039;intervention"
+                                                                                                                         >
+                                    </div>
+        
+                    </div>
+                    <div class="champ">
+        <label for="champ-emails__modeles__rapport__corps">
+            Rapport d&#039;intervention : message
+             <span class="obligatoire">(obligatoire)</span>         </label>
+
+                        <textarea id="champ-emails__modeles__rapport__corps" name="emails__modeles__rapport__corps" rows="4"
+                     aria-describedby="champ-emails__modeles__rapport__corps-aide"  >{salutation},
+
+Veuillez trouver le rapport de notre intervention : {lien}
+
+Cordialement,
+{entreprise}</textarea>
+                
+                    <p class="aide" id="champ-emails__modeles__rapport__corps-aide">Variables possibles : {salutation}, {numero}, {montant}, {echeance}, {lien}, {entreprise}.</p>
+                    </div>
+                    <div class="champ">
+        <label for="champ-emails__modeles__avis__sujet">
+            Demande d&#039;avis : objet
+             <span class="obligatoire">(obligatoire)</span>         </label>
+
+                                        <div class="">
+                    <input type="text" id="champ-emails__modeles__avis__sujet" name="emails__modeles__avis__sujet" value="Votre avis compte pour nous"
+                                                                                                                         >
+                                    </div>
+        
+                    </div>
+                    <div class="champ">
+        <label for="champ-emails__modeles__avis__corps">
+            Demande d&#039;avis : message
+             <span class="obligatoire">(obligatoire)</span>         </label>
+
+                        <textarea id="champ-emails__modeles__avis__corps" name="emails__modeles__avis__corps" rows="4"
+                     aria-describedby="champ-emails__modeles__avis__corps-aide"  >{salutation},
+
+Merci de nous avoir fait confiance pour vos travaux.
+Si vous êtes satisfait, pourriez-vous laisser un petit avis ? Cela nous aide beaucoup : {lien}
+
+Cordialement,
+{entreprise}</textarea>
+                
+                    <p class="aide" id="champ-emails__modeles__avis__corps-aide">Variables possibles : {salutation}, {numero}, {montant}, {echeance}, {lien}, {entreprise}.</p>
+                    </div>
+                    <div class="champ">
+        <label for="champ-emails__modeles__entretien__sujet">
+            Proposition d&#039;entretien : objet
+             <span class="obligatoire">(obligatoire)</span>         </label>
+
+                                        <div class="">
+                    <input type="text" id="champ-emails__modeles__entretien__sujet" name="emails__modeles__entretien__sujet" value="Entretien de votre toiture"
+                                                                                                                         >
+                                    </div>
+        
+                    </div>
+                    <div class="champ">
+        <label for="champ-emails__modeles__entretien__corps">
+            Proposition d&#039;entretien : message
+             <span class="obligatoire">(obligatoire)</span>         </label>
+
+                        <textarea id="champ-emails__modeles__entretien__corps" name="emails__modeles__entretien__corps" rows="4"
+                     aria-describedby="champ-emails__modeles__entretien__corps-aide"  >{salutation},
+
+Cela fait environ un an que nous sommes intervenus chez vous.
+Un petit contrôle de la toiture permet d&#039;éviter les mauvaises surprises. Souhaitez-vous que nous passions ?
+Il suffit de répondre à cet email ou de nous appeler au {telephone}.
+
+Cordialement,
+{entreprise}</textarea>
+                
+                    <p class="aide" id="champ-emails__modeles__entretien__corps-aide">Variables possibles : {salutation}, {numero}, {montant}, {echeance}, {lien}, {entreprise}.</p>
+                    </div>
+                    <div class="champ">
+        <label for="champ-emails__modeles__rendez_vous__sujet">
+            Rappel de rendez-vous au client : objet
+             <span class="obligatoire">(obligatoire)</span>         </label>
+
+                                        <div class="">
+                    <input type="text" id="champ-emails__modeles__rendez_vous__sujet" name="emails__modeles__rendez_vous__sujet" value="Rappel : notre passage le {date}"
+                                                                                                                         >
+                                    </div>
+        
+                    </div>
+                    <div class="champ">
+        <label for="champ-emails__modeles__rendez_vous__corps">
+            Rappel de rendez-vous au client : message
+             <span class="obligatoire">(obligatoire)</span>         </label>
+
+                        <textarea id="champ-emails__modeles__rendez_vous__corps" name="emails__modeles__rendez_vous__corps" rows="4"
+                     aria-describedby="champ-emails__modeles__rendez_vous__corps-aide"  >{salutation},
+
+Petit rappel : nous passerons le {date} ({horaire}) pour : {objet}.
+Adresse : {adresse}
+
+En cas d&#039;empêchement, merci de nous prévenir au {telephone}.
+
+Cordialement,
+{entreprise}</textarea>
+                
+                    <p class="aide" id="champ-emails__modeles__rendez_vous__corps-aide">Variables possibles : {salutation}, {date}, {horaire}, {objet}, {adresse}, {telephone}, {entreprise}.</p>
+                    </div>
+        
+        <button type="submit" class="bouton bouton-large">Enregistrer</button>
+    </form>
+
+        </main>
+
+    <nav class="barre-bas" aria-label="Menu principal">
+            <a href="../accueil.html"
+           class=""
+           >
+                            <svg class="icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>
+                        <span>Accueil</span>
+        </a>
+            <a href="../clients.html"
+           class=""
+           >
+                            <svg class="icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 11a4 4 0 1 0-8 0 4 4 0 0 0 8 0zM4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+                        <span>Clients</span>
+        </a>
+            <a href="../nouveau.html"
+           class="nouveau"
+           >
+                            <span class="rond"><svg class="icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 5v14M5 12h14"/></svg>
+</span>
+                        <span>Nouveau</span>
+        </a>
+            <a href="../devis.html"
+           class=""
+           >
+                            <svg class="icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h7"/></svg>
+                        <span>Devis</span>
+        </a>
+            <a href="../plus.html"
+           class=""
+            aria-current="page" >
+                            <svg class="icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+                        <span>Plus</span>
+        </a>
+    </nav>
+<script src="../demo-statique/demo-statique.js" defer></script>
+</body>
+</html>

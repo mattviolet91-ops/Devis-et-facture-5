@@ -30,6 +30,12 @@ class AppServiceProvider extends ServiceProvider
         if ($this->app->isProduction()) {
             URL::forceScheme('https');
         }
+        if (config('app.forcer_url')) {
+            URL::forceRootUrl((string) config('app.url'));
+            if (str_starts_with((string) config('app.url'), 'https://')) {
+                URL::forceScheme('https');
+            }
+        }
 
         // Éléments que l'on peut remettre depuis la corbeille (30 jours).
         Corbeille::enregistrer('client', Client::class, 'Client');

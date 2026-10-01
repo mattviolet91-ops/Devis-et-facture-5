@@ -54,6 +54,9 @@ return [
 
     'url' => env('APP_URL', 'http://localhost'),
 
+    // Derrière un relais (GitHub Codespaces…) : toujours construire les liens avec APP_URL.
+    'forcer_url' => (bool) env('APP_FORCER_URL', false),
+
     // Adresse réservée aux clients (sous-domaine), utilisée par le lien client.
     'client_url' => env('APP_CLIENT_URL'),
 

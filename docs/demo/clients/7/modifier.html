@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#1f4e79">
+<meta name="robots" content="noindex, nofollow">
+<meta name="csrf-token" content="pZ96WMKh7GU60zGSeT2f7h873LXzRcbT86V3SOxE">
+<title>Modifier le client · Couverture Démo</title>
+<link rel="icon" href="../../icons/icone.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../icons/icone-180.png">
+<link rel="stylesheet" href="../../css/app.css__v-1790896550.css">
+<link rel="stylesheet" href="../../theme.css__v-df7b6cb3.css">
+<script src="../../js/theme-init.js__v-1790880993.js"></script>
+<script src="../../js/app.js__v-1790894271.js" defer></script>
+</head>
+<body>
+    <a class="lien-evitement" href="#contenu">Aller au contenu</a>
+
+    <header class="entete">
+                    <a href="../7.html" class="retour" data-retour>‹ Retour</a>
+                <h1>Modifier le client</h1>
+                    <a class="bouton-aide" href="../../guide__r-clients.html" aria-label="Aide sur cette page">?</a>
+            </header>
+
+    <main id="contenu" class="contenu" tabindex="-1">
+                    <p class="bandeau-demo">Démonstration : toutes les données sont fictives.</p>
+        
+        
+                
+            
+    
+    <form method="post" action="../7.html" class="carte" novalidate>
+        <input type="hidden" name="_token" value="pZ96WMKh7GU60zGSeT2f7h873LXzRcbT86V3SOxE" autocomplete="off">                    <input type="hidden" name="_method" value="put">        
+        <fieldset class="segments segments-2">
+            <legend>Type de client</legend>
+                            <label><input type="radio" name="type" value="particulier" data-type-client ><span>Particulier</span></label>
+                            <label><input type="radio" name="type" value="professionnel" data-type-client checked><span>Professionnel</span></label>
+                    </fieldset>
+
+        <div data-pour-type="professionnel">
+            <div class="champ">
+    <label for="raison_sociale">Nom de la société</label>
+    <input type="text" id="raison_sociale" name="raison_sociale" value="Cabinet Syndic Exemple"
+           autocomplete="organization"
+                      >
+        </div>
+            <div class="champ">
+    <label for="siret">SIRET (facultatif)</label>
+    <input type="text" id="siret" name="siret" value=""
+           inputmode="numeric"
+                      >
+        </div>
+            <div class="champ">
+    <label for="tva_intracom">N° de TVA intracommunautaire (facultatif)</label>
+    <input type="text" id="tva_intracom" name="tva_intracom" value=""
+           
+                      >
+        </div>
+            <p class="etiquette">Personne à contacter</p>
+        </div>
+
+        <div class="champ">
+    <label for="civilite">Civilité</label>
+    <select id="civilite" name="civilite" 
+                >
+                    <option value="">— Choisir —</option>
+                            <option value="M." >M.</option>
+                    <option value="Mme" selected>Mme</option>
+                    <option value="M. et Mme" >M. et Mme</option>
+            </select>
+        </div>
+        <div class="champ">
+    <label for="nom">Nom</label>
+    <input type="text" id="nom" name="nom" value="Fontaine"
+           autocomplete="family-name" autocapitalize="words"
+                      >
+        </div>
+        <div class="champ">
+    <label for="prenom">Prénom</label>
+    <input type="text" id="prenom" name="prenom" value="Claire"
+           autocomplete="given-name" autocapitalize="words"
+                      >
+        </div>
+
+        <div class="champ">
+    <label for="telephone">Téléphone</label>
+    <input type="tel" id="telephone" name="telephone" value="06 00 00 00 07"
+           autocomplete="tel"
+            aria-describedby="telephone-aide"            >
+            <p class="aide" id="telephone-aide">Un téléphone ou un email est nécessaire.</p>
+        </div>
+        <div class="champ">
+    <label for="telephone2">Autre téléphone</label>
+    <input type="tel" id="telephone2" name="telephone2" value=""
+           
+                      >
+        </div>
+        <div class="champ">
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" value="gestion@syndic-exemple.test"
+           autocomplete="email" inputmode="email"
+                      >
+        </div>
+
+        <div class="champ">
+    <label for="adresse">Adresse</label>
+    <input type="text" id="adresse" name="adresse" value="9 rue du Commerce"
+           autocomplete="street-address"
+                      >
+        </div>
+        <div class="champ">
+    <label for="code_postal">Code postal</label>
+    <input type="text" id="code_postal" name="code_postal" value="00500"
+           inputmode="numeric" autocomplete="postal-code"
+                      >
+        </div>
+        <div class="champ">
+    <label for="ville">Ville</label>
+    <input type="text" id="ville" name="ville" value="Cité-Exemple"
+           autocomplete="address-level2"
+                      >
+        </div>
+
+        <div class="champ">
+    <label for="provenance">Comment nous a-t-il connus ?</label>
+    <select id="provenance" name="provenance" 
+                >
+                    <option value="">— Choisir —</option>
+                            <option value="Bouche-à-oreille" >Bouche-à-oreille</option>
+                    <option value="Site internet" >Site internet</option>
+                    <option value="Recherche Google" >Recherche Google</option>
+                    <option value="Facebook / Instagram" >Facebook / Instagram</option>
+                    <option value="Pages Jaunes" >Pages Jaunes</option>
+                    <option value="Panneau de chantier" >Panneau de chantier</option>
+                    <option value="Véhicule de l&#039;entreprise" >Véhicule de l&#039;entreprise</option>
+                    <option value="Déjà client" >Déjà client</option>
+                    <option value="Recommandé par un professionnel" selected>Recommandé par un professionnel</option>
+                    <option value="Autre" >Autre</option>
+            </select>
+        </div>
+        <div class="champ">
+    <label for="provenance_detail">Précision (facultatif)</label>
+    <input type="text" id="provenance_detail" name="provenance_detail" value=""
+           
+            aria-describedby="provenance_detail-aide"            >
+            <p class="aide" id="provenance_detail-aide">Par exemple : recommandé par M. Durand.</p>
+        </div>
+
+        
+        <button type="submit" class="bouton bouton-large">Enregistrer</button>
+    </form>
+    </main>
+
+    <nav class="barre-bas" aria-label="Menu principal">
+            <a href="../../accueil.html"
+           class=""
+           >
+                            <svg class="icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>
+                        <span>Accueil</span>
+        </a>
+            <a href="../../clients.html"
+           class=""
+            aria-current="page" >
+                            <svg class="icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 11a4 4 0 1 0-8 0 4 4 0 0 0 8 0zM4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+                        <span>Clients</span>
+        </a>
+            <a href="../../nouveau.html"
+           class="nouveau"
+           >
+                            <span class="rond"><svg class="icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 5v14M5 12h14"/></svg>
+</span>
+                        <span>Nouveau</span>
+        </a>
+            <a href="../../devis.html"
+           class=""
+           >
+                            <svg class="icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h7"/></svg>
+                        <span>Devis</span>
+        </a>
+            <a href="../../plus.html"
+           class=""
+           >
+                            <svg class="icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+                        <span>Plus</span>
+        </a>
+    </nav>
+<script src="../../demo-statique/demo-statique.js" defer></script>
+</body>
+</html>

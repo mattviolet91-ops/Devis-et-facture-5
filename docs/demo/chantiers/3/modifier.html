@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#1f4e79">
+<meta name="robots" content="noindex, nofollow">
+<meta name="csrf-token" content="pZ96WMKh7GU60zGSeT2f7h873LXzRcbT86V3SOxE">
+<title>Modifier le chantier · Couverture Démo</title>
+<link rel="icon" href="../../icons/icone.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../icons/icone-180.png">
+<link rel="stylesheet" href="../../css/app.css__v-1790896550.css">
+<link rel="stylesheet" href="../../theme.css__v-df7b6cb3.css">
+<script src="../../js/theme-init.js__v-1790880993.js"></script>
+<script src="../../js/app.js__v-1790894271.js" defer></script>
+</head>
+<body>
+    <a class="lien-evitement" href="#contenu">Aller au contenu</a>
+
+    <header class="entete">
+                    <a href="../../clients/2.html" class="retour" data-retour>‹ Retour</a>
+                <h1>Modifier le chantier</h1>
+                    <a class="bouton-aide" href="../../guide__r-clients.html" aria-label="Aide sur cette page">?</a>
+            </header>
+
+    <main id="contenu" class="contenu" tabindex="-1">
+                    <p class="bandeau-demo">Démonstration : toutes les données sont fictives.</p>
+        
+        
+                
+            <p class="texte-doux">Client : <strong>M. et Mme Hélène et Éric Bérard</strong></p>
+
+    
+    <form method="post" action="#" data-demo-formulaire class="carte" novalidate>
+        <input type="hidden" name="_token" value="pZ96WMKh7GU60zGSeT2f7h873LXzRcbT86V3SOxE" autocomplete="off">                    <input type="hidden" name="_method" value="put">        
+        <div class="champ">
+    <label for="libelle">Nom du chantier (facultatif)</label>
+    <input type="text" id="libelle" name="libelle" value="Grange"
+           
+            aria-describedby="libelle-aide"            >
+            <p class="aide" id="libelle-aide">Par exemple : Maison principale, Grange, Résidence secondaire.</p>
+        </div>
+        <div class="champ">
+    <label for="adresse">Adresse</label>
+    <input type="text" id="adresse" name="adresse" value="5 chemin du Moulin"
+           autocomplete="street-address"
+                      >
+        </div>
+        <div class="champ">
+    <label for="code_postal">Code postal</label>
+    <input type="text" id="code_postal" name="code_postal" value="00200"
+           inputmode="numeric"
+                      >
+        </div>
+        <div class="champ">
+    <label for="ville">Ville</label>
+    <input type="text" id="ville" name="ville" value="Saint-Exemple"
+           
+                      >
+        </div>
+
+                    <h2>Toiture</h2>
+            <div class="champ">
+    <label for="type_toiture">Type de toiture</label>
+    <select id="type_toiture" name="type_toiture" 
+                >
+                    <option value="">— Choisir —</option>
+                            <option value="Tuiles mécaniques" >Tuiles mécaniques</option>
+                    <option value="Tuiles plates" >Tuiles plates</option>
+                    <option value="Tuiles canal" selected>Tuiles canal</option>
+                    <option value="Ardoises naturelles" >Ardoises naturelles</option>
+                    <option value="Ardoises fibrociment" >Ardoises fibrociment</option>
+                    <option value="Zinc" >Zinc</option>
+                    <option value="Bac acier" >Bac acier</option>
+                    <option value="Shingle" >Shingle</option>
+                    <option value="Toit-terrasse" >Toit-terrasse</option>
+                    <option value="Autre" >Autre</option>
+            </select>
+        </div>
+            <div class="champ">
+    <label for="surface">Surface (m²)</label>
+    <input type="text" id="surface" name="surface" value="60"
+           inputmode="decimal"
+                      >
+        </div>
+            <div class="champ">
+    <label for="pente">Pente (en degrés)</label>
+    <input type="number" id="pente" name="pente" value="20"
+           inputmode="numeric" min="0" max="90"
+            aria-describedby="pente-aide"            >
+            <p class="aide" id="pente-aide">Entre 0° (plat) et 90°. Une pente de 100 % vaut 45°.</p>
+        </div>
+        
+        <div class="champ">
+    <label for="acces">Accès</label>
+    <textarea id="acces" name="acces" rows="2" 
+         aria-describedby="acces-aide"         >Facile (plain-pied)</textarea>
+            <p class="aide" id="acces-aide">Échelle, échafaudage, nacelle, stationnement, clés, chien…</p>
+        </div>
+        <div class="champ">
+    <label for="notes">Remarques</label>
+    <textarea id="notes" name="notes" rows="4" 
+                ></textarea>
+        </div>
+
+        <button type="submit" class="bouton bouton-large">Enregistrer</button>
+    </form>
+
+            <form method="post" action="#" data-demo-formulaire class="zone-suppression">
+            <input type="hidden" name="_token" value="pZ96WMKh7GU60zGSeT2f7h873LXzRcbT86V3SOxE" autocomplete="off">            <input type="hidden" name="_method" value="delete">            <button type="submit" class="bouton bouton-secondaire bouton-large texte-danger" data-confirmer="Mettre cette adresse de chantier à la corbeille ?">Mettre à la corbeille</button>
+        </form>
+        </main>
+
+    <nav class="barre-bas" aria-label="Menu principal">
+            <a href="../../accueil.html"
+           class=""
+           >
+                            <svg class="icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>
+                        <span>Accueil</span>
+        </a>
+            <a href="../../clients.html"
+           class=""
+            aria-current="page" >
+                            <svg class="icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 11a4 4 0 1 0-8 0 4 4 0 0 0 8 0zM4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+                        <span>Clients</span>
+        </a>
+            <a href="../../nouveau.html"
+           class="nouveau"
+           >
+                            <span class="rond"><svg class="icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 5v14M5 12h14"/></svg>
+</span>
+                        <span>Nouveau</span>
+        </a>
+            <a href="../../devis.html"
+           class=""
+           >
+                            <svg class="icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h7"/></svg>
+                        <span>Devis</span>
+        </a>
+            <a href="../../plus.html"
+           class=""
+           >
+                            <svg class="icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+                        <span>Plus</span>
+        </a>
+    </nav>
+<script src="../../demo-statique/demo-statique.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#1f4e79">
+<meta name="robots" content="noindex, nofollow">
+<meta name="csrf-token" content="pZ96WMKh7GU60zGSeT2f7h873LXzRcbT86V3SOxE">
+<title>DEV-2026-0001 · Couverture Démo</title>
+<link rel="icon" href="../icons/icone.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icons/icone-180.png">
+<link rel="stylesheet" href="../css/app.css__v-1790896550.css">
+<link rel="stylesheet" href="../theme.css__v-df7b6cb3.css">
+<script src="../js/theme-init.js__v-1790880993.js"></script>
+<script src="../js/app.js__v-1790894271.js" defer></script>
+</head>
+<body>
+    <a class="lien-evitement" href="#contenu">Aller au contenu</a>
+
+    <header class="entete">
+                    <a href="../devis.html" class="retour" data-retour>‹ Retour</a>
+                <h1>DEV-2026-0001</h1>
+                    <a class="bouton-aide" href="../guide__r-devis.html" aria-label="Aide sur cette page">?</a>
+            </header>
+
+    <main id="contenu" class="contenu" tabindex="-1">
+                    <p class="bandeau-demo">Démonstration : toutes les données sont fictives.</p>
+        
+        
+                
+            
+    <section class="carte">
+        <p>
+            <span class="badge statut-accepte">Accepté</span>
+                    </p>
+        <dl class="details">
+            <dt>Client</dt><dd><a href="../clients/1.html">Mme Sophie Martin</a></dd>
+                            <dt>Chantier</dt><dd>Maison</dd>
+                                        <dt>Objet</dt><dd>Démoussage et traitement de la toiture</dd>
+                                        <dt>Date</dt><dd>02/10/2026</dd>
+                <dt>Valable jusqu'au</dt><dd>01/11/2026</dd>
+                                        <dt>Acompte</dt><dd>30 %</dd>
+                                            </dl>
+    </section>
+
+    <section class="carte" aria-labelledby="titre-lignes">
+        <h2 id="titre-lignes">Détail</h2>
+                    <ul class="liste lignes-lecture">
+                                                            <li class="ligne">
+                            <div>
+                                Démoussage de toiture                                 <small>120 m² × 12,00 €</small>
+                                                            </div>
+                            <strong>1 440,00 €</strong>
+                        </li>
+                                                                                <li class="ligne">
+                            <div>
+                                Traitement hydrofuge                                 <small>120 m² × 9,00 €</small>
+                                                            </div>
+                            <strong>1 080,00 €</strong>
+                        </li>
+                                                                                <li class="ligne">
+                            <div>
+                                Échafaudage                                 <small>1 forfait × 600,00 €</small>
+                                                            </div>
+                            <strong>600,00 €</strong>
+                        </li>
+                                                </ul>
+                <dl class="totaux">
+                        <dt>Total HT</dt><dd>3 120,00 €</dd>
+                            <dt class="ligne-mention">TVA non applicable, art. 293 B du CGI</dt>
+                        <dt class="total-final">Total à payer</dt><dd class="total-final">3 120,00 €</dd>
+                    </dl>
+    </section>
+
+    
+    
+            <section class="carte" id="lien-client">
+            <h2>Lien pour le client</h2>
+                                        <form method="post" action="#" data-demo-formulaire>
+                    <input type="hidden" name="_token" value="pZ96WMKh7GU60zGSeT2f7h873LXzRcbT86V3SOxE" autocomplete="off">                    <button type="submit" class="bouton bouton-secondaire bouton-large">Créer le lien du client</button>
+                </form>
+                    </section>
+    
+    
+            <section class="carte" id="facturer">
+            <h2>Facturer ce devis</h2>
+                            <ul class="liste">
+                                            <li><a class="liste-lien" href="../factures/1.html"><span class="libelle">Facture d&#039;acompte FAC-2026-0001<small class="bloc texte-doux">936,00 € · Payée</small></span></a></li>
+                                    </ul>
+                        <form method="post" action="#" data-demo-formulaire novalidate>
+                <input type="hidden" name="_token" value="pZ96WMKh7GU60zGSeT2f7h873LXzRcbT86V3SOxE" autocomplete="off">                <fieldset class="segments segments-2">
+                    <legend>Type de facture</legend>
+                    <label><input type="radio" name="type" value="facture" checked><span>Complète</span></label>
+                    <label><input type="radio" name="type" value="acompte"><span>Acompte</span></label>
+                    <label><input type="radio" name="type" value="situation"><span>Situation</span></label>
+                    <label><input type="radio" name="type" value="solde"><span>Solde</span></label>
+                </fieldset>
+                <div class="champ">
+    <label for="pourcentage">Pourcentage (acompte ou avancement cumulé)</label>
+    <input type="text" id="pourcentage" name="pourcentage" value="30"
+           inputmode="decimal"
+            aria-describedby="pourcentage-aide"            >
+            <p class="aide" id="pourcentage-aide">Acompte : part du devis. Situation : avancement total des travaux.</p>
+        </div>
+                <button type="submit" class="bouton bouton-large">Préparer la facture</button>
+            </form>
+        </section>
+    
+    <section class="carte actions-devis" aria-label="Actions">
+        <a class="bouton bouton-secondaire bouton-large" href="1/pdf.pdf">Voir le PDF</a>
+                    <p class="aide">PDF figé le 02/10/2026 à 01:21 · empreinte SHA-256 : <code class="empreinte">91b2b169b3c0b5356a12c0617b924b9cc0e76ea94a88cd6c1a35859cea05fa8e</code></p>
+                                                        <form method="post" action="#" data-demo-formulaire>
+            <input type="hidden" name="_token" value="pZ96WMKh7GU60zGSeT2f7h873LXzRcbT86V3SOxE" autocomplete="off">            <button type="submit" class="bouton bouton-secondaire bouton-large">Dupliquer</button>
+        </form>
+            </section>
+
+    <div class="espace-barre-etape" aria-hidden="true"></div>
+    <nav class="barre-etape" aria-label="Actions de l'étape">
+                                    <a href="#facturer" class="bouton">Facturer</a>
+                                                <a href="../planning/nouveau__devis-1.html" class="bouton bouton-secondaire">Planifier</a>
+                        </nav>
+    </main>
+
+    <nav class="barre-bas" aria-label="Menu principal">
+            <a href="../accueil.html"
+           class=""
+           >
+                            <svg class="icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>
+                        <span>Accueil</span>
+        </a>
+            <a href="../clients.html"
+           class=""
+           >
+                            <svg class="icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 11a4 4 0 1 0-8 0 4 4 0 0 0 8 0zM4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+                        <span>Clients</span>
+        </a>
+            <a href="../nouveau.html"
+           class="nouveau"
+           >
+                            <span class="rond"><svg class="icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 5v14M5 12h14"/></svg>
+</span>
+                        <span>Nouveau</span>
+        </a>
+            <a href="../devis.html"
+           class=""
+            aria-current="page" >
+                            <svg class="icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h7"/></svg>
+                        <span>Devis</span>
+        </a>
+            <a href="../plus.html"
+           class=""
+           >
+                            <svg class="icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+                        <span>Plus</span>
+        </a>
+    </nav>
+<script src="../demo-statique/demo-statique.js" defer></script>
+</body>
+</html>

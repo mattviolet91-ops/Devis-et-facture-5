@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Application artisan//Planning//FR
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:rdv-4@127.0.0.1
+DTSTAMP:20261001T232157Z
+DTSTART;VALUE=DATE:20260817
+DTEND;VALUE=DATE:20260818
+SUMMARY:Recherche de fuite et réparation – Mme Anaïs Garnier
+LOCATION:17 route des Vignes\, 00600 Les Exemples
+DESCRIPTION:Téléphone : 0600000008\nPrévoir l'échafaudage la veille (e
+ xemple).
+END:VEVENT
+END:VCALENDAR

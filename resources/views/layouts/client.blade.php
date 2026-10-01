@@ -20,6 +20,9 @@
         <p class="nom-entreprise">{{ reglage('identite.nom_commercial') }}</p>
     </header>
     <main id="contenu" class="contenu">
+        @if (reglage('demo.active'))
+            <p class="bandeau-demo">Démonstration : toutes les données sont fictives.</p>
+        @endif
         @if (session('statut'))
             <div class="message message-succes" role="status">{{ session('statut') }}</div>
         @endif

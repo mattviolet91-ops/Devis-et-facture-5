@@ -23,6 +23,13 @@
                 </a>
             </li>
             <li>
+                <a class="liste-lien" href="{{ route('reglages.claude') }}">
+                    <x-icone nom="reglages" />
+                    <span class="libelle">Accès Claude<small class="texte-doux bloc">Clés pour préparer des devis avec Claude.</small></span>
+                    <x-icone nom="fleche" />
+                </a>
+            </li>
+            <li>
                 <a class="liste-lien" href="{{ route('journal') }}">
                     <x-icone nom="journal" />
                     <span class="libelle">Journal d'activité<small class="texte-doux bloc">Qui a fait quoi, et quand.</small></span>

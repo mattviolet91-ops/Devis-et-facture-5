@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\InvitationController;
 use App\Http\Controllers\Auth\MotDePasseOublieController;
 use App\Http\Controllers\Auth\NouveauMotDePasseController;
 use App\Http\Controllers\ChantierController;
+use App\Http\Controllers\ClesApiController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ComptesController;
 use App\Http\Controllers\CompteurSiteController;
@@ -295,6 +296,9 @@ Route::middleware('auth')->group(function () {
         Route::delete('/reglages/textes-types/{index}', [TextesTypesController::class, 'destroy'])->whereNumber('index')->name('reglages.textes.destroy');
         Route::post('/reglages/emails/test', [ReglagesController::class, 'testerEmail'])->middleware('throttle:5,1')->name('reglages.emails.test');
         Route::get('/reglages/assurance/attestation', [FichiersController::class, 'attestation'])->name('reglages.attestation');
+        Route::get('/reglages/acces-claude', [ClesApiController::class, 'index'])->name('reglages.claude');
+        Route::post('/reglages/acces-claude', [ClesApiController::class, 'store'])->middleware('throttle:10,1')->name('reglages.claude.creer');
+        Route::post('/reglages/acces-claude/{cle}/revoquer', [ClesApiController::class, 'revoquer'])->whereNumber('cle')->name('reglages.claude.revoquer');
         Route::get('/reglages/{section}', [ReglagesController::class, 'edit'])->name('reglages.edit');
         Route::put('/reglages/{section}', [ReglagesController::class, 'update'])->name('reglages.update');
         Route::get('/corbeille', [CorbeilleController::class, 'index'])->name('corbeille');

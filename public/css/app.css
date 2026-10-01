@@ -629,3 +629,4 @@ details.carte[open] summary { margin-bottom: 12px; }
     [data-glisser]:hover .contenu-glisser { transform: translateX(-110px); }
 }
 .compte { display: flex; justify-content: space-between; gap: 8px; padding: 10px 0; flex-wrap: wrap; } .compte details { flex-basis: 100%; } .compte details form { margin-top: 8px; }
+.etapes-guide { padding-left: 1.4em; } .etapes-guide li { margin: 6px 0; } .etapes-guide code, .lien-client { overflow-wrap: anywhere; }

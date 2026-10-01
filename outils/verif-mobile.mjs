@@ -261,6 +261,8 @@ for (const theme of ['light', 'dark']) {
     verifier(await page.locator('.barre-etape').count() === 1, `[${theme}] barre d'actions absente sur la facture`);
     await capture('facture-frais');
 
+    await page.goto(`${base}/reglages/acces-claude`);
+    await capture('acces-claude');
     await page.goto(`${base}/comptes`);
     await capture('comptes');
 

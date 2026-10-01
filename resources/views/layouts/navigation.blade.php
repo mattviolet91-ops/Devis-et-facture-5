@@ -1,7 +1,7 @@
 @php
     $onglets = [
         ['route' => 'accueil', 'url' => route('accueil'), 'libelle' => 'Accueil', 'icone' => 'accueil', 'actif' => request()->routeIs('accueil')],
-        ['route' => 'clients', 'url' => route('bientot', 'clients'), 'libelle' => 'Clients', 'icone' => 'clients', 'actif' => request()->is('bientot/clients')],
+        ['route' => 'clients', 'url' => route('clients.index'), 'libelle' => 'Clients', 'icone' => 'clients', 'actif' => request()->routeIs('clients.*', 'chantiers.*')],
         ['route' => 'nouveau', 'url' => route('nouveau'), 'libelle' => 'Nouveau', 'icone' => 'plus', 'actif' => request()->routeIs('nouveau')],
         ['route' => 'devis', 'url' => route('bientot', 'devis'), 'libelle' => 'Devis', 'icone' => 'devis', 'actif' => request()->is('bientot/devis')],
         ['route' => 'plus', 'url' => route('plus'), 'libelle' => 'Plus', 'icone' => 'menu', 'actif' => request()->routeIs('plus', 'journal', 'corbeille', 'reglages*')],

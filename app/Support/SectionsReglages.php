@@ -143,6 +143,15 @@ class SectionsReglages
                 ],
             ],
 
+            'clients' => [
+                'titre' => 'Clients',
+                'description' => 'Liste « Comment nous a-t-il connus ? ».',
+                'icone' => 'clients',
+                'champs' => [
+                    ['cle' => 'clients.provenances', 'libelle' => 'Provenances proposées', 'type' => 'lignes', 'obligatoire' => true, 'aide' => 'Une par ligne. Elles servent aux statistiques par provenance.'],
+                ],
+            ],
+
             'modeles' => [
                 'titre' => 'Modèles d\'emails',
                 'description' => 'Textes proposés pour l\'envoi des devis, factures et relances.',

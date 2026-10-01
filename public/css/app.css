@@ -445,3 +445,30 @@ details.carte[open] summary { margin-bottom: 12px; }
 .page-configuration form + form { margin-top: 12px; }
 .badge-danger { background: var(--danger-fond); }
 .bandeau-configuration a { font-weight: 700; }
+
+/* ---------- Clients ---------- */
+.recherche { display: flex; gap: 8px; margin-bottom: 12px; }
+.recherche input {
+    flex: 1; min-width: 0;
+    min-height: var(--hauteur-bouton); padding: 10px 12px; font: inherit;
+    color: var(--texte); background: var(--fond-champ);
+    border: 2px solid var(--bordure); border-radius: 10px;
+}
+.actions-ligne { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+.actions-ligne .bouton { flex: 1 1 auto; }
+.actions-rapides { display: grid; grid-template-columns: repeat(auto-fit, minmax(96px, 1fr)); gap: 8px; margin-bottom: 16px; }
+.vide { text-align: center; }
+.liste-clients { padding-top: 4px; padding-bottom: 4px; }
+.details { display: grid; grid-template-columns: max-content 1fr; gap: 6px 12px; margin: 0 0 16px; }
+.details dt { color: var(--texte-doux); }
+.details dd { margin: 0; overflow-wrap: anywhere; }
+.chantier { border-bottom: 1px solid var(--bordure); padding-bottom: 12px; margin-bottom: 12px; }
+.chantier h3 { margin: 0 0 4px; font-size: 1rem; }
+.chantier p { margin: 4px 0; }
+.texte-pre { white-space: pre-line; margin: 0; }
+.zone-suppression { margin-top: 24px; }
+.segments-2 { grid-template-columns: repeat(2, 1fr); }
+.etapes { padding-left: 20px; }
+.etapes li { margin-bottom: 6px; }
+.champ select { appearance: auto; }
+@media (max-width: 359px) { .details { grid-template-columns: 1fr; } }

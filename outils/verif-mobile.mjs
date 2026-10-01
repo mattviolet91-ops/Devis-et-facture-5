@@ -108,6 +108,33 @@ for (const theme of ['light', 'dark']) {
     await page.goto(`${base}/reglages/textes-types`);
     await capture('reglages-textes');
 
+    // Clients : liste, recherche sans accents, fiche, formulaire avec alerte de doublon.
+    await page.click('.barre-bas a[href$="/clients"]');
+    await page.waitForURL('**/clients');
+    await capture('clients');
+    await page.fill('#q', 'helene');
+    await page.click('form.recherche button');
+    await page.waitForLoadState();
+    verifier(await page.locator('.liste-clients li').count() === 1, `[${theme}] recherche sans accents`);
+    await page.click('.liste-clients a');
+    await page.waitForLoadState();
+    await capture('client-fiche');
+    await page.click('[data-retour]');
+    await page.waitForURL('**/clients?q=helene');
+    await page.goto(`${base}/clients/nouveau`);
+    verifier(await page.isHidden('[data-pour-type="professionnel"]'), `[${theme}] champs société visibles pour un particulier`);
+    await page.check('input[data-type-client][value="professionnel"]', { force: true });
+    verifier(await page.isVisible('[name="raison_sociale"]'), `[${theme}] champs société cachés pour un professionnel`);
+    await page.check('input[data-type-client][value="particulier"]', { force: true });
+    await page.fill('#nom', 'Essai');
+    await page.fill('#telephone', '+33 6 00 00 00 01');
+    await page.click('form.carte button[type=submit]');
+    await page.waitForLoadState();
+    verifier(await page.locator('text=ce client existe peut-être déjà').count() === 1, `[${theme}] alerte de doublon absente`);
+    await capture('client-doublon');
+    await page.goto(`${base}/clients/import`);
+    await capture('clients-import');
+
     await page.goto(`${base}/page-inexistante`);
     await capture('erreur-404');
 

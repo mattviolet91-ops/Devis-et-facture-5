@@ -3,6 +3,8 @@
 namespace Tests\Feature;
 
 use App\Console\Commands\Demo;
+use App\Models\Chantier;
+use App\Models\Client;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -22,6 +24,12 @@ class DemoTest extends TestCase
         // Aucun nom de personne, coordonnées sur un domaine réservé aux tests.
         $this->assertSame(0, User::whereNotNull('name')->count());
         $this->assertStringEndsWith('.test', reglage('identite.email'));
+
+        // Clients d'exemple : coordonnées fictives (domaine .test, numéros 06 00 00…).
+        $this->assertGreaterThanOrEqual(8, Client::count());
+        $this->assertSame(0, Client::whereNotNull('email')->where('email', 'not like', '%.test')->count());
+        $this->assertSame(0, Client::where('telephone', 'not like', '060000%')->count());
+        $this->assertGreaterThan(0, Chantier::count());
     }
 
     public function test_les_mots_de_passe_sont_aleatoires(): void

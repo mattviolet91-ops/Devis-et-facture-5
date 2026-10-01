@@ -4,11 +4,16 @@ use App\Http\Controllers\AccueilController;
 use App\Http\Controllers\Auth\ConnexionController;
 use App\Http\Controllers\Auth\MotDePasseOublieController;
 use App\Http\Controllers\Auth\NouveauMotDePasseController;
+use App\Http\Controllers\ChantierController;
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ConfigurationController;
 use App\Http\Controllers\CorbeilleController;
 use App\Http\Controllers\FichiersController;
+use App\Http\Controllers\ImportClientsController;
 use App\Http\Controllers\JournalController;
+use App\Http\Controllers\NoteClientController;
 use App\Http\Controllers\PagesController;
+use App\Http\Controllers\PieceJointeController;
 use App\Http\Controllers\ReglagesController;
 use App\Http\Controllers\TextesTypesController;
 use Illuminate\Support\Facades\Route;
@@ -37,6 +42,28 @@ Route::middleware('auth')->group(function () {
     Route::get('/plus', [PagesController::class, 'plus'])->name('plus');
     Route::get('/nouveau', [PagesController::class, 'nouveau'])->name('nouveau');
     Route::get('/bientot/{rubrique}', [PagesController::class, 'bientot'])->name('bientot');
+
+    // Clients et chantiers (gérant et commercial).
+    Route::get('/clients/import', [ImportClientsController::class, 'create'])->name('clients.import');
+    Route::post('/clients/import', [ImportClientsController::class, 'analyser'])->middleware('throttle:10,1');
+    Route::get('/clients/import/{jeton}', [ImportClientsController::class, 'apercu'])->name('clients.import.apercu');
+    Route::post('/clients/import/{jeton}', [ImportClientsController::class, 'importer'])->name('clients.import.importer');
+    Route::get('/clients/nouveau', [ClientController::class, 'create'])->name('clients.create');
+    Route::get('/clients/{client}/modifier', [ClientController::class, 'edit'])->name('clients.edit');
+    Route::resource('clients', ClientController::class)->except(['create', 'edit'])->where(['client' => '[0-9]+']);
+
+    Route::get('/clients/{client}/chantiers/nouveau', [ChantierController::class, 'create'])->name('chantiers.create');
+    Route::post('/clients/{client}/chantiers', [ChantierController::class, 'store'])->name('chantiers.store');
+    Route::get('/chantiers/{chantier}/modifier', [ChantierController::class, 'edit'])->name('chantiers.edit');
+    Route::put('/chantiers/{chantier}', [ChantierController::class, 'update'])->name('chantiers.update');
+    Route::delete('/chantiers/{chantier}', [ChantierController::class, 'destroy'])->name('chantiers.destroy');
+
+    Route::post('/clients/{client}/notes', [NoteClientController::class, 'store'])->name('notes.store');
+    Route::delete('/notes/{note}', [NoteClientController::class, 'destroy'])->name('notes.destroy');
+
+    Route::post('/clients/{client}/fichiers', [PieceJointeController::class, 'store'])->middleware('throttle:30,1')->name('pieces.store');
+    Route::get('/fichiers/{piece}', [PieceJointeController::class, 'show'])->whereNumber('piece')->name('pieces.show');
+    Route::delete('/fichiers/{piece}', [PieceJointeController::class, 'destroy'])->whereNumber('piece')->name('pieces.destroy');
 
     Route::middleware('gerant')->prefix('configuration')->name('configuration')->group(function () {
         Route::get('/', [ConfigurationController::class, 'index']);

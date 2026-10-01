@@ -72,4 +72,12 @@ return [
     ],
 
     'textes_types' => [],
+
+    'clients' => [
+        // « Comment nous a-t-il connus ? » (modifiable dans Réglages → Clients).
+        'provenances' => [
+            'Bouche-à-oreille', 'Site internet', 'Recherche Google', 'Facebook / Instagram', 'Pages Jaunes',
+            'Panneau de chantier', 'Véhicule de l\'entreprise', 'Déjà client', 'Recommandé par un professionnel', 'Autre',
+        ],
+    ],
 ];

@@ -66,3 +66,7 @@ de passe `app_test`), créée seulement sur le poste de développement ou dans G
   reprise, retour arrière, devis PDF d'exemple). Le gérant peut le passer pour l'instant :
   l'application s'ouvre avec un bandeau, et les pages destinées aux clients restent coupées
   jusqu'à la fin. Un commercial voit « en cours de configuration par le gérant ».
+- [x] Étape 4 — Clients et chantiers : particulier / professionnel, provenance, alerte de doublon
+  (même téléphone ou email), plusieurs adresses de chantier (toiture, surface, pente, accès),
+  recherche sans accents, import CSV avec aperçu, notes et pièces jointes ; clients d'exemple
+  fictifs dans la démonstration.

@@ -199,6 +199,29 @@
         });
     });
 
+    /* ----------------------------------------------------------------
+       Fiche client : champs « société » visibles pour un professionnel.
+       ---------------------------------------------------------------- */
+    var typesClient = document.querySelectorAll('input[data-type-client]');
+    if (typesClient.length) {
+        var afficherType = function () {
+            var choisi = document.querySelector('input[data-type-client]:checked');
+            document.querySelectorAll('[data-pour-type]').forEach(function (bloc) {
+                bloc.hidden = !choisi || bloc.getAttribute('data-pour-type') !== choisi.value;
+            });
+        };
+        typesClient.forEach(function (choix) { choix.addEventListener('change', afficherType); });
+        afficherType();
+    }
+
+    /* Confirmation avant une suppression (bouton data-confirmer). */
+    document.addEventListener('click', function (evenement) {
+        var bouton = evenement.target.closest('[data-confirmer]');
+        if (bouton && !window.confirm(bouton.getAttribute('data-confirmer'))) {
+            evenement.preventDefault();
+        }
+    });
+
     /* Réglages d'affichage : visibles seulement si le JavaScript fonctionne. */
     document.querySelectorAll('[data-si-js]').forEach(function (el) { el.hidden = false; });
     document.querySelectorAll('[data-sans-js]').forEach(function (el) { el.hidden = true; });

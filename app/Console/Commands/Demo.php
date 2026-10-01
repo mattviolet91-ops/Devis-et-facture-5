@@ -6,6 +6,7 @@ use App\Models\Appareil;
 use App\Models\User;
 use App\Notifications\NouvelAppareil;
 use App\Support\Configuration;
+use App\Support\DonneesDemo;
 use App\Support\Journal;
 use App\Support\Metiers;
 use App\Support\Reglages;
@@ -97,6 +98,7 @@ class Demo extends Command
             }
 
             $gerant = User::where('email', 'demo@exemple.test')->first();
+            DonneesDemo::installerClients($gerant);
             $appareil = Appareil::firstOrCreate(
                 ['user_id' => $gerant->id, 'empreinte' => hash('sha256', 'demo-tablette')],
                 ['libelle' => 'Android – Chrome', 'last_seen_at' => now()],

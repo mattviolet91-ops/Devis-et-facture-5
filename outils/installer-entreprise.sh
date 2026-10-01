@@ -48,19 +48,22 @@ git clone --quiet --branch "$BRANCHE" "$DEPOT" "$CIBLE"
 cd "$CIBLE"
 "$COMPOSER" install --no-dev --no-interaction --prefer-dist --optimize-autoloader --quiet
 
+# En cas de refus de la base : on retire le dossier que ce script vient de créer (il n'existait pas avant).
+echec_base() { cd /; rm -rf -- "$CIBLE"; erreur "$1"; }
+
 etape "Base de données neuve : $BASE"
 case "$MODE" in
     cpanel)
         command -v uapi >/dev/null || erreur "Commande uapi absente : utilisez --mysql, ou créez la base dans cPanel (voir docs/INSTALLATION-CPANEL.md)."
-        uapi --output=json Mysql create_database name="$BASE" | grep -q '"status":1' || erreur "La base $BASE n'a pas pu être créée (existe-t-elle déjà ?). Rien d'autre n'a été fait."
-        uapi --output=json Mysql create_user name="$UTILISATEUR" password="$MOTDEPASSE" | grep -q '"status":1' || erreur "L'utilisateur $UTILISATEUR n'a pas pu être créé."
-        uapi --output=json Mysql set_privileges_on_database user="$UTILISATEUR" database="$BASE" privileges=ALL | grep -q '"status":1' || erreur "Les droits n'ont pas pu être donnés."
+        uapi --output=json Mysql create_database name="$BASE" | grep -q '"status":1' || echec_base "La base $BASE n'a pas pu être créée (existe-t-elle déjà ?). Rien n'a été installé."
+        uapi --output=json Mysql create_user name="$UTILISATEUR" password="$MOTDEPASSE" | grep -q '"status":1' || echec_base "L'utilisateur $UTILISATEUR n'a pas pu être créé."
+        uapi --output=json Mysql set_privileges_on_database user="$UTILISATEUR" database="$BASE" privileges=ALL | grep -q '"status":1' || echec_base "Les droits n'ont pas pu être donnés."
         HOTE="localhost"
         ;;
     mysql)
         HOTE="${DB_HOTE:-127.0.0.1}"
-        mysql ${MYSQL_ADMIN_OPTIONS:-} -e "CREATE DATABASE \`$BASE\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci" || erreur "La base $BASE n'a pas pu être créée (existe-t-elle déjà ?). Rien d'autre n'a été fait."
-        mysql ${MYSQL_ADMIN_OPTIONS:-} -e "CREATE USER '$UTILISATEUR'@'%' IDENTIFIED BY '$MOTDEPASSE'; GRANT ALL PRIVILEGES ON \`$BASE\`.* TO '$UTILISATEUR'@'%'; FLUSH PRIVILEGES;" || erreur "L'utilisateur $UTILISATEUR n'a pas pu être créé."
+        mysql ${MYSQL_ADMIN_OPTIONS:-} -e "CREATE DATABASE \`$BASE\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci" || echec_base "La base $BASE n'a pas pu être créée (existe-t-elle déjà ?). Rien n'a été installé."
+        mysql ${MYSQL_ADMIN_OPTIONS:-} -e "CREATE USER '$UTILISATEUR'@'%' IDENTIFIED BY '$MOTDEPASSE'; GRANT ALL PRIVILEGES ON \`$BASE\`.* TO '$UTILISATEUR'@'%'; FLUSH PRIVILEGES;" || echec_base "L'utilisateur $UTILISATEUR n'a pas pu être créé."
         ;;
 esac
 

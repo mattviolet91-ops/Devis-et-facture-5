@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class BaseNeuveTest extends TestCase
@@ -17,12 +18,17 @@ class BaseNeuveTest extends TestCase
     public function test_accepte_une_base_vide(): void
     {
         $chemin = tempnam(sys_get_temp_dir(), 'base');
+        $avant = config('database.default');
         config(['database.connections.vide' => ['driver' => 'sqlite', 'database' => $chemin, 'prefix' => '', 'foreign_key_constraints' => true]]);
         config(['database.default' => 'vide']);
 
-        $this->artisan('app:base-neuve')->expectsOutputToContain('Base vide')->assertSuccessful();
-        config(['database.default' => 'sqlite']);
-        unlink($chemin);
+        try {
+            $this->artisan('app:base-neuve')->expectsOutputToContain('Base vide')->assertSuccessful();
+        } finally {
+            config(['database.default' => $avant]);
+            DB::purge('vide');
+            unlink($chemin);
+        }
     }
 
     public function test_aucune_donnee_de_demonstration_dans_le_seeder(): void

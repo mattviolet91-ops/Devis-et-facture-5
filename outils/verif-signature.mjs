@@ -17,10 +17,13 @@ await gerant.fill('#password', motDePasse);
 await gerant.click('button[type=submit]');
 await gerant.waitForURL('**/accueil');
 await gerant.goto(`${base}/devis?statut=envoye`);
-await gerant.click('ul.liste.carte a >> nth=0');
+await gerant.click('ul.liste.carte a.liste-lien >> nth=0');
 await gerant.waitForURL(/\/devis\/\d+$/);
-await gerant.click('button:has-text("Créer le lien du client")');
-await gerant.waitForLoadState();
+// Le lien existe peut-être déjà (créé en préparant un email) : sinon on le crée.
+if (await gerant.locator('button:has-text("Créer le lien du client")').count()) {
+    await gerant.click('button:has-text("Créer le lien du client")');
+    await gerant.waitForLoadState();
+}
 const lien = (await gerant.textContent('#adresse-lien')).trim();
 verifier(lien.includes('/c/'), 'lien client absent');
 

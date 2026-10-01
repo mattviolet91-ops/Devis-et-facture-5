@@ -13,6 +13,32 @@ dans le **Terminal** de cPanel. Rien n'est à taper de mémoire.
 - Un sous-domaine pour l'application, par exemple `gestion.mondomaine.fr`.
 - Facultatif : un second sous-domaine pour les clients, par exemple `devis.mondomaine.fr`.
 
+## Installation en une commande (nouvelle entreprise)
+
+Depuis le Terminal, dans un clone du dépôt (ou une installation existante) :
+
+```bash
+outils/installer-entreprise.sh gestion-dupont https://gestion.dupont-couverture.fr
+```
+
+Le script :
+
+1. copie le code dans `~/gestion-dupont` et installe les dépendances ;
+2. crée une base **neuve** et un utilisateur dédié avec un mot de passe aléatoire
+   (commande `uapi` de cPanel), jamais affiché ;
+3. **refuse de continuer** si la base existe déjà ou contient des tables ;
+4. écrit le `.env` (production, clé de chiffrement propre à cette installation, droits 600) ;
+5. construit les tables, demande l'email et le mot de passe du gérant, ajoute la ligne de cron.
+
+Il reste à pointer le sous-domaine vers `~/gestion-dupont/public` (étape 4 ci-dessous) et à
+activer le certificat SSL (étape 1). Chaque entreprise a ainsi son dossier, sa base, ses
+fichiers (photos, PDF, sauvegardes) et sa clé de chiffrement : aucune ne voit les données
+d'une autre.
+
+Sans cPanel (serveur avec accès administrateur MariaDB) : ajouter `--mysql`.
+
+Les étapes suivantes décrivent la même installation, faite à la main.
+
 ## 1. Préparer cPanel (une fois)
 
 1. **Sélecteur de version PHP** (o2switch : « Select PHP Version ») : choisir **8.3**,

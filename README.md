@@ -47,6 +47,8 @@ vendor/bin/phpunit -c phpunit.mariadb.xml              # MariaDB (base de test l
 vendor/bin/pint --test                                  # format du code
 NODE_PATH=$(npm root -g) node outils/verif-mobile.mjs http://127.0.0.1:8000 email motdepasse captures
 NODE_PATH=$(npm root -g) node outils/verif-configuration.mjs http://127.0.0.1:8000 email motdepasse captures  # base neuve
+NODE_PATH=$(npm root -g) node outils/verif-hors-connexion.mjs http://127.0.0.1:8000 email motdepasse
+NODE_PATH=$(npm root -g) node outils/captures-guide.mjs http://127.0.0.1:8000 email motdepasse   # démonstration seulement
 ```
 
 `phpunit.mariadb.xml` utilise une base **de test** locale `app_test` (utilisateur et mot
@@ -66,7 +68,26 @@ de passe `app_test`), créée seulement sur le poste de développement ou dans G
   reprise, retour arrière, devis PDF d'exemple). Le gérant peut le passer pour l'instant :
   l'application s'ouvre avec un bandeau, et les pages destinées aux clients restent coupées
   jusqu'à la fin. Un commercial voit « en cours de configuration par le gérant ».
-- [x] Étape 4 — Clients et chantiers : particulier / professionnel, provenance, alerte de doublon
-  (même téléphone ou email), plusieurs adresses de chantier (toiture, surface, pente, accès),
-  recherche sans accents, import CSV avec aperçu, notes et pièces jointes ; clients d'exemple
-  fictifs dans la démonstration.
+- [x] Étape 4 — Clients et chantiers : particulier / professionnel, provenance, alerte de doublon,
+  plusieurs adresses de chantier, recherche sans accents, import CSV, notes et pièces jointes.
+- [x] Étape 5 — Catalogue de prestations (départ par métier, sans prix).
+- [x] Étape 6 — Devis (sections, options, remise, versions) et devis express en une phrase.
+- [x] Étape 7 — PDF (mPDF) et visionneuse intégrée (pdf.js).
+- [x] Étape 8 — Lien client et signature (sur place ou à distance, demande de modification).
+- [x] Étape 9 — Factures, acomptes, situations, soldes, avoirs (numérotation continue).
+- [x] Étape 10 — Encaissements inaltérables et paiement par carte myPOS.
+- [x] Étape 11 — Emails (modèles), SMS, WhatsApp, message prêt à copier.
+- [x] Étape 12 — Planning (semaine, mois, .ics, rappels, météo en cache, notifications sur le téléphone).
+- [x] Étape 13 — Photos (catégories, dessin, annexe des PDF) et rapports d'intervention.
+- [x] Étape 14 — Suivi commercial : relances de devis, avis Google, entretien, formulaire public,
+  lecture des emails du site WordPress.
+- [x] Étape 15 — Accueil personnalisable, barre d'actions, glisser pour agir, statistiques, frais ;
+  15 bis : compteur du site (s.js) et statistiques Jetpack.
+- [x] Étape 16 — Comptes : invitation, désactivation immédiate, droits du commercial.
+- [x] Étape 17 — Devis avec Claude : clés d'accès et API `/api/v1` (brouillons seulement).
+- [x] Étape 18 — Guide intégré, bouton « ? », liste « Bien démarrer », astuce du jour.
+- [x] Étape 19 — Hors connexion (service worker).
+- [x] Étape 20 — Sauvegardes et restauration, `app:security-check`, `outils/deploy.sh`,
+  [guide d'installation cPanel](docs/INSTALLATION-CPANEL.md).
+- [x] Étape 21 — Nouvelle entreprise en une commande : `outils/installer-entreprise.sh`
+  (base neuve et vide, clé propre, refus si la base contient des tables).

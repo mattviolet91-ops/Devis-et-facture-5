@@ -86,6 +86,34 @@ class PhotoController extends Controller
         return redirect()->to(route('photos.index', $photo->client_id).'#photo-'.$photo->id)->with('statut', 'Photo modifiée.');
     }
 
+    public function annotation(Photo $photo): View
+    {
+        return view('photos.annoter', ['photo' => $photo]);
+    }
+
+    /**
+     * Enregistre la photo avec les traits dessinés (flèches, cercles…).
+     */
+    public function annoter(Request $request, Photo $photo, Photos $photos): RedirectResponse
+    {
+        $request->validate(['image' => ['required', 'file', 'max:15360', 'mimetypes:image/jpeg,image/png']]);
+
+        try {
+            $photos->annoter($photo, $request->file('image'));
+        } catch (\RuntimeException) {
+            return back()->withErrors(['image' => 'Le dessin n\'a pas pu être enregistré.']);
+        }
+
+        return redirect()->to(route('photos.index', $photo->client_id).'#photo-'.$photo->id)->with('statut', 'Dessin enregistré sur la photo.');
+    }
+
+    public function retablir(Photo $photo, Photos $photos): RedirectResponse
+    {
+        $photos->retablir($photo);
+
+        return redirect()->to(route('photos.index', $photo->client_id).'#photo-'.$photo->id)->with('statut', 'Photo d\'origine remise.');
+    }
+
     public function destroy(Photo $photo): RedirectResponse
     {
         $client = $photo->client_id;

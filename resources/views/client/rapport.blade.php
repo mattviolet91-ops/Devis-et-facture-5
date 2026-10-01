@@ -7,7 +7,7 @@
         <h1>Rapport d'intervention</h1>
         <p>Pour <strong>{{ $rapport->client->nomComplet() }}</strong> · {{ $rapport->date_intervention->format('d/m/Y') }}</p>
         <h2>{{ $rapport->titre }}</h2>
-        @foreach (['travaux' => 'Travaux réalisés', 'constats' => 'Constats', 'conseils' => 'Conseils et travaux à prévoir'] as $champ => $titre)
+        @foreach (['travaux' => 'Travaux réalisés', 'constats' => 'Constat', 'conseils' => 'Préconisations'] as $champ => $titre)
             @if (trim((string) $rapport->{$champ}) !== '')
                 <h3>{{ $titre }}</h3>
                 <p class="texte-pre">{{ $rapport->{$champ} }}</p>

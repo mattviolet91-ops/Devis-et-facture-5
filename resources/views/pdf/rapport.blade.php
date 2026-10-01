@@ -39,7 +39,7 @@
 </table>
 
 <h2>{{ $rapport->titre }}</h2>
-@foreach (['travaux' => 'Travaux réalisés', 'constats' => 'Constats', 'conseils' => 'Conseils et travaux à prévoir'] as $champ => $titre)
+@foreach (['travaux' => 'Travaux réalisés', 'constats' => 'Constat', 'conseils' => 'Préconisations'] as $champ => $titre)
     @if (trim((string) $rapport->{$champ}) !== '')
         <h2>{{ $titre }}</h2>
         <p>{!! nl2br(e($rapport->{$champ})) !!}</p>

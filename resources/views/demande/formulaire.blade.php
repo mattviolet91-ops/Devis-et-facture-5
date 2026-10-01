@@ -11,7 +11,7 @@
             <div class="message message-erreur" role="alert">Certains champs sont à corriger ({{ $errors->count() }}).</div>
         @endif
 
-        <form method="post" action="{{ route('demande.store') }}" novalidate>
+        <form method="post" action="{{ route('demande.store') }}" enctype="multipart/form-data" novalidate>
             @csrf
             <input type="hidden" name="horodatage" value="{{ $horodatage }}">
             <div class="piege" aria-hidden="true">
@@ -22,8 +22,22 @@
             <x-champ nom="nom" libelle="Nom et prénom" autocomplete="name" />
             <x-champ nom="telephone" libelle="Téléphone" type="tel" autocomplete="tel" inputmode="tel" />
             <x-champ nom="email" libelle="Email" type="email" autocomplete="email" inputmode="email" />
-            <x-champ nom="ville" libelle="Ville des travaux" autocomplete="address-level2" />
+            <x-champ nom="adresse" libelle="Adresse des travaux" autocomplete="street-address" />
+            <div class="grille-2">
+                <x-champ nom="code_postal" libelle="Code postal" autocomplete="postal-code" inputmode="numeric" />
+                <x-champ nom="ville" libelle="Ville" autocomplete="address-level2" />
+            </div>
             <x-champ-texte-long nom="message" libelle="Vos travaux" :lignes="5" aide="Par exemple : fuite au-dessus de la cuisine, toiture en tuiles d'environ 100 m²." />
+
+            <div class="champ">
+                <label for="photos">Photos (facultatif, 3 au plus)</label>
+                <input type="file" id="photos" name="photos[]" accept="image/jpeg,image/png,image/webp" multiple>
+                @foreach (['photos', 'photos.0', 'photos.1', 'photos.2'] as $cle)
+                    @error($cle)
+                        <p class="erreur-champ">{{ $message }}</p>
+                    @enderror
+                @endforeach
+            </div>
 
             <label class="case">
                 <input type="checkbox" name="accord" value="1" @checked(old('accord'))>

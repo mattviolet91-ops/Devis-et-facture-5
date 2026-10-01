@@ -584,3 +584,5 @@ details.carte[open] summary { margin-bottom: 12px; }
 
 /* Formulaire public : champ piège invisible pour les personnes */
 .piege { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+.zone-annotation { margin: 0 0 12px; }
+.zone-annotation canvas { width: 100%; height: auto; display: block; border-radius: 8px; touch-action: none; background: var(--bordure); }

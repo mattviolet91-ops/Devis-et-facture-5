@@ -7,6 +7,7 @@ use App\Models\Demande;
 use App\Models\Devis;
 use App\Models\EmailRecu;
 use App\Models\Facture;
+use App\Models\Photo;
 use App\Models\RendezVous;
 use App\Services\BoiteEmails;
 use App\Services\EnvoiEmail;
@@ -17,8 +18,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
  * Suivi commercial : demandes reçues, devis à relancer, avis Google, entretiens.
@@ -60,6 +63,8 @@ class SuiviController extends Controller
             'nom' => count($morceaux) > 1 ? $morceaux[1] : ($morceaux[0] ?: 'À compléter'),
             'telephone' => $demande->telephone,
             'email' => $demande->email,
+            'adresse' => $demande->adresse,
+            'code_postal' => $demande->code_postal,
             'ville' => $demande->ville,
             'provenance' => 'Site internet',
             'created_by' => $request->user()->id,
@@ -67,10 +72,21 @@ class SuiviController extends Controller
         if ($demande->message) {
             $client->notes()->create(['texte' => 'Demande reçue le '.$demande->recue_at->format('d/m/Y')." :\n".$demande->message, 'user_id' => $request->user()->id]);
         }
-        $demande->update(['client_id' => $client->id, 'statut' => 'traitee']);
+        foreach ((array) $demande->photos as $photo) {
+            Photo::create($photo + ['client_id' => $client->id, 'moment' => 'probleme', 'legende' => 'Envoyée avec la demande', 'user_id' => $request->user()->id]);
+        }
+        $demande->update(['client_id' => $client->id, 'statut' => 'traitee', 'photos' => null]);
         Journal::ecrire('client.creation', 'Client créé depuis une demande : '.$client->nomComplet(), $client);
 
         return redirect()->route('clients.edit', $client)->with('statut', 'Client créé. Vérifiez et complétez sa fiche.');
+    }
+
+    public function photoDemande(Demande $demande, int $index): StreamedResponse
+    {
+        $photo = ((array) $demande->photos)[$index] ?? null;
+        abort_unless($photo && Storage::disk('local')->exists($photo['chemin']), 404);
+
+        return Storage::disk('local')->response($photo['chemin'], 'photo.jpg', ['Content-Type' => 'image/jpeg', 'X-Content-Type-Options' => 'nosniff'], 'inline');
     }
 
     public function avis(Request $request, Client $client, EnvoiEmail $emails): RedirectResponse
@@ -102,6 +118,28 @@ class SuiviController extends Controller
         return view('suivi.emails', [
             'emails' => EmailRecu::orderByDesc('recu_at')->limit(LectureDemandes::GARDER)->get(),
             'configuree' => $boite->estConfiguree(),
+        ]);
+    }
+
+    /**
+     * Lit les derniers emails et montre ce qui serait repéré, SANS rien créer.
+     */
+    public function verifier(BoiteEmails $boite): View|RedirectResponse
+    {
+        abort_unless($boite->estConfiguree(), 404);
+        try {
+            $emails = $boite->derniers(3, 15);
+        } catch (\Throwable) {
+            return back()->with('erreur', 'La boîte de réception ne répond pas. Vérifiez Réglages → Emails.');
+        }
+
+        return view('suivi.emails', [
+            'emails' => EmailRecu::orderByDesc('recu_at')->limit(LectureDemandes::GARDER)->get(),
+            'configuree' => true,
+            'verification' => array_map(fn (array $e) => $e + [
+                'est_demande' => LectureDemandes::estDemande($e),
+                'champs' => LectureDemandes::analyser($e['texte']),
+            ], $emails),
         ]);
     }
 

@@ -23,30 +23,83 @@ class Photos
      */
     public function enregistrer(UploadedFile $fichier, array $attributs): Photo
     {
+        return Photo::create($attributs + $this->ranger($fichier, 'photos/'.$attributs['client_id']));
+    }
+
+    /**
+     * Range une image déjà ouverte (photos d'exemple de la démonstration).
+     *
+     * @param  array<string, mixed>  $attributs
+     */
+    public function enregistrerImage(\GdImage $image, array $attributs): Photo
+    {
+        return Photo::create($attributs + $this->rangerImage($image, 'photos/'.$attributs['client_id']));
+    }
+
+    /**
+     * Prépare une photo (réduite + miniature) dans un dossier, sans créer de fiche.
+     *
+     * @return array{chemin: string, miniature: string, largeur: int, hauteur: int, taille: int}
+     */
+    public function ranger(UploadedFile $fichier, string $dossier): array
+    {
         $image = $this->ouvrir($fichier->getRealPath(), (string) $fichier->getMimeType());
 
         try {
-            return $this->enregistrerImage($image, $attributs);
+            return $this->rangerImage($image, $dossier);
         } finally {
             imagedestroy($image);
         }
     }
 
     /**
-     * Range une image déjà ouverte (aussi utilisé pour les photos d'exemple de la démonstration).
-     *
-     * @param  array<string, mixed>  $attributs
+     * Remplace la photo par sa version annotée ; l'originale est gardée une seule fois.
      */
-    public function enregistrerImage(\GdImage $image, array $attributs): Photo
+    public function annoter(Photo $photo, UploadedFile $fichier): Photo
     {
-        $dossier = 'photos/'.$attributs['client_id'];
+        $ancienne = $photo->only(['chemin', 'miniature']);
+        $nouvelle = $this->ranger($fichier, dirname($photo->chemin));
+
+        $photo->forceFill($nouvelle + ['original' => $photo->original ?? $ancienne['chemin']])->save();
+        Storage::disk('local')->delete(array_filter([$ancienne['miniature'], $ancienne['chemin'] !== $photo->original ? $ancienne['chemin'] : null]));
+
+        return $photo;
+    }
+
+    /**
+     * Revient à la photo d'origine (sans les traits).
+     */
+    public function retablir(Photo $photo): Photo
+    {
+        if (! $photo->original || ! Storage::disk('local')->exists($photo->original)) {
+            return $photo;
+        }
+
+        $image = $this->ouvrir(Storage::disk('local')->path($photo->original), 'image/jpeg');
+        $ancienne = $photo->only(['chemin', 'miniature']);
+        try {
+            $nouvelle = $this->rangerImage($image, dirname($photo->chemin));
+        } finally {
+            imagedestroy($image);
+        }
+        Storage::disk('local')->delete([$photo->original, $ancienne['chemin'], $ancienne['miniature']]);
+        $photo->forceFill($nouvelle + ['original' => null])->save();
+
+        return $photo;
+    }
+
+    /**
+     * @return array{chemin: string, miniature: string, largeur: int, hauteur: int, taille: int}
+     */
+    private function rangerImage(\GdImage $image, string $dossier): array
+    {
         $nom = (string) Str::uuid();
         [$largeur, $hauteur, $contenu] = $this->reduire($image, self::COTE_MAX, 82);
         [, , $miniature] = $this->reduire($image, self::COTE_MINIATURE, 75);
         Storage::disk('local')->put($chemin = $dossier.'/'.$nom.'.jpg', $contenu);
         Storage::disk('local')->put($cheminMiniature = $dossier.'/'.$nom.'-mini.jpg', $miniature);
 
-        return Photo::create($attributs + ['chemin' => $chemin, 'miniature' => $cheminMiniature, 'largeur' => $largeur, 'hauteur' => $hauteur, 'taille' => strlen($contenu)]);
+        return ['chemin' => $chemin, 'miniature' => $cheminMiniature, 'largeur' => $largeur, 'hauteur' => $hauteur, 'taille' => strlen($contenu)];
     }
 
     private function ouvrir(string $chemin, string $mime): \GdImage

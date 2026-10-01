@@ -15,10 +15,12 @@ use App\Services\GestionDevis;
 use App\Services\LectureDemandes;
 use App\Support\Reglages;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class SuiviCommercialTest extends TestCase
@@ -141,8 +143,14 @@ class SuiviCommercialTest extends TestCase
 
         $this->post('/demande', array_merge($donnees, ['telephone' => '', 'accord' => '']))->assertSessionHasErrors(['telephone', 'accord']);
 
-        $this->post('/demande', $donnees)->assertRedirect('/demande/merci');
+        Storage::fake('local');
+        $image = imagecreatetruecolor(100, 80);
+        ob_start();
+        imagejpeg($image);
+        $photo = UploadedFile::fake()->createWithContent('toit.jpg', ob_get_clean());
+        $this->post('/demande', $donnees + ['photos' => [$photo], 'code_postal' => '00100'])->assertRedirect('/demande/merci');
         $demande = Demande::firstOrFail();
+        $this->assertCount(1, $demande->photos);
         $this->assertSame('0600000001', $demande->telephone);
         Notification::assertSentTo($this->gerant, AlerteDocument::class);
 
@@ -153,6 +161,8 @@ class SuiviCommercialTest extends TestCase
         $this->assertSame('Jean', $client->prenom);
         $this->assertSame('Site internet', $client->provenance);
         $this->assertSame('traitee', $demande->fresh()->statut);
+        $this->assertSame('00100', $client->code_postal);
+        $this->assertSame(1, $client->photos()->where('moment', 'probleme')->count());
     }
 
     public function test_analyse_d_un_email_wordpress(): void
@@ -165,6 +175,19 @@ class SuiviCommercialTest extends TestCase
         $this->assertSame('0611223344', $resultat['telephone']);
         $this->assertSame('Village-Test', $resultat['ville']);
         $this->assertSame("Bonjour,\nj'ai une fuite.\nMerci", $resultat['message']);
+    }
+
+    public function test_analyse_format_wpforms_et_pieges(): void
+    {
+        $texte = "Nom\nPaul Martin\n\nAdresse e-mail\npaul@exemple.test\n\nNombre de pièces : 4\n\nAdresse des travaux : 3 rue du Test\nCode postal : 00100\nVille : Ville-Test\n\nTravaux\nRemplacer la gouttière";
+        $resultat = LectureDemandes::analyser($texte);
+
+        $this->assertSame('Paul Martin', $resultat['nom']);
+        $this->assertSame('paul@exemple.test', $resultat['email']);
+        $this->assertSame('3 rue du Test', $resultat['adresse']);
+        $this->assertSame('00100', $resultat['code_postal']);
+        $this->assertSame('Ville-Test', $resultat['ville']);
+        $this->assertSame('Remplacer la gouttière', $resultat['message']);
     }
 
     public function test_lecture_des_emails_sans_doublon(): void
@@ -191,6 +214,11 @@ class SuiviCommercialTest extends TestCase
         $this->assertSame('Paul', Demande::first()->nom);
 
         $this->actingAs($this->gerant)->get(route('suivi.emails'))->assertOk()->assertSee('Nouveau message')->assertSee('Relevé');
+
+        // Vérification sans rien créer.
+        Demande::query()->delete();
+        $this->post(route('suivi.emails.verifier'))->assertOk()->assertSee('Repéré comme demande')->assertSee('Ignoré')->assertSee('Tél. : 0600000009');
+        $this->assertSame(0, Demande::count());
         $commercial = User::factory()->create();
         $this->actingAs($commercial)->get(route('suivi.emails'))->assertForbidden();
         $this->get(route('suivi'))->assertOk()->assertDontSee('Voir mes derniers emails');

@@ -74,6 +74,32 @@ class PhotosRapportsTest extends TestCase
         Storage::disk('local')->assertMissing($grande->chemin);
     }
 
+    public function test_dessiner_sur_une_photo_et_remettre_l_originale(): void
+    {
+        $this->actingAs($this->user)->post(route('photos.store', $this->client), ['photos' => [$this->jpeg(400, 300)], 'moment' => 'probleme']);
+        $photo = Photo::firstOrFail();
+        $this->assertSame('Problème', $photo->libelleMoment());
+        $premier = $photo->chemin;
+
+        $this->get(route('photos.annotation', $photo))->assertOk()->assertSee('toile-annotation');
+        $this->post(route('photos.annoter', $photo), ['image' => $this->jpeg(400, 300)])->assertRedirect();
+        $photo->refresh();
+        $this->assertSame($premier, $photo->original);
+        $this->assertNotSame($premier, $photo->chemin);
+        Storage::disk('local')->assertExists([$photo->original, $photo->chemin]);
+
+        // Deuxième dessin : l'originale reste la même.
+        $this->post(route('photos.annoter', $photo), ['image' => $this->jpeg(400, 300)]);
+        $this->assertSame($premier, $photo->fresh()->original);
+
+        $this->post(route('photos.retablir', $photo));
+        $photo->refresh();
+        $this->assertNull($photo->original);
+        Storage::disk('local')->assertMissing($premier);
+        Storage::disk('local')->assertExists($photo->chemin);
+        $this->assertCount(2, Storage::disk('local')->files('photos/'.$this->client->id));
+    }
+
     public function test_photos_refusees(): void
     {
         $this->actingAs($this->user)->post(route('photos.store', $this->client), [

@@ -189,12 +189,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/suivi', [SuiviController::class, 'index'])->name('suivi');
     Route::get('/suivi/demandes/{demande}', [SuiviController::class, 'demande'])->whereNumber('demande')->name('suivi.demande');
     Route::post('/suivi/demandes/{demande}/statut', [SuiviController::class, 'statutDemande'])->whereNumber('demande')->name('suivi.demande.statut');
+    Route::get('/suivi/demandes/{demande}/photo/{index}', [SuiviController::class, 'photoDemande'])->whereNumber(['demande', 'index'])->name('suivi.demande.photo');
     Route::post('/suivi/demandes/{demande}/client', [SuiviController::class, 'creerClient'])->whereNumber('demande')->name('suivi.demande.client');
     Route::post('/suivi/avis/{client}', [SuiviController::class, 'avis'])->whereNumber('client')->middleware('throttle:20,1')->name('suivi.avis');
     Route::post('/suivi/entretien/{client}', [SuiviController::class, 'entretien'])->whereNumber('client')->middleware('throttle:20,1')->name('suivi.entretien');
     Route::middleware('gerant')->group(function () {
         Route::get('/suivi/emails', [SuiviController::class, 'emails'])->name('suivi.emails');
         Route::post('/suivi/emails', [SuiviController::class, 'actualiser'])->middleware('throttle:4,1')->name('suivi.emails.actualiser');
+        Route::post('/suivi/emails/verifier', [SuiviController::class, 'verifier'])->middleware('throttle:4,1')->name('suivi.emails.verifier');
     });
 
     // Photos de chantier et rapports d'intervention.
@@ -203,6 +205,9 @@ Route::middleware('auth')->group(function () {
     Route::prefix('/photos/{photo}')->whereNumber('photo')->group(function () {
         Route::get('/', [PhotoController::class, 'show'])->name('photos.show');
         Route::get('/miniature', [PhotoController::class, 'miniature'])->name('photos.miniature');
+        Route::get('/annoter', [PhotoController::class, 'annotation'])->name('photos.annotation');
+        Route::post('/annoter', [PhotoController::class, 'annoter'])->middleware('throttle:20,1')->name('photos.annoter');
+        Route::post('/retablir', [PhotoController::class, 'retablir'])->name('photos.retablir');
         Route::put('/', [PhotoController::class, 'update'])->name('photos.update');
         Route::delete('/', [PhotoController::class, 'destroy'])->name('photos.destroy');
     });

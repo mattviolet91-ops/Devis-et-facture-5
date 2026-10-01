@@ -11,16 +11,21 @@ class Demande extends Model
 
     protected $attributes = ['statut' => 'nouvelle'];
 
-    protected $fillable = ['source', 'statut', 'nom', 'telephone', 'email', 'ville', 'message', 'message_id', 'client_id', 'recue_at'];
+    protected $fillable = ['source', 'statut', 'nom', 'telephone', 'email', 'adresse', 'code_postal', 'ville', 'message', 'message_id', 'client_id', 'recue_at', 'photos'];
 
     protected function casts(): array
     {
-        return ['recue_at' => 'datetime'];
+        return ['recue_at' => 'datetime', 'photos' => 'array'];
     }
 
     public function client(): BelongsTo
     {
         return $this->belongsTo(Client::class)->withTrashed();
+    }
+
+    public function lieu(): string
+    {
+        return trim(implode(' ', array_filter([$this->adresse ? $this->adresse.',' : null, $this->code_postal, $this->ville])), ' ,');
     }
 
     public function libelleSource(): string

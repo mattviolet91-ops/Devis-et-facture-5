@@ -25,8 +25,8 @@
             <x-champ-liste nom="chantier_id" libelle="Adresse de chantier" :options="$client->chantiers->mapWithKeys(fn ($c) => [$c->id => $c->titre()])" :valeur="$rapport->chantier_id" vide="— Adresse du client —" />
         @endif
         <x-champ-texte-long nom="travaux" libelle="Travaux réalisés" :valeur="$rapport->travaux" :lignes="4" />
-        <x-champ-texte-long nom="constats" libelle="Constats" :valeur="$rapport->constats" aide="Ce que vous avez vu : état des tuiles, des solins, de la charpente…" />
-        <x-champ-texte-long nom="conseils" libelle="Conseils et travaux à prévoir" :valeur="$rapport->conseils" />
+        <x-champ-texte-long nom="constats" libelle="Constat" :valeur="$rapport->constats" aide="Ce que vous avez vu : état des tuiles, des solins, de la charpente…" />
+        <x-champ-texte-long nom="conseils" libelle="Préconisations" aide="Travaux conseillés, entretien à prévoir…" :valeur="$rapport->conseils" />
 
         @php($choisies = array_map('intval', (array) old('photos', $rapport->photos)))
         <fieldset class="champ">

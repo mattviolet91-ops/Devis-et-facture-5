@@ -24,7 +24,6 @@ class LectureDemandes
      */
     public function importer(array $emails): int
     {
-        $filtre = Str::lower(trim((string) reglage('suivi.imap_filtre')));
         $nouvelles = [];
 
         foreach ($emails as $email) {
@@ -33,7 +32,7 @@ class LectureDemandes
                 continue;
             }
 
-            $estDemande = $filtre !== '' && Str::contains(Str::lower($email['sujet'].' '.$email['expediteur'].' '.$email['expediteur_email']), $filtre);
+            $estDemande = self::estDemande($email);
             EmailRecu::create([
                 'message_id' => $id,
                 'expediteur' => Str::limit((string) $email['expediteur'], 150, ''),
@@ -63,17 +62,33 @@ class LectureDemandes
     }
 
     /**
+     * Email envoyé par le formulaire du site ? (mot du réglage dans l'expéditeur, l'objet ou la fin du message)
+     *
+     * @param  array{sujet: string, expediteur: ?string, expediteur_email: ?string, texte: string}  $email
+     */
+    public static function estDemande(array $email): bool
+    {
+        $filtre = Str::lower(trim((string) reglage('suivi.imap_filtre')));
+        if ($filtre === '') {
+            return false;
+        }
+
+        return Str::contains(Str::lower($email['sujet'].' '.$email['expediteur'].' '.$email['expediteur_email'].' '.Str::substr($email['texte'], -400)), $filtre);
+    }
+
+    /**
      * Lit les champs habituels des formulaires WordPress (Contact Form 7, WPForms, Elementor…).
      *
-     * @return array{nom: ?string, telephone: ?string, email: ?string, ville: ?string, message: string}
+     * @return array{nom: ?string, telephone: ?string, email: ?string, adresse: ?string, code_postal: ?string, ville: ?string, message: string}
      */
     public static function analyser(string $texte): array
     {
         $texte = str_replace(["\r\n", "\r"], "\n", $texte);
+        // « Libellé : valeur » ou libellé seul sur sa ligne et valeur dessous (WPForms).
         $champ = function (array $libelles) use ($texte): ?string {
-            $motif = '/^\s*(?:'.implode('|', $libelles).')\s*\*?\s*:?\s*(.+)$/imu';
+            $motif = '/^[ \t]*(?:'.implode('|', $libelles).')[ \t]*\*?[ \t]*(?::[ \t]*(\S.*)|\n[ \t]*(\S.*))$/imu';
 
-            return preg_match($motif, $texte, $m) ? Str::limit(trim($m[1]), 150, '') : null;
+            return preg_match($motif, $texte, $m) ? Str::limit(trim(($m[1] ?? '') !== '' ? $m[1] : ($m[2] ?? '')), 150, '') : null;
         };
 
         $email = $champ(['e-?mail', 'courriel', 'adresse e-?mail', 'votre e-?mail']);
@@ -88,7 +103,7 @@ class LectureDemandes
 
         $telephone = $champ(['t[ée]l[ée]phone', 't[ée]l\.?', 'portable', 'phone', 'mobile']);
         $message = null;
-        if (preg_match('/^\s*(?:message|votre message|demande|description|projet)\s*\*?\s*:?\s*(.*)$/imsu', $texte, $m)) {
+        if (preg_match('/^[ \t]*(?:message|votre message|description|projet|travaux|vos travaux|nature des travaux)[ \t]*\*?[ \t]*(?::|\n)\s*(.*)$/imsu', $texte, $m)) {
             $message = trim(preg_split('/\n\s*(?:--|—)\s*\n/u', $m[1])[0]);
         }
 
@@ -96,7 +111,9 @@ class LectureDemandes
             'nom' => $champ(['nom(?: et pr[ée]nom)?', 'votre nom', 'name', 'pr[ée]nom et nom']),
             'telephone' => $telephone ? Telephone::normaliser($telephone) : null,
             'email' => $email,
-            'ville' => $champ(['ville', 'commune', 'localit[ée]', 'code postal']),
+            'adresse' => $champ(['adresse(?! ?(?:e-?mail|mail|électronique))(?: des travaux| du chantier)?']),
+            'code_postal' => ($cp = $champ(['code postal', 'cp'])) && preg_match('/\b(\d{5})\b/', $cp, $c) ? $c[1] : null,
+            'ville' => $champ(['ville', 'commune', 'localit[ée]']),
             'message' => Str::limit($message ?: trim($texte), 5000),
         ];
     }

@@ -8,13 +8,13 @@ use Illuminate\Support\Facades\Storage;
 
 class Photo extends Model
 {
-    public const MOMENTS = ['avant' => 'Avant', 'pendant' => 'Pendant', 'apres' => 'Après'];
+    public const MOMENTS = ['avant' => 'Avant', 'pendant' => 'Pendant', 'apres' => 'Après', 'probleme' => 'Problème', 'reparation' => 'Réparation'];
 
     protected $attributes = ['moment' => 'avant', 'dans_documents' => false];
 
     protected $fillable = [
         'client_id', 'chantier_id', 'rendez_vous_id', 'moment', 'legende', 'chemin', 'miniature',
-        'largeur', 'hauteur', 'taille', 'dans_documents', 'user_id',
+        'largeur', 'hauteur', 'taille', 'dans_documents', 'user_id', 'original',
     ];
 
     protected function casts(): array
@@ -24,7 +24,7 @@ class Photo extends Model
 
     protected static function booted(): void
     {
-        static::deleted(fn (Photo $photo) => Storage::disk('local')->delete([$photo->chemin, $photo->miniature]));
+        static::deleted(fn (Photo $photo) => Storage::disk('local')->delete(array_filter([$photo->chemin, $photo->miniature, $photo->original])));
     }
 
     public function client(): BelongsTo

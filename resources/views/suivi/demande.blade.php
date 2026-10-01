@@ -15,12 +15,20 @@
             @if ($demande->email)
                 <dt>Email</dt><dd><a href="mailto:{{ $demande->email }}">{{ $demande->email }}</a></dd>
             @endif
-            @if ($demande->ville)
-                <dt>Ville</dt><dd>{{ $demande->ville }}</dd>
+            @if ($demande->lieu())
+                <dt>Adresse</dt><dd>{{ $demande->lieu() }}</dd>
             @endif
         </dl>
         <h3>Message</h3>
         <p class="texte-pre">{{ $demande->message }}</p>
+        @if ($demande->photos)
+            <h3>Photos</h3>
+            <ul class="galerie">
+                @foreach ($demande->photos as $i => $photo)
+                    <li><a href="{{ route('suivi.demande.photo', [$demande, $i]) }}" target="_blank" rel="noopener"><img src="{{ route('suivi.demande.photo', [$demande, $i]) }}" alt="Photo {{ $i + 1 }} envoyée avec la demande" loading="lazy"></a></li>
+                @endforeach
+            </ul>
+        @endif
     </section>
 
     @if ($demande->client)

@@ -28,7 +28,7 @@ class PhotosAnnexe
         $photos = Photo::where('client_id', $document->client_id)
             ->where('dans_documents', true)
             ->when($document->chantier_id, fn ($q) => $q->where(fn ($q) => $q->where('chantier_id', $document->chantier_id)->orWhereNull('chantier_id')))
-            ->orderByRaw("case moment when 'avant' then 1 when 'pendant' then 2 else 3 end")
+            ->orderByRaw("case moment when 'probleme' then 0 when 'avant' then 1 when 'pendant' then 2 when 'reparation' then 3 else 4 end")
             ->orderBy('id')
             ->get();
 

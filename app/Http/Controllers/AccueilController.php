@@ -84,6 +84,13 @@ class AccueilController extends Controller
         return redirect()->route('accueil')->with('statut', 'Accueil personnalisé.');
     }
 
+    public function lireToutesAlertes(Request $request): RedirectResponse
+    {
+        $request->user()->unreadNotifications()->update(['read_at' => now()]);
+
+        return redirect()->route('accueil');
+    }
+
     public function lireAlerte(Request $request, string $id): RedirectResponse
     {
         $request->user()->notifications()->whereKey($id)->firstOrFail()->markAsRead();

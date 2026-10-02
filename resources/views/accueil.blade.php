@@ -5,7 +5,15 @@
 @section('contenu')
     @if ($alertes->isNotEmpty())
         <section class="carte" aria-labelledby="titre-alertes">
-            <h2 id="titre-alertes">Alertes</h2>
+            <div class="titre-avec-action">
+                <h2 id="titre-alertes">Alertes ({{ $alertes->count() }})</h2>
+                @if ($alertes->count() > 1)
+                    <form method="post" action="{{ route('alertes.toutes-lues') }}">
+                        @csrf
+                        <button type="submit" class="bouton-lien">Tout marquer comme vu</button>
+                    </form>
+                @endif
+            </div>
             <ul class="liste">
                 @foreach ($alertes as $alerte)
                     <li class="ligne">

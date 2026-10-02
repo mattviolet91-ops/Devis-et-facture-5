@@ -3,6 +3,10 @@
 @section('titre', $rdv->exists ? 'Modifier' : ($rdv->devis_id ? 'Planifier le chantier' : 'Nouveau rendez-vous'))
 @section('parent', $rdv->exists ? route('planning.show', $rdv) : route('planning.index'))
 
+@push('scripts')
+    <script src="{{ asset('js/planning.js') }}?v={{ filemtime(public_path('js/planning.js')) }}" defer></script>
+@endpush
+
 @section('contenu')
     @if ($errors->any())
         <div class="message message-erreur" role="alert">Certains champs sont à corriger ({{ $errors->count() }}). Ils sont signalés en rouge.</div>

@@ -90,8 +90,10 @@ class ControlesTest extends TestCase
     {
         $this->assertSame('#ffffff', Couleurs::texteSur('#1f4e79'));
         $this->assertSame('#1b1d21', Couleurs::texteSur('#ffd700'));
-        $this->assertGreaterThanOrEqual(4.5, Couleurs::contraste(Couleurs::pourModeSombre('#1f4e79'), '#1d2025'));
-        $this->assertGreaterThanOrEqual(4.5, Couleurs::contraste(Couleurs::pourModeClair('#ffd700'), '#ffffff'));
+        foreach (['#1f4e79', '#c25e00', '#000000', '#ffd700', '#2e7d32'] as $couleur) {
+            $this->assertGreaterThanOrEqual(4.5, Couleurs::contrasteMinimum(Couleurs::pourModeSombre($couleur), Couleurs::FONDS_SOMBRES), "Sombre : {$couleur}");
+            $this->assertGreaterThanOrEqual(4.5, Couleurs::contrasteMinimum(Couleurs::pourModeClair($couleur), Couleurs::FONDS_CLAIRS), "Clair : {$couleur}");
+        }
     }
 
     public function test_montants_en_centimes(): void

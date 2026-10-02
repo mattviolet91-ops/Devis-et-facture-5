@@ -63,13 +63,32 @@ class Couleurs
         );
     }
 
+    /** Fonds du mode sombre où la couleur est utilisée : carte, page, champ, encadré d'information. */
+    public const FONDS_SOMBRES = ['#1d2025', '#121417', '#262a30', '#1b2b3d'];
+
+    /** Fonds du mode clair : carte, page, encadré d'information. */
+    public const FONDS_CLAIRS = ['#ffffff', '#f4f5f7', '#e6eef7'];
+
     /**
-     * Version assez claire pour être lisible sur un fond sombre (contraste ≥ 4,5).
+     * Contraste le plus faible de la couleur sur une liste de fonds.
+     *
+     * @param  list<string>  $fonds
      */
-    public static function pourModeSombre(string $hex, string $fondSombre = '#1d2025'): string
+    public static function contrasteMinimum(string $couleur, array $fonds): float
     {
+        return min(array_map(fn (string $fond) => self::contraste($couleur, $fond), $fonds));
+    }
+
+    /**
+     * Version assez claire pour être lisible sur tous les fonds sombres (contraste ≥ 4,5).
+     *
+     * @param  string|list<string>  $fondsSombres
+     */
+    public static function pourModeSombre(string $hex, string|array $fondsSombres = self::FONDS_SOMBRES): string
+    {
+        $fonds = (array) $fondsSombres;
         $couleur = $hex;
-        for ($part = 0.0; $part <= 1.0 && self::contraste($couleur, $fondSombre) < 4.5; $part += 0.05) {
+        for ($part = 0.0; $part <= 1.0 && self::contrasteMinimum($couleur, $fonds) < 4.5; $part += 0.02) {
             $couleur = self::eclaircir($hex, $part);
         }
 
@@ -77,13 +96,16 @@ class Couleurs
     }
 
     /**
-     * Version assez foncée pour être lisible sur un fond clair (contraste ≥ 4,5).
+     * Version assez foncée pour être lisible sur tous les fonds clairs (contraste ≥ 4,5).
+     *
+     * @param  string|list<string>  $fondsClairs
      */
-    public static function pourModeClair(string $hex, string $fondClair = '#ffffff'): string
+    public static function pourModeClair(string $hex, string|array $fondsClairs = self::FONDS_CLAIRS): string
     {
+        $fonds = (array) $fondsClairs;
         [$r, $v, $b] = self::rvb($hex);
         $couleur = $hex;
-        for ($part = 0.0; $part <= 1.0 && self::contraste($couleur, $fondClair) < 4.5; $part += 0.05) {
+        for ($part = 0.0; $part <= 1.0 && self::contrasteMinimum($couleur, $fonds) < 4.5; $part += 0.02) {
             $couleur = self::hex((int) round($r * (1 - $part)), (int) round($v * (1 - $part)), (int) round($b * (1 - $part)));
         }
 

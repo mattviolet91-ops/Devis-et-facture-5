@@ -45,6 +45,47 @@
         <a class="bouton bouton-secondaire bouton-large" href="{{ route('clients.edit', $client) }}">Modifier</a>
     </section>
 
+    <section class="carte" id="documents" aria-labelledby="titre-documents">
+        <h2 id="titre-documents">Devis{{ auth()->user()->estGerant() ? ', factures' : '' }} et rendez-vous</h2>
+        <div class="actions-ligne">
+            <a class="bouton" href="{{ route('devis.create', ['client' => $client->id]) }}"><x-icone nom="plus" /> Devis</a>
+            <a class="bouton bouton-secondaire" href="{{ route('planning.create', ['client' => $client->id]) }}">Rendez-vous</a>
+        </div>
+        @if ($client->devis->isEmpty() && $factures->isEmpty() && $rendezVous->isEmpty())
+            <p class="texte-doux">Pas encore de devis ni de rendez-vous pour ce client.</p>
+        @else
+            <ul class="liste">
+                @foreach ($client->devis as $d)
+                    <li>
+                        <a class="liste-lien" href="{{ route('devis.show', $d) }}">
+                            <span class="libelle">Devis {{ $d->reference() }} <span @class(['badge', 'statut-'.$d->statut])>{{ $d->libelleStatut() }}</span>
+                                <small class="bloc texte-doux">{{ $d->objet ? $d->objet.' · ' : '' }}{{ \App\Support\Montant::formater($d->total_ttc) }}</small></span>
+                            <x-icone nom="fleche" />
+                        </a>
+                    </li>
+                @endforeach
+                @foreach ($factures as $f)
+                    <li>
+                        <a class="liste-lien" href="{{ route('factures.show', $f) }}">
+                            <span class="libelle">{{ $f->libelleType() }} {{ $f->reference() }} <span @class(['badge', 'statut-'.$f->statut])>{{ $f->libelleStatut() }}</span>
+                                <small class="bloc texte-doux">{{ \App\Support\Montant::formater($f->total_ttc) }}@if (! $f->estAvoir() && $f->statut === 'emise') · reste {{ \App\Support\Montant::formater($f->resteAPayer()) }}@endif</small></span>
+                            <x-icone nom="fleche" />
+                        </a>
+                    </li>
+                @endforeach
+                @foreach ($rendezVous as $rdv)
+                    <li>
+                        <a class="liste-lien" href="{{ route('planning.show', $rdv) }}">
+                            <span class="libelle">{{ $rdv->estChantier() ? 'Chantier' : 'Rendez-vous' }} : {{ $rdv->titre }}
+                                <small class="bloc texte-doux">{{ ucfirst($rdv->debut->translatedFormat('D j M Y')) }} · {{ $rdv->horaire() }}{{ $rdv->fait ? ' · fait' : '' }}</small></span>
+                            <x-icone nom="fleche" />
+                        </a>
+                    </li>
+                @endforeach
+            </ul>
+        @endif
+    </section>
+
     <section class="carte" aria-labelledby="titre-chantiers">
         <h2 id="titre-chantiers">Adresses de chantier</h2>
         @forelse ($client->chantiers as $chantier)

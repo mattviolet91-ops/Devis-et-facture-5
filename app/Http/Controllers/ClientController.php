@@ -49,9 +49,14 @@ class ClientController extends Controller
 
     public function show(Client $client): View
     {
-        $client->load(['chantiers', 'notes.user', 'piecesJointes', 'rapports'])->loadCount('photos');
+        $client->load(['chantiers', 'notes.user', 'piecesJointes', 'rapports', 'devis'])->loadCount('photos');
 
-        return view('clients.show', ['client' => $client]);
+        return view('clients.show', [
+            'client' => $client,
+            // Le commercial ne voit jamais les factures.
+            'factures' => auth()->user()->estGerant() ? $client->factures()->get() : collect(),
+            'rendezVous' => $client->rendezVous()->limit(10)->get(),
+        ]);
     }
 
     public function edit(Client $client): View

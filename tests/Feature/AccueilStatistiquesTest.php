@@ -10,6 +10,7 @@ use App\Models\RendezVous;
 use App\Models\Setting;
 use App\Models\User;
 use App\Models\VisiteSite;
+use App\Notifications\AlerteDocument;
 use App\Services\GestionDevis;
 use App\Services\GestionFactures;
 use App\Support\Montant;
@@ -63,6 +64,17 @@ class AccueilStatistiquesTest extends TestCase
 
         $this->factureEmise(100000);
         $this->get(route('accueil'))->assertSee(Montant::formater(100000));
+    }
+
+    public function test_tout_marquer_comme_vu(): void
+    {
+        foreach ([1, 2, 3] as $i) {
+            $this->gerant->notifyNow(new AlerteDocument('Alerte '.$i, 'Texte'), ['database']);
+        }
+        $this->actingAs($this->gerant)->get(route('accueil'))->assertSee('Alertes (3)')->assertSee('Tout marquer comme vu');
+        $this->post(route('alertes.toutes-lues'))->assertRedirect(route('accueil'));
+        $this->assertSame(0, $this->gerant->unreadNotifications()->count());
+        $this->get(route('accueil'))->assertDontSee('Alertes (');
     }
 
     public function test_le_commercial_ne_voit_pas_le_chiffre_d_affaires(): void

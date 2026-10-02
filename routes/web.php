@@ -113,6 +113,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/accueil', [AccueilController::class, 'index'])->name('accueil');
     Route::get('/accueil/personnaliser', [AccueilController::class, 'personnaliser'])->name('accueil.personnaliser');
     Route::post('/accueil/personnaliser', [AccueilController::class, 'enregistrer'])->name('accueil.enregistrer');
+    Route::post('/alertes/toutes-lues', [AccueilController::class, 'lireToutesAlertes'])->name('alertes.toutes-lues');
     Route::post('/alertes/{id}/lue', [AccueilController::class, 'lireAlerte'])->name('alertes.lue');
     Route::post('/deconnexion', [ConnexionController::class, 'destroy'])->name('logout');
 

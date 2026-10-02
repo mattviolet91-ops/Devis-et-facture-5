@@ -1,7 +1,11 @@
-@props(['nom', 'libelle', 'options', 'valeur' => null, 'vide' => '— Choisir —', 'aide' => null])
+@props(['nom', 'libelle', 'options', 'valeur' => null, 'vide' => '— Choisir —', 'aide' => null, 'parCle' => null])
 @php
     $id = $attributes->get('id', $nom);
     $actuel = old($nom, $valeur);
+    // Une simple liste (« Bouche-à-oreille », « Autre »…) envoie le texte ;
+    // un tableau clé → libellé (identifiants, taux, codes) envoie la clé.
+    $options = $options instanceof \Illuminate\Support\Collection ? $options->all() : (array) $options;
+    $liste = $parCle === null ? array_is_list($options) : ! $parCle;
 @endphp
 <div class="champ">
     <label for="{{ $id }}">{{ $libelle }}</label>
@@ -12,7 +16,7 @@
             <option value="">{{ $vide }}</option>
         @endif
         @foreach ($options as $cle => $texte)
-            <option value="{{ is_int($cle) ? $texte : $cle }}" @selected((string) $actuel === (string) (is_int($cle) ? $texte : $cle))>{{ $texte }}</option>
+            <option value="{{ $liste ? $texte : $cle }}" @selected((string) $actuel === (string) ($liste ? $texte : $cle))>{{ $texte }}</option>
         @endforeach
     </select>
     @if ($aide)

@@ -97,6 +97,21 @@ class Client extends Model
         return $this->hasMany(NoteClient::class)->latest()->latest('id');
     }
 
+    public function devis(): HasMany
+    {
+        return $this->hasMany(Devis::class)->latest('id');
+    }
+
+    public function factures(): HasMany
+    {
+        return $this->hasMany(Facture::class)->latest('id');
+    }
+
+    public function rendezVous(): HasMany
+    {
+        return $this->hasMany(RendezVous::class)->orderByDesc('debut');
+    }
+
     public function photos(): HasMany
     {
         return $this->hasMany(Photo::class)->latest('id');

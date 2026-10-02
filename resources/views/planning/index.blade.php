@@ -27,16 +27,16 @@
     <p class="centre"><a href="{{ route('planning.index', ['vue' => $vue]) }}">Aujourd'hui</a></p>
 
     @if ($vue === 'mois')
-        <div class="calendrier-mois" role="grid" aria-label="Mois">
-            <div class="calendrier-entete" role="row">
+        <div class="calendrier-mois">
+            <div class="calendrier-entete" aria-hidden="true">
                 @foreach (['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'] as $j)
-                    <span role="columnheader">{{ $j }}</span>
+                    <span>{{ $j }}</span>
                 @endforeach
             </div>
             @foreach (array_chunk($jours, 7, true) as $semaine)
-                <div class="calendrier-semaine" role="row">
+                <div class="calendrier-semaine">
                     @foreach ($semaine as $cle => $jour)
-                        <a role="gridcell" href="{{ route('planning.index', ['vue' => 'semaine', 'date' => $cle]) }}#jour-{{ $cle }}"
+                        <a href="{{ route('planning.index', ['vue' => 'semaine', 'date' => $cle]) }}#jour-{{ $cle }}"
                            @class(['calendrier-jour', 'hors-mois' => $jour['date']->month !== $date->month, 'aujourdhui' => $jour['date']->isToday()])
                            aria-label="{{ $jour['date']->translatedFormat('l j F') }} : {{ $jour['rdv']->count() }} élément(s)">
                             <span class="numero">{{ $jour['date']->day }}</span>

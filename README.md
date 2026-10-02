@@ -61,6 +61,8 @@ NODE_PATH=$(npm root -g) node outils/verif-mobile.mjs http://127.0.0.1:8000 emai
 NODE_PATH=$(npm root -g) node outils/verif-configuration.mjs http://127.0.0.1:8000 email motdepasse captures  # base neuve
 NODE_PATH=$(npm root -g) node outils/verif-hors-connexion.mjs http://127.0.0.1:8000 email motdepasse
 NODE_PATH=$(npm root -g) node outils/captures-guide.mjs http://127.0.0.1:8000 email motdepasse   # démonstration seulement
+NODE_PATH=$(npm root -g) node outils/verif-parcours.mjs http://127.0.0.1:8000 gerant mdp commercial mdp   # parcours complet au doigt
+NODE_PATH=$(npm root -g) AXE=axe.min.js node outils/verif-complete.mjs http://127.0.0.1:8000 gerant mdp dossier   # toutes les pages
 outils/generer-demo-statique.sh                                  # refait la démo à regarder (docs/demo)
 NODE_PATH=$(npm root -g) node outils/verif-demo-statique.mjs http://127.0.0.1:8200/docs/demo/   # avec python3 -m http.server 8200
 ```

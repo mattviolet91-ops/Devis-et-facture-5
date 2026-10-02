@@ -61,7 +61,7 @@
         <div class="carte">
             <div class="grille-2">
                 <x-champ-liste nom="remise_type" libelle="Remise" :options="['pourcentage' => 'En %', 'montant' => 'En euros']" :valeur="$facture->remise_type" vide="Aucune" />
-                <x-champ nom="remise" libelle="Valeur de la remise" :valeur="$facture->remise_type === 'pourcentage' ? \App\Support\Tva::formater($facture->remise_valeur, false) : ($facture->remise_type === 'montant' ? number_format($facture->remise_valeur / 100, 2, ',', '') : '')" inputmode="decimal" />
+                <x-champ nom="remise" libelle="Montant ou %" :valeur="$facture->remise_type === 'pourcentage' ? \App\Support\Tva::formater($facture->remise_valeur, false) : ($facture->remise_type === 'montant' ? number_format($facture->remise_valeur / 100, 2, ',', '') : '')" inputmode="decimal" />
             </div>
             <dl class="totaux" aria-live="polite">
                 <dt>Total HT</dt><dd data-total-ht>{{ \App\Support\Montant::formater($facture->total_ht) }}</dd>

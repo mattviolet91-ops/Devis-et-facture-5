@@ -36,7 +36,7 @@
         <x-champ-liste nom="unite" libelle="Unité" :options="(array) reglage('tva.unites')" :valeur="$prestation->unite" :vide="false" />
 
         @unless (\App\Support\Tva::estFranchise())
-            <x-champ-liste nom="taux_tva" libelle="TVA" :options="\App\Support\Tva::options()" :valeur="$prestation->taux_tva" vide="Taux par défaut ({{ \App\Support\Tva::formater((int) reglage('tva.taux_defaut')) }})" />
+            <x-champ-liste nom="taux_tva" libelle="TVA" :options="\App\Support\Tva::options()" :par-cle="true" :valeur="$prestation->taux_tva" vide="Taux par défaut ({{ \App\Support\Tva::formater((int) reglage('tva.taux_defaut')) }})" />
         @endunless
 
         <button type="submit" class="bouton bouton-large">Enregistrer</button>

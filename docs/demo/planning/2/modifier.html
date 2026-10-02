@@ -6,14 +6,15 @@
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#1f4e79">
 <meta name="robots" content="noindex, nofollow">
-<meta name="csrf-token" content="pZ96WMKh7GU60zGSeT2f7h873LXzRcbT86V3SOxE">
+<meta name="csrf-token" content="Uk2ODSOJW7QgjV2sTzDnUYyQOyrHVYLMhIRKK2Bl">
 <title>Modifier · Couverture Démo</title>
 <link rel="icon" href="../../icons/icone.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../../icons/icone-180.png">
-<link rel="stylesheet" href="../../css/app.css__v-1790896550.css">
+<link rel="stylesheet" href="../../css/app.css__v-1790963701.css">
 <link rel="stylesheet" href="../../theme.css__v-df7b6cb3.css">
 <script src="../../js/theme-init.js__v-1790880993.js"></script>
 <script src="../../js/app.js__v-1790894271.js" defer></script>
+    <script src="../../js/planning.js__v-1790963577.js" defer></script>
 </head>
 <body>
     <a class="lien-evitement" href="#contenu">Aller au contenu</a>
@@ -31,7 +32,7 @@
                 
             
     <form method="post" action="../2.html" class="carte" novalidate>
-        <input type="hidden" name="_token" value="pZ96WMKh7GU60zGSeT2f7h873LXzRcbT86V3SOxE" autocomplete="off">                    <input type="hidden" name="_method" value="put">                <input type="hidden" name="devis_id" value="">
+        <input type="hidden" name="_token" value="Uk2ODSOJW7QgjV2sTzDnUYyQOyrHVYLMhIRKK2Bl" autocomplete="off">                    <input type="hidden" name="_method" value="put">                <input type="hidden" name="devis_id" value="">
 
         <fieldset class="segments">
             <legend>Type</legend>
@@ -88,14 +89,14 @@
     <select id="client_id" name="client_id" 
                 >
                     <option value="">— Aucun —</option>
-                            <option value="Cabinet Syndic Exemple" >Cabinet Syndic Exemple</option>
-                    <option value="M. Jérôme Durand" >M. Jérôme Durand</option>
-                    <option value="M. et Mme Hélène et Éric Bérard" >M. et Mme Hélène et Éric Bérard</option>
-                    <option value="M. et Mme Leroy" >M. et Mme Leroy</option>
-                    <option value="Mme Anaïs Garnier" >Mme Anaïs Garnier</option>
-                    <option value="Mme Sophie Martin" >Mme Sophie Martin</option>
-                    <option value="Mme Élodie Petit" >Mme Élodie Petit</option>
-                    <option value="SCI Les Tilleuls (fictive)" >SCI Les Tilleuls (fictive)</option>
+                            <option value="7" >Cabinet Syndic Exemple</option>
+                    <option value="4" selected>M. Jérôme Durand</option>
+                    <option value="2" >M. et Mme Hélène et Éric Bérard</option>
+                    <option value="5" >M. et Mme Leroy</option>
+                    <option value="8" >Mme Anaïs Garnier</option>
+                    <option value="1" >Mme Sophie Martin</option>
+                    <option value="3" >Mme Élodie Petit</option>
+                    <option value="6" >SCI Les Tilleuls (fictive)</option>
             </select>
         </div>
         <div class="champ">
@@ -103,13 +104,13 @@
     <select id="chantier_id" name="chantier_id" 
                 >
                     <option value="">— Adresse du client —</option>
-                            <option value="M. Jérôme Durand — 21 avenue de la Gare, 00100 Ville-Démo" >M. Jérôme Durand — 21 avenue de la Gare, 00100 Ville-Démo</option>
-                    <option value="M. et Mme Hélène et Éric Bérard — Grange" >M. et Mme Hélène et Éric Bérard — Grange</option>
-                    <option value="M. et Mme Hélène et Éric Bérard — Maison principale" >M. et Mme Hélène et Éric Bérard — Maison principale</option>
-                    <option value="Mme Anaïs Garnier — 17 route des Vignes, 00600 Les Exemples" >Mme Anaïs Garnier — 17 route des Vignes, 00600 Les Exemples</option>
-                    <option value="Mme Sophie Martin — Maison" >Mme Sophie Martin — Maison</option>
-                    <option value="Mme Élodie Petit — 8 impasse des Tilleuls, 00300 Bourg-Fictif" >Mme Élodie Petit — 8 impasse des Tilleuls, 00300 Bourg-Fictif</option>
-                    <option value="SCI Les Tilleuls (fictive) — Immeuble rue Haute" >SCI Les Tilleuls (fictive) — Immeuble rue Haute</option>
+                            <option value="5" selected>M. Jérôme Durand — 21 avenue de la Gare, 00100 Ville-Démo</option>
+                    <option value="3" >M. et Mme Hélène et Éric Bérard — Grange</option>
+                    <option value="2" >M. et Mme Hélène et Éric Bérard — Maison principale</option>
+                    <option value="7" >Mme Anaïs Garnier — 17 route des Vignes, 00600 Les Exemples</option>
+                    <option value="1" >Mme Sophie Martin — Maison</option>
+                    <option value="4" >Mme Élodie Petit — 8 impasse des Tilleuls, 00300 Bourg-Fictif</option>
+                    <option value="6" >SCI Les Tilleuls (fictive) — Immeuble rue Haute</option>
             </select>
         </div>
         <div class="champ">
@@ -124,8 +125,8 @@
     <select id="user_id" name="user_id" 
                 >
                     <option value="">— Personne en particulier —</option>
-                            <option value="commercial@exemple.test" >commercial@exemple.test</option>
-                    <option value="demo@exemple.test" >demo@exemple.test</option>
+                            <option value="2" selected>commercial@exemple.test</option>
+                    <option value="1" >demo@exemple.test</option>
             </select>
         </div>
         <div class="champ">
@@ -133,8 +134,8 @@
     <select id="rappel_client_jours" name="rappel_client_jours" 
          aria-describedby="rappel_client_jours-aide"         >
                     <option value="">Non</option>
-                            <option value="La veille (à 9 h)" >La veille (à 9 h)</option>
-                    <option value="2 jours avant (à 9 h)" >2 jours avant (à 9 h)</option>
+                            <option value="1" selected>La veille (à 9 h)</option>
+                    <option value="2" >2 jours avant (à 9 h)</option>
             </select>
             <p class="aide" id="rappel_client_jours-aide">Envoyé seulement si le client a une adresse email.</p>
         </div>
@@ -148,7 +149,7 @@
     </form>
 
             <form method="post" action="../2.html" class="zone-suppression">
-            <input type="hidden" name="_token" value="pZ96WMKh7GU60zGSeT2f7h873LXzRcbT86V3SOxE" autocomplete="off">            <input type="hidden" name="_method" value="delete">            <button type="submit" class="bouton bouton-secondaire bouton-large texte-danger" data-confirmer="Retirer du planning ?">Mettre à la corbeille</button>
+            <input type="hidden" name="_token" value="Uk2ODSOJW7QgjV2sTzDnUYyQOyrHVYLMhIRKK2Bl" autocomplete="off">            <input type="hidden" name="_method" value="delete">            <button type="submit" class="bouton bouton-secondaire bouton-large texte-danger" data-confirmer="Retirer du planning ?">Mettre à la corbeille</button>
         </form>
         </main>
 

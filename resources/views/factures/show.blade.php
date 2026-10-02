@@ -183,8 +183,8 @@
                     <label><input type="radio" name="mode" value="total" checked><span>Total</span></label>
                     <label><input type="radio" name="mode" value="partiel"><span>Partiel</span></label>
                 </fieldset>
-                <x-champ nom="montant" libelle="Montant TTC (avoir partiel)" inputmode="decimal" />
-                <x-champ nom="motif" libelle="Motif" aide="Par exemple : erreur de quantité, geste commercial." />
+                <x-champ nom="montant" id="montant-avoir" libelle="Montant TTC (avoir partiel)" inputmode="decimal" />
+                <x-champ nom="motif" id="motif-avoir" libelle="Motif" aide="Par exemple : erreur de quantité, geste commercial." />
                 <button type="submit" class="bouton bouton-secondaire bouton-large">Préparer l'avoir</button>
             </form>
         </details>

@@ -236,7 +236,7 @@ a { color: var(--couleur-principale); }
     min-height: 44px;
     margin-bottom: 12px;
 }
-.case input { width: 24px; height: 24px; accent-color: var(--couleur-principale); }
+.case input { width: 24px; height: 24px; flex-shrink: 0; accent-color: var(--couleur-principale); }
 
 /* ---------- Boutons ---------- */
 .bouton {
@@ -245,9 +245,11 @@ a { color: var(--couleur-principale); }
     justify-content: center;
     gap: 8px;
     min-height: var(--hauteur-bouton);
-    padding: 0 20px;
+    padding: 6px 20px;
     font: inherit;
     font-weight: 700;
+    line-height: 1.25;
+    text-align: center;
     text-decoration: none;
     border-radius: 10px;
     border: 2px solid var(--couleur-principale);
@@ -392,7 +394,7 @@ a { color: var(--couleur-principale); }
 /* ---------- Réglages ---------- */
 .bloc { display: block; font-size: 0.85em; font-weight: 400; }
 .obligatoire { color: var(--texte-doux); font-weight: 400; font-size: 0.85em; }
-.champ input[type="url"], .champ input[type="tel"], .champ input[type="date"], .champ input[type="number"] {
+.champ input[type="url"], .champ input[type="tel"], .champ input[type="date"], .champ input[type="time"], .champ input[type="number"] {
     width: 100%;
     min-height: var(--hauteur-bouton);
     padding: 10px 12px;
@@ -474,7 +476,7 @@ details.carte[open] summary { margin-bottom: 12px; }
 @media (max-width: 359px) { .details { grid-template-columns: 1fr; } }
 
 /* ---------- Devis ---------- */
-.onglets { display: flex; gap: 6px; overflow-x: auto; margin-bottom: 12px; padding-bottom: 4px; }
+.onglets { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
 .onglets a { flex: none; padding: 8px 12px; min-height: 40px; border-radius: 999px; border: 2px solid var(--bordure); text-decoration: none; color: var(--texte); font-weight: 600; font-size: 0.9rem; }
 .onglets a[aria-current="page"] { border-color: var(--couleur-principale); background: var(--info-fond); }
 .statut-brouillon { background: var(--fond); border: 1px solid var(--bordure); }
@@ -567,7 +569,7 @@ details.carte[open] summary { margin-bottom: 12px; }
 }
 .calendrier-jour:first-child { border-left: 0; }
 .calendrier-jour .numero { font-weight: 600; font-size: 0.85rem; }
-.calendrier-jour.hors-mois { color: var(--texte-doux); opacity: 0.6; }
+.calendrier-jour.hors-mois { color: var(--texte-doux); background: var(--fond); }
 .calendrier-jour.aujourdhui .numero { color: var(--couleur-principale); text-decoration: underline; }
 .pastille { display: block; border-radius: 4px; padding: 1px 3px; background: var(--info-fond); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .pastille-chantier { background: var(--succes-fond); }
@@ -647,3 +649,11 @@ details.carte[open] summary { margin-bottom: 12px; }
 
 /* Démo fixe (GitHub Pages) */
 .demo-bulle { position: fixed; left: 16px; right: 16px; bottom: calc(var(--barre-bas) + 16px); z-index: 50; box-shadow: 0 4px 16px rgb(0 0 0 / 0.2); }
+.titre-avec-action { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap; } .titre-avec-action h2 { margin: 0; }
+
+/* Boutons « Choisir un fichier » aux couleurs de l'application */
+input[type="file"]::file-selector-button {
+    font: inherit; font-weight: 700; min-height: 44px; padding: 8px 16px; margin-right: 12px;
+    border: 2px solid var(--couleur-principale); border-radius: 10px;
+    background: var(--fond-carte); color: var(--couleur-principale); cursor: pointer;
+}

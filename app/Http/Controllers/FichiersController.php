@@ -17,7 +17,7 @@ class FichiersController extends Controller
         $principale = (string) reglage('apparence.couleur_principale');
         $accent = (string) reglage('apparence.couleur_accent');
 
-        $principaleClaire = Couleurs::pourModeClair($principale, '#f4f5f7');
+        $principaleClaire = Couleurs::pourModeClair($principale);
         $principaleSombre = Couleurs::pourModeSombre($principale);
         $accentSombre = Couleurs::pourModeSombre($accent);
 

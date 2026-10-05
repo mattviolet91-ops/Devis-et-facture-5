@@ -14,25 +14,20 @@ class FichiersController extends Controller
      */
     public function theme(): Response
     {
-        $principale = (string) reglage('apparence.couleur_principale');
-        $accent = (string) reglage('apparence.couleur_accent');
+        $couleurs = Couleurs::theme((string) reglage('apparence.couleur_principale'), (string) reglage('apparence.couleur_accent'));
+        $variables = fn (array $liste) => implode(' ', array_map(fn ($cle, $valeur) => "{$cle}: {$valeur};", array_keys($liste), $liste));
 
-        $principaleClaire = Couleurs::pourModeClair($principale);
-        $principaleSombre = Couleurs::pourModeSombre($principale);
-        $accentSombre = Couleurs::pourModeSombre($accent);
-
+        // Police du texte et police des titres.
         $polices = [
-            'systeme' => 'system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
-            'arrondie' => 'ui-rounded, "SF Pro Rounded", "Nunito", "Varela Round", system-ui, sans-serif',
-            'classique' => 'Georgia, Cambria, "Times New Roman", serif',
+            'moderne' => ['"Figtree", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif', '"Montserrat", "Figtree", system-ui, sans-serif'],
+            'systeme' => ['system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif', 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif'],
+            'arrondie' => ['ui-rounded, "SF Pro Rounded", "Nunito", "Varela Round", system-ui, sans-serif', 'ui-rounded, "SF Pro Rounded", system-ui, sans-serif'],
+            'classique' => ['Georgia, Cambria, "Times New Roman", serif', 'Georgia, Cambria, "Times New Roman", serif'],
         ];
-        $police = $polices[reglage('apparence.police')] ?? $polices['systeme'];
+        [$police, $policeTitres] = $polices[reglage('apparence.police')] ?? $polices['moderne'];
 
-        $sombre = "--couleur-principale: {$principaleSombre}; --couleur-principale-texte: ".Couleurs::texteSur($principaleSombre).
-            "; --couleur-accent: {$accentSombre}; --couleur-accent-texte: ".Couleurs::texteSur($accentSombre).';';
-
-        $css = ":root { --police: {$police}; --couleur-principale: {$principaleClaire}; --couleur-principale-texte: ".Couleurs::texteSur($principaleClaire).
-            "; --couleur-accent: {$accent}; --couleur-accent-texte: ".Couleurs::texteSur($accent)."; }\n".
+        $sombre = $variables($couleurs['sombre']);
+        $css = ":root { --police: {$police}; --police-titres: {$policeTitres}; ".$variables($couleurs['clair'])." }\n".
             "@media (prefers-color-scheme: dark) { :root:not([data-theme=\"clair\"]) { {$sombre} } }\n".
             ":root[data-theme=\"sombre\"] { {$sombre} }\n";
 

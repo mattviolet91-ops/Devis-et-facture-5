@@ -209,8 +209,16 @@ class ReglagesPagesTest extends TestCase
 
         $css = $this->get('/theme.css')->assertOk()->assertHeader('Content-Type', 'text/css; charset=UTF-8')->getContent();
         $this->assertStringContainsString('Georgia', $css);
+        // Les boutons gardent la couleur choisie, avec un texte lisible dessus.
+        $this->assertStringContainsString('--couleur-accent: #2a9d8f;', $css);
+        $this->assertStringContainsString('--couleur-accent-texte:', $css);
+        $this->assertStringContainsString('prefers-color-scheme: dark', $css);
         // Le jaune est trop clair pour du texte sur fond clair : une version plus foncée est utilisée.
         $this->assertStringNotContainsString('--couleur-principale: #ffd700', strtok($css, "\n"));
+
+        $this->put('/reglages/apparence', ['apparence__couleur_principale' => '#494949', 'apparence__couleur_accent' => '#3cbde8', 'apparence__police' => 'moderne'])
+            ->assertSessionHasNoErrors();
+        $this->assertStringContainsString('Montserrat', $this->get('/theme.css')->getContent());
 
         $this->put('/reglages/apparence', ['apparence__couleur_principale' => 'rouge', 'apparence__couleur_accent' => '#2a9d8f', 'apparence__police' => 'systeme'])
             ->assertSessionHasErrors(['apparence__couleur_principale' => 'Choisissez une couleur.']);

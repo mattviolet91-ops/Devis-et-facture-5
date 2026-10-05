@@ -4,14 +4,14 @@
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
-<meta name="theme-color" content="#1f4e79">
+<meta name="theme-color" content="#494949">
 <meta name="robots" content="noindex, nofollow">
-<meta name="csrf-token" content="Uk2ODSOJW7QgjV2sTzDnUYyQOyrHVYLMhIRKK2Bl">
+<meta name="csrf-token" content="uoVdwEtn3VrsJ2FcpFrTEGXfk4xma1UlW5G6eb7N">
 <title>Apparence · Couverture Démo</title>
 <link rel="icon" href="../icons/icone.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../icons/icone-180.png">
-<link rel="stylesheet" href="../css/app.css__v-1790963701.css">
-<link rel="stylesheet" href="../theme.css__v-df7b6cb3.css">
+<link rel="stylesheet" href="../css/app.css__v-1791199520.css">
+<link rel="stylesheet" href="../theme.css__v-3a52e713.css">
 <script src="../js/theme-init.js__v-1790880993.js"></script>
 <script src="../js/app.js__v-1790894271.js" defer></script>
 </head>
@@ -37,7 +37,7 @@
         </div>
     
     <form method="post" action="apparence.html" enctype="multipart/form-data" class="carte" novalidate>
-        <input type="hidden" name="_token" value="Uk2ODSOJW7QgjV2sTzDnUYyQOyrHVYLMhIRKK2Bl" autocomplete="off">        <input type="hidden" name="_method" value="put">
+        <input type="hidden" name="_token" value="uoVdwEtn3VrsJ2FcpFrTEGXfk4xma1UlW5G6eb7N" autocomplete="off">        <input type="hidden" name="_method" value="put">
                     <div class="champ">
         <label for="champ-apparence__logo">
             Logo
@@ -63,18 +63,20 @@
             Couleur principale
              <span class="obligatoire">(obligatoire)</span>         </label>
 
-                        <input type="color" id="champ-apparence__couleur_principale" name="apparence__couleur_principale" value="#1f4e79" class="champ-couleur" data-apercu="apparence.couleur_principale"
-                    >
+                        <input type="color" id="champ-apparence__couleur_principale" name="apparence__couleur_principale" value="#494949" class="champ-couleur" data-apercu="apparence.couleur_principale"
+                     aria-describedby="champ-apparence__couleur_principale-aide" >
                 
+                    <p class="aide" id="champ-apparence__couleur_principale-aide">Barre du haut de l&#039;application et titres des devis et factures.</p>
                     </div>
                     <div class="champ">
         <label for="champ-apparence__couleur_accent">
-            Couleur du bouton « Nouveau »
+            Couleur des boutons
              <span class="obligatoire">(obligatoire)</span>         </label>
 
-                        <input type="color" id="champ-apparence__couleur_accent" name="apparence__couleur_accent" value="#c25e00" class="champ-couleur" data-apercu="apparence.couleur_accent"
-                    >
+                        <input type="color" id="champ-apparence__couleur_accent" name="apparence__couleur_accent" value="#3cbde8" class="champ-couleur" data-apercu="apparence.couleur_accent"
+                     aria-describedby="champ-apparence__couleur_accent-aide" >
                 
+                    <p class="aide" id="champ-apparence__couleur_accent-aide">Boutons, bouton « Nouveau » et onglets choisis. Le texte des boutons s&#039;adapte pour rester lisible.</p>
                     </div>
                     <div class="champ">
         <label for="champ-apparence__police">
@@ -82,7 +84,8 @@
              <span class="obligatoire">(obligatoire)</span>         </label>
 
                                                     <select id="champ-apparence__police" name="apparence__police"  >
-                                                                <option value="systeme" selected>Moderne (police du téléphone)</option>
+                                                                <option value="moderne" selected>Moderne (Montserrat et Figtree)</option>
+                                            <option value="systeme" >Police du téléphone</option>
                                             <option value="arrondie" >Arrondie</option>
                                             <option value="classique" >Classique (avec empattements)</option>
                                     </select>

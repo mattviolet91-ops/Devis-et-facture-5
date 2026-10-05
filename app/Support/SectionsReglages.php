@@ -30,7 +30,8 @@ class SectionsReglages
     ];
 
     public const POLICES = [
-        'systeme' => 'Moderne (police du téléphone)',
+        'moderne' => 'Moderne (Montserrat et Figtree)',
+        'systeme' => 'Police du téléphone',
         'arrondie' => 'Arrondie',
         'classique' => 'Classique (avec empattements)',
     ];
@@ -47,6 +48,7 @@ class SectionsReglages
                 'icone' => 'accueil',
                 'champs' => [
                     ['cle' => 'identite.nom_commercial', 'libelle' => 'Nom commercial', 'type' => 'texte', 'obligatoire' => true, 'regles' => ['max:120'], 'autocomplete' => 'organization'],
+                    ['cle' => 'identite.slogan', 'libelle' => 'Phrase d\'accroche', 'type' => 'texte', 'regles' => ['max:80'], 'aide' => 'Facultatif. Affichée sous votre nom sur la page de connexion.'],
                     ['cle' => 'identite.forme_juridique', 'libelle' => 'Forme juridique', 'type' => 'select', 'options' => self::FORMES_JURIDIQUES],
                     ['cle' => 'identite.capital', 'libelle' => 'Capital social', 'type' => 'texte', 'regles' => ['max:40'], 'aide' => 'Pour une société seulement, par exemple « 5 000 € ».'],
                     ['cle' => 'identite.adresse', 'libelle' => 'Adresse', 'type' => 'texte', 'obligatoire' => true, 'regles' => ['max:200'], 'autocomplete' => 'street-address'],
@@ -71,8 +73,8 @@ class SectionsReglages
                 'champs' => [
                     ['cle' => 'apparence.logo', 'libelle' => 'Logo', 'type' => 'fichier', 'regles' => ['image', 'mimes:png,jpg,jpeg,webp', 'max:2048'], 'accept' => 'image/png,image/jpeg,image/webp', 'aide' => 'Image PNG ou JPG, 2 Mo maximum. Il apparaît sur vos devis et factures.'],
                     ['cle' => 'apparence.icone', 'libelle' => 'Icône de l\'application', 'type' => 'fichier', 'regles' => ['image', 'mimes:png,jpg,jpeg', 'max:2048', 'dimensions:min_width=192,min_height=192,ratio=1'], 'accept' => 'image/png,image/jpeg', 'aide' => 'Image carrée, au moins 512 × 512 pixels. Elle s\'affiche sur l\'écran du téléphone.'],
-                    ['cle' => 'apparence.couleur_principale', 'libelle' => 'Couleur principale', 'type' => 'couleur', 'obligatoire' => true],
-                    ['cle' => 'apparence.couleur_accent', 'libelle' => 'Couleur du bouton « Nouveau »', 'type' => 'couleur', 'obligatoire' => true],
+                    ['cle' => 'apparence.couleur_principale', 'libelle' => 'Couleur principale', 'type' => 'couleur', 'obligatoire' => true, 'aide' => 'Barre du haut de l\'application et titres des devis et factures.'],
+                    ['cle' => 'apparence.couleur_accent', 'libelle' => 'Couleur des boutons', 'type' => 'couleur', 'obligatoire' => true, 'aide' => 'Boutons, bouton « Nouveau » et onglets choisis. Le texte des boutons s\'adapte pour rester lisible.'],
                     ['cle' => 'apparence.police', 'libelle' => 'Police', 'type' => 'select', 'obligatoire' => true, 'options' => self::POLICES],
                 ],
             ],

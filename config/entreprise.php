@@ -16,6 +16,7 @@
 return [
     'identite' => [
         'nom_commercial' => '',
+        'slogan' => '',
         'forme_juridique' => '',
         'capital' => '',
         'adresse' => '',

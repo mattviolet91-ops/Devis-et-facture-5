@@ -63,11 +63,59 @@ class Couleurs
         );
     }
 
-    /** Fonds du mode sombre où la couleur est utilisée : carte, page, champ, encadré d'information. */
-    public const FONDS_SOMBRES = ['#1d2025', '#121417', '#262a30', '#1b2b3d'];
+    /** Fonds du mode sombre où la couleur est utilisée : carte, page, champ. */
+    public const FONDS_SOMBRES = ['#1a2229', '#11171c', '#212b33'];
 
-    /** Fonds du mode clair : carte, page, encadré d'information. */
-    public const FONDS_CLAIRS = ['#ffffff', '#f4f5f7', '#e6eef7'];
+    /** Fonds du mode clair : carte, page. */
+    public const FONDS_CLAIRS = ['#ffffff', '#eef1f3'];
+
+    /**
+     * Mélange deux couleurs ($part de la première).
+     */
+    public static function melanger(string $a, string $b, float $part): string
+    {
+        [$r1, $v1, $b1] = self::rvb($a);
+        [$r2, $v2, $b2] = self::rvb($b);
+
+        return self::hex(
+            (int) round($r1 * $part + $r2 * (1 - $part)),
+            (int) round($v1 * $part + $v2 * (1 - $part)),
+            (int) round($b1 * $part + $b2 * (1 - $part)),
+        );
+    }
+
+    /**
+     * Couleurs du thème calculées depuis les réglages : barre du haut, boutons, liens et
+     * encadrés, en clair et en sombre. Les couleurs de texte sont toujours lisibles (≥ 4,5).
+     *
+     * @return array{clair: array<string, string>, sombre: array<string, string>}
+     */
+    public static function theme(string $principale, string $accent): array
+    {
+        $infoClair = self::melanger($accent, '#ffffff', 0.12);
+        $infoSombre = self::melanger($accent, '#1a2229', 0.2);
+
+        return [
+            'clair' => [
+                '--barre-haut' => $principale,
+                '--barre-haut-texte' => self::texteSur($principale),
+                '--couleur-principale' => self::pourModeClair($principale, [...self::FONDS_CLAIRS, $infoClair]),
+                '--couleur-accent' => $accent,
+                '--couleur-accent-texte' => self::texteSur($accent),
+                '--couleur-active' => self::pourModeClair($accent, [...self::FONDS_CLAIRS, $infoClair]),
+                '--info-fond' => $infoClair,
+            ],
+            'sombre' => [
+                '--barre-haut' => '#0c1115',
+                '--barre-haut-texte' => '#ffffff',
+                '--couleur-principale' => self::pourModeSombre($principale, [...self::FONDS_SOMBRES, $infoSombre]),
+                '--couleur-accent' => $accent,
+                '--couleur-accent-texte' => self::texteSur($accent),
+                '--couleur-active' => self::pourModeSombre($accent, [...self::FONDS_SOMBRES, $infoSombre]),
+                '--info-fond' => $infoSombre,
+            ],
+        ];
+    }
 
     /**
      * Contraste le plus faible de la couleur sur une liste de fonds.

@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Activite;
 use App\Models\User;
+use App\Support\Reglages;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
@@ -25,6 +26,17 @@ class ConnexionTest extends TestCase
             ->assertSee('<html lang="fr">', false)
             ->assertSee('Se connecter')
             ->assertSee('Mot de passe oublié ?');
+    }
+
+    public function test_la_page_de_connexion_montre_le_nom_et_la_phrase_d_accroche(): void
+    {
+        // Base neuve : ni nom ni phrase, seulement l'icône de l'application.
+        $this->get('/connexion')->assertOk()->assertDontSee('marque-nom', false)->assertDontSee('marque-slogan', false);
+
+        app(Reglages::class)->set('identite.nom_commercial', 'Entreprise Fictive');
+        app(Reglages::class)->set('identite.slogan', 'Toitures et gouttières');
+
+        $this->get('/connexion')->assertOk()->assertSee('Entreprise Fictive')->assertSee('Toitures et gouttières');
     }
 
     public function test_un_visiteur_est_renvoye_vers_la_connexion(): void

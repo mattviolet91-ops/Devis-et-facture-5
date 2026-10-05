@@ -34,6 +34,7 @@ class Demo extends Command
      */
     public const ENTREPRISE = [
         'identite.nom_commercial' => 'Couverture Démo',
+        'identite.slogan' => 'Toitures, zinguerie et gouttières',
         'identite.forme_juridique' => 'EURL',
         'identite.adresse' => '1 rue de l\'Exemple',
         'identite.code_postal' => '00000',

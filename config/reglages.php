@@ -13,9 +13,9 @@
 
 return [
     'apparence' => [
-        'couleur_principale' => '#1f4e79',
-        'couleur_accent' => '#c25e00',
-        'police' => 'systeme',
+        'couleur_principale' => '#494949',
+        'couleur_accent' => '#3cbde8',
+        'police' => 'moderne',
     ],
 
     'tva' => [
